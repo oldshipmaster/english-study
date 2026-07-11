@@ -129,6 +129,10 @@ p { line-height: 1.6; }
 .rolling-review-word { display: grid; gap: 5px; border-left: 6px solid #8c6bb1; background: #faf7fd; padding: 10px 12px; margin: 10px 0; }
 .rolling-review-word p { margin: 2px 0; }
 .mixed-sentence { border: 2px solid #e39554; background: #fff6e9; padding: 10px 12px; margin-top: 14px; }
+.transfer-rule { border: 2px solid #d87b65; background: #fff1ed; padding: 8px 10px; }
+.pattern-transfer { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: end; margin-top: 8px; font-weight: 800; }
+.writing-line { min-height: 1.4em; }
+.pattern-self-check { font-size: 0.82rem; color: #315f83; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }
 .role-color-3 { border-color: #ef765f; background: #fff3f0; }
 .parent-only { display: inline-block; padding: 5px 10px; border: 2px solid #ef765f; color: #a22f24; font-weight: 800; }

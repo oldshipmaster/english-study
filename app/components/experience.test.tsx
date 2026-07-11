@@ -257,6 +257,10 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("句型与语法发现");
+    expect(pack.textContent).toContain("说 → 换 → 写 → 再说");
+    expect(pack.textContent).toContain("我的新句子");
+    expect(pack.querySelectorAll(".pattern-transfer")).toHaveLength(2);
+    expect(pack.querySelectorAll(".pattern-self-check")).toHaveLength(2);
     expect(pack.textContent).toContain("可折叠记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");
