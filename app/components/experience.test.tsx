@@ -133,10 +133,12 @@ describe("StoryStage family story flow", () => {
     expect(creator.querySelectorAll(".creator-pattern-row")).toHaveLength(2);
     expect(creator.querySelectorAll(".creator-starter")).toHaveLength(6);
     expect(creator.textContent).toContain("卡住 30 秒再看");
+    expect(creator.textContent).toContain("2 人时由家长 1 兼演");
     expect(creator.querySelectorAll(".creator-line")).toHaveLength(18);
     expect(creator.querySelectorAll(".creator-line-number")[17].textContent).toBe("#18");
     expect(creator.textContent).toContain("第 7 天重演");
     expect(creator.textContent).toContain("原创词句还能独立说出");
+    expect(creator.textContent).toContain("一个愿望");
     await user.click(screen.getByRole("button", { name: "打印家庭原创剧本工坊" }));
     expect(print).toHaveBeenCalledOnce();
     print.mockRestore();
