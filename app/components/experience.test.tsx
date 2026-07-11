@@ -9,7 +9,10 @@ import { ChallengePanel } from "./ChallengePanel";
 import { ScriptPlayer } from "./ScriptPlayer";
 import { PrintScript } from "./PrintScript";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  window.history.replaceState({}, "", "/");
+});
 
 const moonlightStory = stories.find(({ id }) => id === "moonlight-picnic")!;
 const twoPlayerAssignments = [
@@ -38,6 +41,13 @@ describe("StoryStage family story flow", () => {
     expect(screen.getAllByTestId("story-card")).toHaveLength(2);
     expect(screen.getByRole("heading", { name: "The Missing Lunchbox" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "The Class Talent Show" })).toBeTruthy();
+  });
+
+  it("renders a direct print preview URL for A4 quality checks", () => {
+    window.history.replaceState({}, "", "/?print=moonlight-picnic&players=2");
+    render(<Home />);
+    expect(screen.getByRole("article", { name: "彩色故事学习包" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
   });
 
   it("gives every printable learning word an independent pronunciation cue", () => {
@@ -251,10 +261,12 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "打印完整家庭剧本" })).toBeTruthy();
   });
 
-  it("offers a ten-page color learning pack by default", () => {
+  it("offers a twelve-page color learning pack without dropping script lines or cards", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(10);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(12);
+    expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
+    expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("7 天家庭学习路线");
     expect(pack.textContent).toContain("第 0 天 · 首演");

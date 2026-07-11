@@ -6,8 +6,9 @@ import { ChallengePanel } from "./components/ChallengePanel";
 import { RoleAssignmentView } from "./components/RoleAssignment";
 import { ScriptPlayer } from "./components/ScriptPlayer";
 import { StoryLibrary } from "./components/StoryLibrary";
+import { PrintScript } from "./components/PrintScript";
 import { stories } from "./data/stories";
-import { parsePreferences, restoreAssignments } from "./lib/session";
+import { assignRoles, parsePreferences, restoreAssignments } from "./lib/session";
 import type { LocalPreferences, PlayerCount, RoleAssignment, Story } from "./types";
 
 const preferenceKey = "storystage.preferences";
@@ -46,6 +47,9 @@ export function StoryStageApp() {
   const activeAssignments = started ?? (ignoreRestoredSession || !restoredStory || !restoredPreferences ? null : restoreAssignments(restoredStory, restoredPreferences));
   const activePlayerCount = playerCount ?? restoredPreferences?.playerCount ?? 2;
   const activeShowHints = showHints ?? restoredPreferences?.showHints ?? false;
+  const printParams = hydrated ? new URLSearchParams(window.location.search) : null;
+  const directPrintStory = printParams ? stories.find(({ id }) => id === printParams.get("print")) : null;
+  const directPrintPlayerCount: PlayerCount = printParams?.get("players") === "3" ? 3 : 2;
 
   function startStory(assignments: RoleAssignment[]) {
     const count = assignments.length as PlayerCount;
@@ -65,6 +69,10 @@ export function StoryStageApp() {
     setIgnoreRestoredSession(true);
     setStarted(null);
     setSelectedStory(null);
+  }
+
+  if (directPrintStory) {
+    return <div id="top"><PrintScript story={directPrintStory} assignments={assignRoles(directPrintStory, directPrintPlayerCount)} /></div>;
   }
 
   let content;
