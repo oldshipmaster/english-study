@@ -77,7 +77,7 @@ test("keeps the loading skeleton scoped and disposable", async () => {
   assert.match(page, /export const metadata:\s*Metadata/);
   assert.match(page, /"codex-preview": "development"/);
   assert.match(page, /<SkeletonPreview \/>/);
-  assert.match(layout, /title:\s*"Starter Project"/);
+  assert.match(layout, /title:\s*"StoryStage \| Family English Roleplay"/);
   assert.doesNotMatch(layout, /codex-preview|_sites-preview|themeColor|\bViewport\b/);
   assert.doesNotMatch(css, /(^|\s)(html|body)\s*\{/m);
 

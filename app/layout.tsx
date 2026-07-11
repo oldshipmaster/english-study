@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Project",
-  description: "A clean starting point for building your site.",
+  title: "StoryStage | Family English Roleplay",
+  description: "Play short English stories together as a family.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
