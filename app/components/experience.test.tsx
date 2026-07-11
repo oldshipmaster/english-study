@@ -563,6 +563,9 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("7 天家庭学习路线");
     expect(pack.textContent).toContain("每次 8–10 分钟");
+    expect(pack.querySelectorAll(".pack-owner")).toHaveLength(1);
+    expect(pack.textContent).toContain("姓名：________");
+    expect(pack.textContent).toContain("开始：____");
     expect(pack.textContent).toContain("短休息");
     expect(pack.textContent).not.toContain("25–30 分钟");
     expect(pack.textContent).toContain("本课学习目标");
