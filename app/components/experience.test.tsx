@@ -65,6 +65,14 @@ describe("StoryStage family story flow", () => {
     });
   });
 
+  it("uses natural elementary English instead of avoidable split compounds or stiff passives", () => {
+    const script = stories.flatMap(({ lines }) => lines.map(({ english }) => english)).join(" ");
+    expect(script).not.toContain("book shelf");
+    expect(script).not.toContain("story books");
+    expect(script).not.toContain("The lunchbox is found.");
+    expect(script).not.toContain("The last letter is safely delivered.");
+  });
+
   it("opens role assignment for The Moonlight Picnic", async () => {
     const user = userEvent.setup();
     render(<Home />);
