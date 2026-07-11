@@ -149,6 +149,8 @@ p { line-height: 1.6; }
 .conversation-number { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #17324d; color: white; font-weight: 900; }
 .conversation-card h3 { font-size: 1.05rem; }.conversation-card p { margin: 5px 0; }
 .answer-starter { color: #315f83; font-weight: 800; }
+.conversation-turnaround { border: 2px solid #6e9d8b; background: #eef8f2; padding: 10px 12px; }
+.conversation-turnaround p { margin: 5px 0; }
 .pattern-box, .speaking-task { border: 2px solid #b9a6d8; border-radius: 14px; padding: 14px; margin: 12px 0; background: #f7f1ff; }
 .pattern-template { font-size: 1.15rem; font-weight: 800; color: #17324d; }
 .memory-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }

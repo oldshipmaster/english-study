@@ -407,6 +407,9 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("家庭英语聊天卡");
     expect(pack.textContent).toContain("先回答自己真实的想法");
     expect(pack.querySelectorAll(".conversation-card")).toHaveLength(3);
+    expect(pack.textContent).toContain("轮到我当小老师");
+    expect(pack.textContent).toContain("我问家长");
+    expect(pack.textContent).toContain("Why? / What else?");
     expect(pack.textContent).toContain("可折叠记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");
