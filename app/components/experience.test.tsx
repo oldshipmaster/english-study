@@ -74,6 +74,9 @@ describe("StoryStage family story flow", () => {
     expect(journey.textContent).toContain("第 7 天独立");
     expect(journey.textContent).toContain("每次练习后填数字");
     expect(journey.textContent).toContain("建议每周 1 个故事，6 周走完");
+    expect(journey.querySelectorAll(".journey-owner")).toHaveLength(1);
+    expect(journey.textContent).toContain("开始周");
+    expect(journey.textContent).toContain("完成周");
     expect(journey.textContent).not.toContain("涂一颗星");
     expect(journey.textContent).toContain("下一站：家庭原创剧本工坊");
     await user.click(screen.getByRole("button", { name: "打印 6 课成长地图" }));
