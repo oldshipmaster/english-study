@@ -42,6 +42,7 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
           <p className="eyebrow">Family story night</p>
           <h1>今晚，把英语故事演出来。</h1>
           <p>适合 9–11 岁小学基础 · 每次 8–10 分钟 · 以纸质练习为主</p>
+          <a className="hero-paper-link" href="#paper-tools">先看纸质练习 <span aria-hidden="true">↓</span></a>
         </div>
         <div className="hero-art" aria-hidden="true"><span>☾</span><span>📖</span><span>★</span></div>
       </section>
@@ -83,7 +84,7 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
           ))}
         </div>
       </section>
-      <section className="journey-launch"><div><h2>把六个故事连成一条学习路</h2><p>打印一张 A4 成长地图，记录第 0、2、7 天的复习。</p></div><button type="button" aria-expanded={showJourney} onClick={() => { setShowJourney((current) => !current); setShowWordBank(false); }}>{showJourney ? "收起 6 课成长地图" : "打开 6 课成长地图"}</button>{showJourney ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 6 课成长地图</button> : null}</section>
+      <section className="journey-launch" id="paper-tools"><div><p className="eyebrow">Paper practice</p><h2>把六个故事连成一条学习路</h2><p>打印一张 A4 成长地图，记录第 0、2、7 天的复习。</p></div><button type="button" aria-expanded={showJourney} onClick={() => { setShowJourney((current) => !current); setShowWordBank(false); }}>{showJourney ? "收起 6 课成长地图" : "打开 6 课成长地图"}</button>{showJourney ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 6 课成长地图</button> : null}</section>
       {showJourney ? <JourneyPrint stories={stories} /> : null}
       <section className="journey-launch word-bank-launch"><div><h2>把 48 个词和 12 个句型变成会说的英语</h2><p>四张 A4 累计复习：先主动回忆，再换词造句，最后脱稿说。</p></div><button type="button" aria-expanded={showWordBank} onClick={() => { setShowWordBank((current) => !current); setShowJourney(false); }}>{showWordBank ? "收起 48 词 + 12 句型复习本" : "打开 48 词 + 12 句型复习本"}</button>{showWordBank ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 48 词 + 12 句型复习本</button> : null}</section>
       {showWordBank ? <WordBankPrint stories={stories} /> : null}
