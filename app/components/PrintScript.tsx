@@ -101,6 +101,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
           <h2>故事词汇</h2>
           <dl>{Object.entries(story.vocabulary).map(([word, meaning]) => <div key={word}><dt>{word}</dt><dd>{meaning}</dd></div>)}</dl>
         </section>
+        {selectedPerson ? <section className="role-performance-note"><strong>演后 30 秒 · 两颗星 + 一个愿望</strong><p>我的自评：□ 听到提示再开口　□ 声音清楚　□ 说错能从句首重来</p><p>家长：⭐ __________________　⭐ __________________　🌱 下次试试 __________________</p></section> : null}
         <footer className="print-footer">StoryStage 家庭英语剧场 · 一起读，一起演。</footer>
       </article>}
     </section>
