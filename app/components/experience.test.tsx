@@ -148,6 +148,26 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByText("2 / 18")).toBeTruthy();
   });
 
+  it("shows only the current line vocabulary with rehearsal hints and no empty panel", async () => {
+    const user = userEvent.setup();
+    render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="rehearsal" showHints onComplete={() => undefined} onExit={() => undefined} />);
+
+    const vocabulary = screen.getByRole("region", { name: "重点词汇" });
+    expect(vocabulary.textContent).toContain("picnic");
+    expect(vocabulary.textContent).toContain("野餐");
+    expect(vocabulary.textContent).not.toContain("basket");
+
+    await user.keyboard("{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}");
+    expect(screen.getByText("How will we see our picnic?")).toBeTruthy();
+    expect(screen.queryByRole("region", { name: "重点词汇" })).toBeNull();
+  });
+
+  it("keeps vocabulary hidden by default in performance mode", () => {
+    render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="performance" showHints onComplete={() => undefined} onExit={() => undefined} />);
+
+    expect(screen.queryByRole("region", { name: "重点词汇" })).toBeNull();
+  });
+
   it("completes on the final line and exposes focusable named controls", async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();

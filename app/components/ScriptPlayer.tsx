@@ -28,6 +28,7 @@ export function ScriptPlayer({ story, assignments, mode: initialMode, showHints:
   const role = story.roles.find(({ id }) => id === line.roleId)!;
   const assignment = assignments.find(({ roleIds }) => roleIds.includes(line.roleId));
   const lastLineIndex = story.lines.length - 1;
+  const lineVocabulary = (line.vocabulary ?? []).flatMap((word) => story.vocabulary[word] ? [{ word, definition: story.vocabulary[word] }] : []);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -61,6 +62,11 @@ export function ScriptPlayer({ story, assignments, mode: initialMode, showHints:
         <div className="speaker-mark" aria-hidden="true">{role.emoji}</div>
         <h1>{line.english}</h1>
         {mode === "rehearsal" && showHints ? <p className="chinese-hint">{line.chinese}</p> : null}
+        {mode === "rehearsal" && showHints && lineVocabulary.length > 0 ? (
+          <section className="vocabulary-aid" aria-label="重点词汇">
+            {lineVocabulary.map(({ word, definition }) => <p key={word}><strong>{word}</strong><span>{definition}</span></p>)}
+          </section>
+        ) : null}
         {line.stageDirection ? <p className="stage-direction">({line.stageDirection})</p> : null}
       </section>
 
