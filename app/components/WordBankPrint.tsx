@@ -49,6 +49,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
               <section className="pattern-bank-item" key={`${story.id}-${pattern.title}`}>
                 <div className="pattern-bank-heading"><span>{pageIndex * 6 + index + 1}</span><div><small>{story.title}</small><h2>{pattern.title}</h2></div></div>
                 <p className="pattern-bank-template">{pattern.template}</p>
+                <p className="pattern-bank-notice">□ 圈人物/主语　□ 框动作词　□ 划出可替换词块</p>
                 <p><strong>故事原句：</strong>{pattern.example}</p>
                 <p><strong>换词盒：</strong>{pattern.substitutions.join(" / ")}</p>
                 <p className="pattern-bank-tip"><strong>语法提醒：</strong>{pattern.grammarTip}</p>

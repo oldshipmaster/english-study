@@ -86,6 +86,8 @@ describe("StoryStage family story flow", () => {
     expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(4);
     expect(wordBank.querySelectorAll(".word-bank-item")).toHaveLength(48);
     expect(wordBank.querySelectorAll(".pattern-bank-item")).toHaveLength(12);
+    expect(wordBank.querySelectorAll(".pattern-bank-notice")).toHaveLength(12);
+    expect(wordBank.textContent).toContain("圈人物/主语");
     stories.forEach(({ title, learningPack }) => {
       expect(wordBank.textContent).toContain(title);
       expect(wordBank.textContent).toContain(learningPack.patterns[0].template);
