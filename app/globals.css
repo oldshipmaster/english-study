@@ -47,6 +47,9 @@ p { line-height: 1.6; }
 .category-label { margin: 0 0 24px; color: var(--muted-ink); font-size: .76rem; font-weight: 800; letter-spacing: .12em; }
 .story-card h3 { max-width: 85%; font-size: 1.75rem; }
 .chinese-title { margin: 8px 0 24px; color: var(--muted-ink); }
+.story-learning-focus { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; margin: -8px 0 18px; font-size: .78rem; }
+.story-learning-focus strong { grid-row: span 2; color: #a54231; }
+.story-learning-focus span { font-weight: 700; }
 .story-facts { display: grid; grid-template-columns: 1fr 1fr; margin: 0; border-top: 1px solid rgba(36,51,46,.28); }
 .story-facts div { padding: 13px 4px; border-bottom: 1px solid rgba(36,51,46,.28); }
 .story-facts dt { color: var(--muted-ink); font-size: .72rem; }.story-facts dd { margin: 4px 0 0; font-size: .85rem; font-weight: 700; }
@@ -149,6 +152,8 @@ p { line-height: 1.6; }
 .week-path-step strong { color: #275b49; }
 .week-path-step em { font-style: normal; font-size: 0.8rem; }
 .family-promise { border-bottom: 2px solid #ef765f; padding: 10px 0; }
+.mission-goals { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 12px; }
+.mission-goal { display: grid; gap: 4px; border-left: 5px solid #8c6bb1; background: #f7f1ff; padding: 8px 10px; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }
 .role-color-3 { border-color: #ef765f; background: #fff3f0; }
 .parent-only { display: inline-block; padding: 5px 10px; border: 2px solid #ef765f; color: #a22f24; font-weight: 800; }

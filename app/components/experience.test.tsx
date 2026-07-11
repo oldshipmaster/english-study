@@ -36,6 +36,9 @@ describe("StoryStage family story flow", () => {
     ]);
     expect(stories.every((story) => story.roles.length === 3 && story.lines.length === 18 && story.challenges.length === 3 && Object.keys(story.vocabulary).length === 8)).toBe(true);
     expect(screen.getByRole("heading", { name: "今晚，把英语故事演出来。" })).toBeTruthy();
+    expect(screen.getByText("提出一起做的建议")).toBeTruthy();
+    expect(screen.getByText("说出自己将要做什么")).toBeTruthy();
+    expect(screen.getAllByText("本课会说")).toHaveLength(6);
 
     await user.click(screen.getByRole("button", { name: "学校" }));
     expect(screen.getAllByTestId("story-card")).toHaveLength(2);
@@ -277,6 +280,8 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("7 天家庭学习路线");
+    expect(pack.textContent).toContain("本课学习目标");
+    expect(pack.querySelectorAll(".mission-goal")).toHaveLength(2);
     expect(pack.textContent).toContain("第 0 天 · 首演");
     expect(pack.textContent).toContain("第 2 天 · 唤醒");
     expect(pack.textContent).toContain("第 7 天 · 迁移");

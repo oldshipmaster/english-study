@@ -65,6 +65,7 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
               <p className="category-label">{categoryNames[story.category]}</p>
               <h3>{story.title}</h3>
               <p className="chinese-title">{story.chineseTitle}</p>
+              <div className="story-learning-focus"><strong>本课会说</strong>{story.learningPack.patterns.map((pattern) => <span key={pattern.title}>{pattern.title}</span>)}</div>
               <dl className="story-facts">
                 <div><dt>时长</dt><dd>{story.minutes} 分钟</dd></div>
                 <div><dt>难度</dt><dd>{story.level}</dd></div>
