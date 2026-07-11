@@ -142,6 +142,8 @@ describe("StoryStage family story flow", () => {
     expect(creator.textContent).toContain("第 7 天重演");
     expect(creator.textContent).toContain("原创词句还能独立说出");
     expect(creator.textContent).toContain("一个愿望");
+    expect(creator.textContent).toContain("谢幕问答");
+    expect(creator.textContent).toContain("我先回答，再反问家长");
     await user.click(screen.getByRole("button", { name: "打印家庭原创剧本工坊" }));
     expect(print).toHaveBeenCalledOnce();
     print.mockRestore();
