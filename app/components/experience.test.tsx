@@ -278,6 +278,11 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("我的新句子");
     expect(pack.querySelectorAll(".pattern-transfer")).toHaveLength(2);
     expect(pack.querySelectorAll(".pattern-self-check")).toHaveLength(2);
+    expect(pack.textContent).toContain("先演完，再反馈");
+    expect(pack.textContent).toContain("孩子自评");
+    expect(pack.textContent).toContain("家长观察");
+    expect(pack.textContent).toContain("两颗星 + 一个愿望");
+    expect(pack.querySelectorAll(".performance-feedback-column")).toHaveLength(2);
     expect(pack.textContent).toContain("可折叠记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");
