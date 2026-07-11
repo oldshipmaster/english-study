@@ -121,10 +121,22 @@ describe("StoryStage family story flow", () => {
 
   it("uses natural elementary English instead of avoidable split compounds or stiff passives", () => {
     const script = stories.flatMap(({ lines }) => lines.map(({ english }) => english)).join(" ");
+    const challengeOptions = stories.flatMap(({ challenges }) => challenges.flatMap(({ options }) => options)).join(" ");
     expect(script).not.toContain("book shelf");
     expect(script).not.toContain("story books");
     expect(script).not.toContain("The lunchbox is found.");
     expect(script).not.toContain("The last letter is safely delivered.");
+    expect(script).not.toContain("How will we see our picnic?");
+    expect(script).not.toContain("Now the garden feels bright.");
+    expect(script).not.toContain("This map may show the key.");
+    expect(script).not.toContain("Step carefully on the strong boards.");
+    expect(script).not.toContain("Can you share the morning jobs?");
+    expect(script).not.toContain("Together, busy mornings feel easy.");
+    expect(script).not.toContain("Our class has so many talents!");
+    expect(script).toContain("How will we see in the dark?");
+    expect(script).toContain("Busy mornings are easier when we work together.");
+    expect(script).toContain("Our class has so much talent!");
+    expect(challengeOptions).not.toContain("Story books");
   });
 
   it("adds a small set of purposeful stage directions to every story", () => {
@@ -293,7 +305,7 @@ describe("StoryStage family story flow", () => {
     expect(vocabulary.textContent).not.toContain("basket");
 
     await user.keyboard("{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}{ArrowRight}");
-    expect(screen.getByText("How will we see our picnic?")).toBeTruthy();
+    expect(screen.getByText("How will we see in the dark?")).toBeTruthy();
     expect(screen.queryByRole("region", { name: "重点词汇" })).toBeNull();
   });
 
