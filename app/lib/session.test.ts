@@ -126,6 +126,7 @@ describe("story learning packs", () => {
         expect(pattern.template).toBeTruthy();
         expect(pattern.grammarTip).toBeTruthy();
         expect(pattern.tasks).toHaveLength(2);
+        expect(story.lines.some(({ english }) => english === pattern.example)).toBe(true);
       });
     }
   });

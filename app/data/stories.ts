@@ -1,4 +1,4 @@
-import type { LearningPack, Story } from "../types";
+import type { LearningPack, SentencePattern, Story } from "../types";
 
 const storyCatalog: Omit<Story, "learningPack">[] = [
   {
@@ -207,20 +207,38 @@ const storyCatalog: Omit<Story, "learningPack">[] = [
   },
 ];
 
+const curatedPatterns: Record<string, SentencePattern[]> = {
+  "moonlight-picnic": [
+    { title: "提出一起做的建议", purpose: "邀请家人一起行动。", example: "Let us pack the basket.", template: "Let us + 动作 + 物品", substitutions: ["pack", "share", "hang"], grammarTip: "Let us 后面的动作词用原形。口语里常说 Let’s。", tasks: ["邀请家人一起收拾桌子。", "邀请家人一起分享水果。"] },
+    { title: "说出自己将要做什么", purpose: "主动承担一个家庭任务。", example: "I will make paper stars.", template: "I will + 动作 + 物品", substitutions: ["make", "bring", "light"], grammarTip: "will 后面的动作词不加 s，也不加 ing。", tasks: ["说一件你晚饭后会做的事。", "换一个故事物品再说一遍。"] },
+  ],
+  "missing-lunchbox": [
+    { title: "描述东西在哪里", purpose: "寻找物品时说清位置。", example: "It is not under my desk.", template: "It is / is not + 位置词 + 地点", substitutions: ["under", "on", "beside"], grammarTip: "is not 表示不在；位置词放在地点前面。", tasks: ["说出书包不在哪里。", "说出铅笔在哪里。"] },
+    { title: "询问过去去了哪里", purpose: "回忆路线并寻找线索。", example: "Where did you go this morning?", template: "Where did + 人物 + go + 时间?", substitutions: ["this morning", "after class", "at lunch"], grammarTip: "用了 did，后面的 go 保持原形。", tasks: ["问家长今天早上去了哪里。", "用 after class 再问一次。"] },
+  ],
+  "secret-tree-house": [
+    { title: "介绍某处有什么", purpose: "带家人发现新的地方。", example: "There is a secret path in the forest.", template: "There is + 一个东西 + 地点", substitutions: ["a path", "a ladder", "a key"], grammarTip: "介绍一个东西用 There is。", tasks: ["说房间里有一张桌子。", "说树下有一把钥匙。"] },
+    { title: "表达能做什么", purpose: "在冒险中主动提供帮助。", example: "I can hold the lantern.", template: "I can + 动作 + 物品", substitutions: ["hold", "open", "search"], grammarTip: "can 后面直接接动作原形。", tasks: ["说一件你能帮家人做的事。", "用 open 或 search 造句。"] },
+  ],
+  "busy-morning": [
+    { title: "礼貌请别人先做某事", purpose: "安排忙碌早晨的顺序。", example: "Please feed the cat first.", template: "Please + 动作 + 物品 + first", substitutions: ["feed", "pack", "find"], grammarTip: "Please 放句首让请求更礼貌；first 表示先做。", tasks: ["请家长先找鞋子。", "请自己先收拾书包。"] },
+    { title: "主动分担任务", purpose: "告诉家人自己愿意做什么。", example: "I will fill the water bottles.", template: "I will + 动作 + 物品", substitutions: ["fill", "pack", "turn off"], grammarTip: "will 表示接下来愿意或准备做。", tasks: ["说你会准备什么早餐。", "说你会关掉什么电器。"] },
+  ],
+  "class-talent-show": [
+    { title: "表达紧张或开心", purpose: "在表演前说出自己的感受。", example: "I am nervous about my magic trick.", template: "I am + 感受 + about + 事情", substitutions: ["nervous", "happy", "excited"], grammarTip: "I 后面用 am；about 后面说让你产生感受的事情。", tasks: ["说你对英语表演的感受。", "换成 excited 再说一次。"] },
+    { title: "用建议解决问题", purpose: "当道具出问题时提出替代办法。", example: "Use this paper flower instead.", template: "Use + 替代物 + instead", substitutions: ["a paper flower", "this hat", "that song"], grammarTip: "instead 表示改用另一个办法，常放在句尾。", tasks: ["为丢失的铅笔提出替代办法。", "为忘记的歌词提出替代办法。"] },
+  ],
+  "cloud-postman": [
+    { title: "说明必须完成的任务", purpose: "在紧急任务中说清目标。", example: "We must deliver it before the rain.", template: "We must + 动作 + before + 时间或事件", substitutions: ["deliver", "find", "finish"], grammarTip: "must 后面用动作原形，表示必须做。", tasks: ["说下雨前必须做什么。", "说睡觉前必须完成什么。"] },
+    { title: "解释东西太怎么样", purpose: "说明遇到的困难。", example: "The parcel is too heavy for my cloud.", template: "东西 + is too + 形容词 + for + 对象", substitutions: ["heavy", "fast", "far"], grammarTip: "too 表示超过合适程度，不只是“很”。", tasks: ["说一个盒子太重了。", "用 fast 或 far 描述困难。"] },
+  ],
+};
+
 function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
   const vocabulary = Object.entries(story.vocabulary);
   const previous = index > 0 ? Object.entries(storyCatalog[index - 1].vocabulary).slice(0, 3) : vocabulary.slice(5, 8);
   const words = [...vocabulary.slice(0, 5).map(([word, meaning]) => ({ word, meaning, review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` })), ...previous.map(([word, meaning]) => ({ word, meaning, review: true, example: `Can you use ${word} in a new sentence?` }))];
-  const patternLines = [story.lines[0], story.lines.find((line) => line.roleId !== story.lines[0].roleId) ?? story.lines[1]];
-  const patterns = patternLines.map((line, patternIndex) => ({
-    title: patternIndex === 0 ? "说出正在发生的事" : "提出建议或表达计划",
-    purpose: patternIndex === 0 ? "用完整句描述故事里的情景。" : "告诉家人你想做什么。",
-    example: line.english,
-    template: patternIndex === 0 ? "人物 + is/are + 动作或状态" : "I/We + can/will + 动作",
-    substitutions: vocabulary.slice(patternIndex * 3, patternIndex * 3 + 3).map(([word]) => word),
-    grammarTip: patternIndex === 0 ? "人物不同，注意选择 is 或 are。" : "can 和 will 后面的动作词保持原形。",
-    tasks: ["换一个人物说新句子。", "换一个动作，再大声说一遍。"],
-  }));
+  const patterns = curatedPatterns[story.id];
   return {
     words: words.slice(0, 8),
     patterns,
