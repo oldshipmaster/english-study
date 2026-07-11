@@ -10,7 +10,7 @@ function cueWords(line: string) {
 export function LearningPackPrint({ story, assignments }: { story: Story; assignments: RoleAssignment[] }) {
   const daughterRoles = assignments.find(({ personId }) => personId === "daughter")?.roleIds ?? [];
   const daughterLines = story.lines.filter(({ roleId }) => daughterRoles.includes(roleId));
-  const reviewWords = story.learningPack.words.filter(({ review }) => review);
+  const reviewWords = story.learningPack.reviewWords;
   const scriptPages = [story.lines.slice(0, 9), story.lines.slice(9)];
   const wordCardPages = [story.learningPack.words.slice(0, 4), story.learningPack.words.slice(4)];
   const pages = [

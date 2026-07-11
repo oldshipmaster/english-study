@@ -54,6 +54,14 @@ describe("StoryStage family story flow", () => {
     stories.forEach((story) => story.learningPack.words.forEach((item) => expect(item.pronunciation.trim()).not.toBe("")));
   });
 
+  it("keeps all eight current-story words and three review words in separate pools", () => {
+    stories.forEach((story) => {
+      expect(story.learningPack.words.map(({ word }) => word)).toEqual(Object.keys(story.vocabulary));
+      expect(story.learningPack.reviewWords).toHaveLength(3);
+      expect(story.learningPack.reviewWords.every(({ review }) => review)).toBe(true);
+    });
+  });
+
   it("opens role assignment for The Moonlight Picnic", async () => {
     const user = userEvent.setup();
     render(<Home />);

@@ -6,7 +6,7 @@ export type ChallengeQuestion = { prompt: string; options: string[]; answerIndex
 export type LearningWord = { word: string; meaning: string; pronunciation: string; review: boolean; example: string };
 export type SentencePattern = { title: string; purpose: string; example: string; template: string; substitutions: string[]; grammarTip: string; tasks: string[] };
 export type SpeakingChallenge = { prompt: string; hint: string };
-export type LearningPack = { words: LearningWord[]; patterns: SentencePattern[]; speakingChallenges: SpeakingChallenge[]; parentPrompts: string[] };
+export type LearningPack = { words: LearningWord[]; reviewWords: LearningWord[]; patterns: SentencePattern[]; speakingChallenges: SpeakingChallenge[]; parentPrompts: string[] };
 export type Story = {
   id: string; title: string; chineseTitle: string; category: StoryCategory;
   minutes: number; level: "Elementary"; vocabulary: Record<string, string>;

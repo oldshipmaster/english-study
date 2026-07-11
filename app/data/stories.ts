@@ -246,10 +246,12 @@ const curatedPatterns: Record<string, SentencePattern[]> = {
 function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
   const vocabulary = Object.entries(story.vocabulary);
   const previous = index > 0 ? Object.entries(storyCatalog[index - 1].vocabulary).slice(0, 3) : vocabulary.slice(5, 8);
-  const words = [...vocabulary.slice(0, 5).map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` })), ...previous.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: true, example: `Can you use ${word} in a new sentence?` }))];
+  const words = vocabulary.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` }));
+  const reviewWords = previous.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: true, example: `Can you use ${word} in a new sentence?` }));
   const patterns = curatedPatterns[story.id];
   return {
-    words: words.slice(0, 8),
+    words,
+    reviewWords,
     patterns,
     speakingChallenges: [
       { prompt: "不看剧本，说出故事开始发生了什么。", hint: story.lines[0].english },
