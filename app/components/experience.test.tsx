@@ -591,6 +591,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("第 3 遍 · 不看台词");
     expect(pack.textContent).toContain("停一下 → 从句首重说 → 继续演");
     expect(pack.querySelectorAll(".daughter-line .fluency-round")).toHaveLength(21);
+    expect(Array.from(pack.querySelectorAll(".daughter-line-number"), (node) => node.textContent)).toEqual(["#1", "#4", "#6", "#9", "#12", "#15", "#18"]);
     expect(pack.querySelectorAll(".daughter-action")).toHaveLength(4);
     expect(pack.textContent).toContain("I = 独立说出");
     expect(pack.textContent).toContain("H = 给提示后说出");
