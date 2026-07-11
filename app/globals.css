@@ -119,6 +119,13 @@ p { line-height: 1.6; }
 .performance-feedback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .performance-feedback-column { background: #fff; border: 1px solid #8bb7a5; padding: 8px; }
 .performance-feedback-column p { margin: 5px 0; }
+.retell-guide { border: 2px solid #d87b65; background: #fff1ed; padding: 10px 12px; }
+.retell-map { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.retell-stage { display: grid; gap: 7px; border: 2px solid #6e9d8b; background: #eef8f2; padding: 12px; }
+.retell-stage span { color: #315f54; font-weight: 700; }
+.retell-stage p { margin: 4px 0; }
+.retell-finish { margin-top: 12px; border: 2px solid #8c6bb1; background: #f7f1ff; padding: 12px; }
+.retell-finish p { margin: 7px 0; }
 .pattern-box, .speaking-task { border: 2px solid #b9a6d8; border-radius: 14px; padding: 14px; margin: 12px 0; background: #f7f1ff; }
 .pattern-template { font-size: 1.15rem; font-weight: 800; color: #17324d; }
 .memory-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }

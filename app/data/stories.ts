@@ -1,4 +1,4 @@
-import type { LearningPack, SentencePattern, Story } from "../types";
+import type { LearningPack, RetellPlan, SentencePattern, Story } from "../types";
 
 const pronunciationCues: Record<string, string> = {
   picnic: "PIC-nik", basket: "BAS-kit", moonlight: "MOON-lite", lantern: "LAN-tern", blanket: "BLANG-kit", evening: "EEV-ning", share: "SHAIR", delicious: "dih-LISH-us",
@@ -243,6 +243,15 @@ const curatedPatterns: Record<string, SentencePattern[]> = {
   ],
 };
 
+const curatedRetells: Record<string, RetellPlan> = {
+  "moonlight-picnic": { settingHint: "garden · evening · picnic", problemHint: "dark · cannot see", actionHints: ["hang a lantern", "spread the blanket"], endingHint: "bright · magical picnic" },
+  "missing-lunchbox": { settingHint: "school · lunchtime", problemHint: "lunchbox · missing", actionHints: ["retrace the steps", "check the library"], endingHint: "find the label · found" },
+  "secret-tree-house": { settingHint: "forest · old tree", problemHint: "door · locked", actionHints: ["follow the map", "find the silver key"], endingHint: "storybooks · reading place" },
+  "busy-morning": { settingHint: "home · busy morning", problemHint: "twenty minutes · toast", actionHints: ["share the jobs", "pack and get ready"], endingHint: "everyone helps · ready" },
+  "class-talent-show": { settingHint: "class · talent show", problemHint: "nervous · empty hat", actionHints: ["practice together", "use a paper flower"], endingHint: "sing · applause" },
+  "cloud-postman": { settingHint: "cloud post office", problemHint: "storm · unclear address", actionHints: ["follow the feather", "find the blue windmill"], endingHint: "deliver the letter safely" },
+};
+
 function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
   const vocabulary = Object.entries(story.vocabulary);
   const words = vocabulary.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` }));
@@ -267,6 +276,7 @@ function createLearningPack(story: Omit<Story, "learningPack">, index: number): 
       { prompt: "用今天的句型向家人提出一个建议。", hint: patterns[1].template },
       { prompt: "选择两个重点词，编一句新的台词。", hint: words.slice(0, 2).map(({ word }) => word).join(" + ") },
     ],
+    retell: curatedRetells[story.id],
     parentPrompts: ["先说中文，请孩子说英文。", "只给首字母，再让孩子补完整词。", "请孩子换一个人物或动作造新句。"],
   };
 }
