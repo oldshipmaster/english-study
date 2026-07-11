@@ -6,7 +6,7 @@
   --honey: #f4bd4f;
   --mint: #9bcdb4;
   --coral: #e87964;
-  --ink: #24332e;
+  --ink: #17324d;
   --muted-ink: #61716a;
   --line: #24332e;
   --shadow: 5px 6px 0 rgba(36, 51, 46, 0.13);
@@ -16,7 +16,7 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--font-geist-sans), "PingFang SC", sans-serif; }
 button, select { color: inherit; font: inherit; }
-button, select, a { min-height: 44px; }
+button, select, a { min-width: 44px; min-height: 44px; }
 button { cursor: pointer; }
 button:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid #187d67; outline-offset: 3px; }
 h1, h2, h3 { font-family: Georgia, "Songti SC", serif; margin: 0; line-height: 1.08; }

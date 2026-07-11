@@ -17,6 +17,43 @@ const people = {
   parent2: { name: "家长 2", note: "加入演出", emoji: "👨" },
 } as const;
 
+function swapRoleOwners(
+  story: Story,
+  assignments: RoleAssignment[],
+  roleId: string,
+  nextPersonId: RoleAssignment["personId"],
+): RoleAssignment[] | null {
+  const currentOwner = assignments.find((assignment) => assignment.roleIds.includes(roleId));
+  const nextOwner = assignments.find((assignment) => assignment.personId === nextPersonId);
+  if (!currentOwner || !nextOwner || currentOwner.personId === nextPersonId) return assignments;
+
+  const roleToSwap = nextOwner.roleIds[0];
+  if (!roleToSwap) return null;
+
+  const candidate = assignments.map((assignment) => {
+    if (assignment.personId === currentOwner.personId) {
+      return { ...assignment, roleIds: assignment.roleIds.map((id) => id === roleId ? roleToSwap : id) };
+    }
+    if (assignment.personId === nextOwner.personId) {
+      return { ...assignment, roleIds: assignment.roleIds.map((id) => id === roleToSwap ? roleId : id) };
+    }
+    return assignment;
+  });
+  const coveredRoleIds = candidate.flatMap((assignment) => assignment.roleIds);
+  const daughter = candidate.find((assignment) => assignment.personId === "daughter");
+  const parent1 = candidate.find((assignment) => assignment.personId === "parent1");
+  const isThreePlayerCast = candidate.length === 3 && candidate.every((assignment) => assignment.roleIds.length === 1);
+  const daughterRole = story.roles.find((role) => role.id === daughter?.roleIds[0]);
+  const isTwoPlayerCast = candidate.length === 2
+    && daughter?.roleIds.length === 1
+    && daughterRole?.childFriendly === true
+    && parent1?.roleIds.length === 2;
+  const hasEveryRoleOnce = coveredRoleIds.length === story.roles.length
+    && new Set(coveredRoleIds).size === story.roles.length;
+
+  return hasEveryRoleOnce && (isThreePlayerCast || isTwoPlayerCast) ? candidate : null;
+}
+
 export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentViewProps) {
   const [playerCount, setPlayerCount] = useState<PlayerCount>(2);
   const [assignments, setAssignments] = useState<RoleAssignment[]>(() => assignRoles(story, 2));
@@ -27,12 +64,7 @@ export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentVie
   }
 
   function changeRoleOwner(roleId: string, personId: RoleAssignment["personId"]) {
-    setAssignments((current) => current.map((assignment) => ({
-      ...assignment,
-      roleIds: assignment.personId === personId
-        ? Array.from(new Set([...assignment.roleIds, roleId]))
-        : assignment.roleIds.filter((id) => id !== roleId),
-    })));
+    setAssignments((current) => swapRoleOwners(story, current, roleId, personId) ?? current);
   }
 
   return (
@@ -81,7 +113,13 @@ export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentVie
             const owner = assignments.find((assignment) => assignment.roleIds.includes(role.id))!;
             return (
               <label key={role.id}><span>{role.emoji} {role.name}</span><select value={owner.personId} onChange={(event) => changeRoleOwner(role.id, event.target.value as RoleAssignment["personId"])}>
-                {assignments.map((assignment) => <option value={assignment.personId} key={assignment.personId}>{people[assignment.personId].name}</option>)}
+                {assignments.map((assignment) => (
+                  <option
+                    disabled={swapRoleOwners(story, assignments, role.id, assignment.personId) === null}
+                    value={assignment.personId}
+                    key={assignment.personId}
+                  >{people[assignment.personId].name}</option>
+                ))}
               </select></label>
             );
           })}

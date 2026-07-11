@@ -60,4 +60,36 @@ describe("StoryStage family story flow", () => {
       new Set(story!.roles.map((role) => role.id)),
     );
   });
+
+  it("swaps owners without leaving a three-player actor roleless", async () => {
+    const user = userEvent.setup();
+    const onStart = vi.fn();
+    const story = stories.find(({ title }) => title === "The Moonlight Picnic")!;
+    render(<RoleAssignmentView story={story} onBack={() => undefined} onStart={onStart} />);
+
+    await user.click(screen.getByRole("button", { name: "3 人" }));
+    await user.selectOptions(screen.getByLabelText(/Mia/), "parent1");
+    await user.click(screen.getByRole("button", { name: "开始演出" }));
+
+    const assignments = onStart.mock.calls[0][0];
+    expect(assignments.map((assignment) => assignment.roleIds)).toEqual([["dad"], ["mia"], ["grandma"]]);
+  });
+
+  it("keeps the daughter on one child-friendly role in two-player mode", async () => {
+    const user = userEvent.setup();
+    const onStart = vi.fn();
+    const story = stories.find(({ title }) => title === "The Moonlight Picnic")!;
+    render(<RoleAssignmentView story={story} onBack={() => undefined} onStart={onStart} />);
+
+    const dadSelect = screen.getByLabelText(/Dad/) as HTMLSelectElement;
+    expect((dadSelect.querySelector('option[value="daughter"]') as HTMLOptionElement).disabled).toBe(true);
+    await user.click(screen.getByRole("button", { name: "开始演出" }));
+
+    const assignments = onStart.mock.calls[0][0];
+    const daughter = assignments.find((assignment) => assignment.personId === "daughter");
+    const daughterRole = story.roles.find((role) => role.id === daughter.roleIds[0]);
+    expect(daughter.roleIds).toHaveLength(1);
+    expect(daughterRole?.childFriendly).toBe(true);
+    expect(assignments.find((assignment) => assignment.personId === "parent1").roleIds).toHaveLength(2);
+  });
 });
