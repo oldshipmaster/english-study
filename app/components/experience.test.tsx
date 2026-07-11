@@ -282,6 +282,12 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "打印完整家庭剧本" })).toBeTruthy();
   });
 
+  it("shows reliable color A4 printer settings before printing", () => {
+    render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+    expect(screen.getByText("A4 · 彩色 · 100% 缩放 · 开启背景图形")).toBeTruthy();
+    expect(screen.getByText(/完整学习包共 13 页/)).toBeTruthy();
+  });
+
   it("offers a thirteen-page color learning pack without dropping script lines or cards", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });

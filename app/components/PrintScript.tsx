@@ -53,6 +53,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
           ))}
         </div>
         <button className="print-action primary-control" type="button" onClick={printScript}>打印{printLabel}</button>
+        <div className="print-settings-note"><strong>A4 · 彩色 · 100% 缩放 · 开启背景图形</strong><span>完整学习包共 13 页；打印词卡时关闭双面打印。</span></div>
         {printError ? <p className="print-fallback" role="alert">无法自动打开打印窗口，请使用浏览器菜单中的“打印”。</p> : null}
       </div>
 
