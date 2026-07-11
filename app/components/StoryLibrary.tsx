@@ -66,9 +66,9 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
         </div>
 
         <div className="story-grid">
-          {visibleStories.map((story, index) => (
+          {visibleStories.map((story) => (
             <article className={`story-card story-card--${story.category}`} data-testid="story-card" key={story.id}>
-              <div className="card-number" aria-hidden="true">0{index + 1}</div>
+              <div className="card-number" aria-hidden="true">{String(stories.findIndex(({ id }) => id === story.id) + 1).padStart(2, "0")}</div>
               <p className="category-label">{categoryNames[story.category]}</p>
               <h3>{story.title}</h3>
               <p className="chinese-title">{story.chineseTitle}</p>

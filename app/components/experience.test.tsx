@@ -52,6 +52,7 @@ describe("StoryStage family story flow", () => {
 
     await user.click(screen.getByRole("button", { name: "学校" }));
     expect(screen.getAllByTestId("story-card")).toHaveLength(2);
+    expect(screen.getAllByTestId("story-card").map((card) => card.querySelector(".card-number")?.textContent)).toEqual(["02", "05"]);
     expect(screen.getByRole("heading", { name: "The Missing Lunchbox" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "The Class Talent Show" })).toBeTruthy();
   });
@@ -109,6 +110,8 @@ describe("StoryStage family story flow", () => {
     expect(script.querySelectorAll(".role-performance-note")).toHaveLength(1);
     expect(script.textContent).toContain("演后 30 秒");
     expect(script.textContent).toContain("两颗星 + 一个愿望");
+    expect(script.textContent).toContain("1 / 3");
+    expect(script.textContent).toContain("3 / 3");
   });
 
   it("renders a direct third-person script in three-player mode without dropping context", () => {
