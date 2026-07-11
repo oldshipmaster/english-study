@@ -47,7 +47,7 @@ p { line-height: 1.6; }
 .journey-story h2 { font-size: 1.05rem; }.journey-story-heading p, .journey-story > p { margin: 3px 0; font-size: .76rem; }
 .journey-goals { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; margin: 6px 0; font-size: .75rem; }.journey-goals strong { grid-row: span 2; }.journey-dates { display: flex; gap: 12px; font-size: .72rem; font-weight: 700; }
 .journey-story .journey-score { margin: 2px 0; font-size: .7rem; }
-.journey-print > footer { margin-top: 12px; border: 2px solid #e39554; background: #fff6e9; padding: 10px; text-align: center; }
+.journey-print > footer { margin-top: 12px; border: 2px solid #e39554; background: #fff6e9; padding: 8px 10px; text-align: center; }.journey-print > footer span { display: block; margin-top: 3px; font-size: .72rem; font-weight: 700; }
 .word-bank-launch { margin-top: 14px; background: var(--mint); }
 .creator-launch { margin-top: 14px; background: #e7d9f5; }
 .word-bank-print { display: grid; gap: 22px; margin-top: 22px; }
