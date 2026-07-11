@@ -89,6 +89,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
                   </div>
                 );
               })}
+              {selectedPerson ? <div className="role-rehearsal-check"><strong>本场三遍排练</strong><span>□ 看完整台词</span><span>□ 只看关键词</span><span>□ 不看稿</span><em>先听到上一句再开口</em></div> : null}
             </section>
           ))}
         </div>
