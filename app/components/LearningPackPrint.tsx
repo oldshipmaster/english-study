@@ -3,7 +3,7 @@ import type { RoleAssignment, Story } from "../types";
 export const LEARNING_PACK_PAGE_COUNT = 17;
 
 const personNames = { daughter: "女儿", parent1: "家长 1", parent2: "家长 2" } as const;
-const cueStopWords = new Set(["a", "an", "and", "are", "can", "do", "here", "how", "i", "is", "it", "our", "the", "this", "to", "we", "will", "you", "your"]);
+const cueStopWords = new Set(["a", "am", "an", "and", "are", "at", "be", "been", "can", "did", "do", "for", "from", "had", "has", "have", "here", "how", "i", "in", "is", "it", "of", "on", "our", "the", "this", "to", "was", "we", "were", "will", "with", "you", "your"]);
 
 function cueWords(line: string) {
   return line.toLowerCase().match(/[a-z']+/g)?.filter((word) => !cueStopWords.has(word)).slice(0, 3).join(" · ") ?? "自己写关键词";

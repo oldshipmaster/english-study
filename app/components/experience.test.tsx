@@ -475,6 +475,8 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("问句末尾画 ↑");
     expect(pack.textContent).toContain("第 1 遍 · 看完整台词");
     expect(pack.textContent).toContain("第 2 遍 · 只看关键词");
+    expect(pack.textContent).toContain("只看关键词：see · dark");
+    expect(pack.textContent).not.toContain("只看关键词：see · in · dark");
     expect(pack.textContent).toContain("第 3 遍 · 不看台词");
     expect(pack.textContent).toContain("停一下 → 从句首重说 → 继续演");
     expect(pack.querySelectorAll(".daughter-line .fluency-round")).toHaveLength(21);
