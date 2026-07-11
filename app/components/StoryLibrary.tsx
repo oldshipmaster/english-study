@@ -39,7 +39,7 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
         <div className="hero-copy">
           <p className="eyebrow">Family story night</p>
           <h1>今晚，把英语故事演出来。</h1>
-          <p>选一个故事，全家一起开口说英语。</p>
+          <p>适合 9–11 岁小学基础 · 每次 8–10 分钟 · 以纸质练习为主</p>
         </div>
         <div className="hero-art" aria-hidden="true"><span>☾</span><span>📖</span><span>★</span></div>
       </section>
@@ -70,7 +70,7 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
               <div className="story-learning-focus"><strong>本课会说</strong>{story.learningPack.patterns.map((pattern) => <span key={pattern.title}>{pattern.title}</span>)}</div>
               <dl className="story-facts">
                 <div><dt>时长</dt><dd>{story.minutes} 分钟</dd></div>
-                <div><dt>难度</dt><dd>{story.level}</dd></div>
+                <div><dt>难度</dt><dd>小学基础</dd></div>
                 <div><dt>词汇</dt><dd>{Object.keys(story.vocabulary).length} 个</dd></div>
                 <div><dt>人数</dt><dd>2–3 players</dd></div>
               </dl>
