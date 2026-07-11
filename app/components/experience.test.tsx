@@ -148,6 +148,7 @@ describe("StoryStage family story flow", () => {
     expect(wordBank.textContent).toContain("我在哪里遇到它");
     expect(wordBank.textContent).toContain("拆读 / 重音");
     expect(wordBank.textContent).toContain("可靠词典音频");
+    expect(wordBank.textContent).toContain("不同日期连续两次 I 才算掌握");
     expect(wordBank.textContent).toContain("先猜，再查，再用");
     expect(wordBank.textContent).toContain("圈人物/主语");
     stories.forEach(({ title, learningPack }) => {
