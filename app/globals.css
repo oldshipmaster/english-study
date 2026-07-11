@@ -198,6 +198,7 @@ p { line-height: 1.6; }
 .card-box-labels span { border: 2px solid currentColor; padding: 8px; text-align: center; font-weight: 800; }
 .box-red { color: #a93d32; background: #fff0ed; }.box-yellow { color: #80600c; background: #fff8d8; }.box-green { color: #26765f; background: #eaf8f2; }
 .daughter-line, .pack-script-line { padding: 10px 12px; margin: 8px 0; border-left: 6px solid #f2bd47; background: #fff9e8; break-inside: avoid; }
+.pack-line-number { display: inline-grid; place-items: center; min-width: 2.15em; margin-right: 7px; border-radius: 999px; background: #17324d; color: white; font-size: .68rem; }
 .pack-direction { display: inline-block; margin-left: 10px; color: #a54231; font-size: .74rem; }
 .scene-rehearsal-note { border-bottom: 1px solid #9aaabd; padding-bottom: 7px; color: #315f83; font-size: .82rem; }
 .scene-check { margin-top: 14px; border: 2px solid #6685b3; background: #eef4ff; padding: 10px 12px; }

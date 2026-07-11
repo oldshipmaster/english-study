@@ -424,6 +424,8 @@ describe("StoryStage family story flow", () => {
     expect(LEARNING_PACK_PAGE_COUNT).toBe(17);
     expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(LEARNING_PACK_PAGE_COUNT);
     expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
+    expect(pack.querySelectorAll(".pack-line-number")).toHaveLength(18);
+    expect(pack.querySelectorAll(".pack-line-number")[17].textContent).toBe("#18");
     expect(pack.querySelectorAll(".pack-script-scene")).toHaveLength(3);
     expect(pack.querySelectorAll(".scene-check")).toHaveLength(3);
     expect(pack.textContent).toContain("用一句中文总结本场");
