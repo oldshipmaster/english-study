@@ -340,6 +340,9 @@ describe("StoryStage family story flow", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     expect(screen.getByText("A4 · 彩色 · 100% 缩放 · 开启背景图形")).toBeTruthy();
     expect(screen.getByText(/完整学习包共 16 页/)).toBeTruthy();
+    expect(screen.getByText("16 页怎么用？打印一次，7 天复用")).toBeTruthy();
+    expect(screen.getByText("第 3–4 页：彩色完整剧本，保留全部上下文")).toBeTruthy();
+    expect(screen.getByText("第 14–15 页：间隔复习与跨故事旧词")).toBeTruthy();
   });
 
   it("offers a sixteen-page color learning pack without dropping script lines or cards", () => {

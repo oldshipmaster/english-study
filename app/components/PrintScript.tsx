@@ -54,6 +54,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
         </div>
         <button className="print-action primary-control" type="button" onClick={printScript}>打印{printLabel}</button>
         <div className="print-settings-note"><strong>A4 · 彩色 · 100% 缩放 · 开启背景图形</strong><span>完整学习包共 16 页；打印词卡时关闭双面打印。</span></div>
+        {printMode === "learning-pack" ? <details className="pack-page-guide"><summary>16 页怎么用？打印一次，7 天复用</summary><div><span>第 1–2 页：任务路线、8 个本课词和生词救援</span><span>第 3–4 页：彩色完整剧本，保留全部上下文</span><span>第 5–8 页：女儿台词、句型、拼图和语法侦探</span><span>第 9–11 页：开口挑战、复述和家庭聊天</span><span>第 12–13 页：可折叠词卡与句型卡</span><span>第 14–15 页：间隔复习与跨故事旧词</span><span>第 16 页：家长答案和第 0/2/7 天记录</span></div></details> : null}
         {printError ? <p className="print-fallback" role="alert">无法自动打开打印窗口，请使用浏览器菜单中的“打印”。</p> : null}
       </div>
 
