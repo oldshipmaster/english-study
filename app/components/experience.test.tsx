@@ -490,6 +490,8 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".week-path-step")).toHaveLength(3);
     expect(pack.textContent).toContain("句型与语法发现");
     expect(pack.textContent).toContain("说 → 换 → 写 → 再说");
+    expect(pack.querySelectorAll(".pattern-self-check")).toHaveLength(2);
+    pack.querySelectorAll(".pattern-self-check").forEach((item) => expect(item.textContent).toContain("关键语法形式正确"));
     expect(pack.textContent).toContain("我的新句子");
     expect(pack.querySelectorAll(".pattern-transfer")).toHaveLength(2);
     expect(pack.querySelectorAll(".pattern-self-check")).toHaveLength(2);
