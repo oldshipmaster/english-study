@@ -516,6 +516,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("我不会盒");
     expect(pack.textContent).toContain("练习中盒");
     expect(pack.textContent).toContain("已掌握盒");
+    expect(pack.textContent).toContain("不同日期连续两次独立想起");
     expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
   });
 
