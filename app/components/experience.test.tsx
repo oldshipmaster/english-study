@@ -459,6 +459,8 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("故事复述地图");
     expect(pack.textContent).toContain("First → Then → Finally");
     expect(pack.textContent).toContain("不看剧本讲 30–60 秒");
+    expect(pack.textContent).toContain("挑战版 · 我来改结局");
+    expect(pack.textContent).toContain("至少换掉人物、地点或结果中的一项");
     expect(pack.querySelectorAll(".retell-stage")).toHaveLength(4);
     expect(pack.textContent).toContain("语法小侦探");
     expect(pack.textContent).toContain("语法侦探答案");

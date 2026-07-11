@@ -170,6 +170,8 @@ p { line-height: 1.6; }
 .retell-stage p { margin: 4px 0; }
 .retell-finish { margin-top: 12px; border: 2px solid #8c6bb1; background: #f7f1ff; padding: 12px; }
 .retell-finish p { margin: 7px 0; }
+.retell-remix { margin-top: 9px; border-top: 1px dashed #8c6bb1; padding-top: 8px; }
+.retell-remix p { margin: 4px 0; }
 .conversation-guide { border: 2px solid #e39554; background: #fff6e9; padding: 10px 12px; }
 .conversation-card { display: grid; grid-template-columns: auto 1fr; gap: 12px; border: 2px solid #6685b3; background: #eef4ff; padding: 12px; margin: 12px 0; }
 .conversation-number { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #17324d; color: white; font-weight: 900; }
