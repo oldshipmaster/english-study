@@ -78,6 +78,10 @@ describe("StoryStage family story flow", () => {
     stories.forEach((story) => story.learningPack.words.forEach((item) => expect(item.pronunciation.trim()).not.toBe("")));
   });
 
+  it("labels every current and review word with a usable part of speech", () => {
+    stories.forEach(({ learningPack }) => [...learningPack.words, ...learningPack.reviewWords].forEach((item) => expect(item.partOfSpeech).toMatch(/名词|动词|形容词|副词/)));
+  });
+
   it("keeps all eight current-story words and three review words in separate pools", () => {
     stories.forEach((story, index) => {
       expect(story.learningPack.words.map(({ word }) => word)).toEqual(Object.keys(story.vocabulary));
@@ -416,6 +420,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("只练我自己选的难词");
     expect(pack.querySelectorAll(".spelling-practice tbody tr")).toHaveLength(4);
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
+    expect(pack.querySelectorAll(".mastery-row .word-type")).toHaveLength(8);
     expect(pack.textContent).toContain("我的记词工具箱");
     expect(pack.textContent).toContain("本次我主动选的 3 个难词");
     expect(pack.textContent).toContain("画小图");
@@ -429,6 +434,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".word-memory-card .card-front")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .card-back")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .word-pronunciation")).toHaveLength(8);
+    expect(pack.querySelectorAll(".word-memory-card .word-type")).toHaveLength(8);
     expect(pack.textContent).toContain("先回答，再沿中线翻卡");
     expect(pack.textContent).toContain("我不会盒");
     expect(pack.textContent).toContain("练习中盒");

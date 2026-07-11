@@ -9,6 +9,15 @@ const pronunciationCues: Record<string, string> = {
   cloud: "KLOWD", postman: "POHST-mən", letter: "LET-er", address: "AD-dress", storm: "STORM", feather: "FETH-er", deliver: "dih-LIV-er", promise: "PROM-is",
 };
 
+const wordTypes: Record<string, string> = {
+  picnic: "名词", basket: "名词", moonlight: "名词", lantern: "名词", blanket: "名词", evening: "名词", share: "动词", delicious: "形容词",
+  lunchbox: "名词", missing: "形容词", classroom: "名词", check: "动词", library: "名词", borrow: "动词", label: "名词", found: "动词（过去式）",
+  secret: "形容词", tree: "名词", ladder: "名词", map: "名词", key: "名词", window: "名词", brave: "形容词", together: "副词",
+  morning: "名词", breakfast: "名词", hurry: "动词", backpack: "名词", toast: "名词", ready: "形容词",
+  talent: "名词", stage: "名词", practice: "动词", nervous: "形容词", costume: "名词", applause: "名词", perform: "动词",
+  cloud: "名词", postman: "名词", letter: "名词", address: "名词", storm: "名词", feather: "名词", deliver: "动词", promise: "动词",
+};
+
 const storyCatalog: Omit<Story, "learningPack">[] = [
   {
     id: "moonlight-picnic", title: "The Moonlight Picnic", chineseTitle: "月光野餐", category: "family", minutes: 10, level: "Elementary",
@@ -305,7 +314,7 @@ const stageDirections: Record<string, Record<number, string>> = {
 
 function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
   const vocabulary = Object.entries(story.vocabulary);
-  const words = vocabulary.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` }));
+  const words = vocabulary.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], partOfSpeech: wordTypes[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` }));
   const reviewSources = index > 0 ? storyCatalog.slice(0, index).reverse().slice(0, 3) : [story];
   const usedReviewWords = new Set<string>();
   const reviewWords = Array.from({ length: 3 }, (_, reviewIndex) => {
@@ -315,7 +324,7 @@ function createLearningPack(story: Omit<Story, "learningPack">, index: number): 
     while (usedReviewWords.has(entries[entryIndex][0])) entryIndex = (entryIndex + 1) % entries.length;
     const [word, meaning] = entries[entryIndex];
     usedReviewWords.add(word);
-    return { word, meaning, pronunciation: pronunciationCues[word], review: true, example: `Can you use ${word} in a new sentence?`, sourceStory: source.chineseTitle };
+    return { word, meaning, pronunciation: pronunciationCues[word], partOfSpeech: wordTypes[word], review: true, example: `Can you use ${word} in a new sentence?`, sourceStory: source.chineseTitle };
   });
   const patterns = curatedPatterns[story.id].map((pattern, patternIndex) => ({ ...pattern, commonMistake: grammarCorrections[story.id][patternIndex][0], correction: grammarCorrections[story.id][patternIndex][1] }));
   return {
