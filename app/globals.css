@@ -155,6 +155,7 @@ p { line-height: 1.6; }
 .card-box-labels span { border: 2px solid currentColor; padding: 8px; text-align: center; font-weight: 800; }
 .box-red { color: #a93d32; background: #fff0ed; }.box-yellow { color: #80600c; background: #fff8d8; }.box-green { color: #26765f; background: #eaf8f2; }
 .daughter-line, .pack-script-line { padding: 10px 12px; margin: 8px 0; border-left: 6px solid #f2bd47; background: #fff9e8; break-inside: avoid; }
+.pack-direction { display: inline-block; margin-left: 10px; color: #a54231; font-size: .74rem; }
 .fluency-guide { border: 2px solid #6e9d8b; background: #eef8f2; padding: 8px 12px; margin-bottom: 10px; }
 .fluency-guide h3, .fluency-guide p { margin: 3px 0; }
 .expression-marks { margin-top: 7px !important; border-top: 1px solid #8bb7a5; padding-top: 6px; font-size: .8rem; }

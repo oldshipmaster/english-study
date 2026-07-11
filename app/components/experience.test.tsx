@@ -96,6 +96,10 @@ describe("StoryStage family story flow", () => {
     expect(script).not.toContain("The last letter is safely delivered.");
   });
 
+  it("adds a small set of purposeful stage directions to every story", () => {
+    stories.forEach((story) => expect(story.lines.filter(({ stageDirection }) => stageDirection)).toHaveLength(4));
+  });
+
   it("gives every story a complete retelling scaffold", () => {
     stories.forEach(({ learningPack }) => {
       expect(learningPack.retell.settingHint).not.toBe("");
@@ -330,6 +334,7 @@ describe("StoryStage family story flow", () => {
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
     expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(15);
     expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
+    expect(pack.querySelectorAll(".pack-direction")).toHaveLength(4);
     expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("7 天家庭学习路线");

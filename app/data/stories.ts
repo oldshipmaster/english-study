@@ -261,6 +261,15 @@ const curatedRetells: Record<string, RetellPlan> = {
   "cloud-postman": { settingHint: "cloud post office", problemHint: "storm · unclear address", actionHints: ["follow the feather", "find the blue windmill"], endingHint: "deliver the letter safely" },
 };
 
+const stageDirections: Record<string, Record<number, string>> = {
+  "moonlight-picnic": { 0: "兴奋地举起野餐篮", 5: "看看四周，表现出担心", 11: "假装剪出一颗纸星星", 17: "和家人击掌" },
+  "missing-lunchbox": { 2: "翻找书包，着急地说", 7: "一边回想一边提问", 13: "指着盒子上的名字", 17: "微笑着点头" },
+  "secret-tree-house": { 0: "压低声音，神秘地说", 4: "轻轻推一推门", 10: "踮起脚，小心向前", 17: "张开双臂介绍树屋" },
+  "busy-morning": { 0: "看一眼时钟", 5: "闻到焦味，惊讶地说", 9: "假装往水瓶里倒水", 17: "和家人击掌" },
+  "class-talent-show": { 0: "兴奋地指向舞台", 5: "深呼吸，手微微发抖", 9: "把纸花递给同伴", 17: "一起鞠躬谢幕" },
+  "cloud-postman": { 0: "望向窗外的云", 4: "指向远处的暴风雨", 12: "举起一根想象的羽毛", 17: "向云朵朋友挥手" },
+};
+
 function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
   const vocabulary = Object.entries(story.vocabulary);
   const words = vocabulary.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` }));
@@ -290,4 +299,7 @@ function createLearningPack(story: Omit<Story, "learningPack">, index: number): 
   };
 }
 
-export const stories: Story[] = storyCatalog.map((story, index) => ({ ...story, learningPack: createLearningPack(story, index) }));
+export const stories: Story[] = storyCatalog.map((story, index) => {
+  const directedStory = { ...story, lines: story.lines.map((line, lineIndex) => ({ ...line, stageDirection: stageDirections[story.id][lineIndex] })) };
+  return { ...directedStory, learningPack: createLearningPack(directedStory, index) };
+});
