@@ -28,7 +28,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
                   </div>
                 ))}
               </div>
-              <p className="word-bank-sentence"><strong>任选 2 个词说新句子：</strong>________________________________________________________</p>
+              <p className="word-bank-sentence"><strong>任选 2 个词说新句子：</strong>句型支架：{story.learningPack.patterns[0].template}　________________________</p>
               <div className="word-bank-answer"><strong>折线下方是答案 · 做完再看：</strong> {Object.keys(story.vocabulary).join(" · ")}</div>
             </section>
           ))}

@@ -85,7 +85,10 @@ describe("StoryStage family story flow", () => {
     const wordBank = screen.getByRole("region", { name: "六课累计词汇本" });
     expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(2);
     expect(wordBank.querySelectorAll(".word-bank-item")).toHaveLength(48);
-    stories.forEach(({ title }) => expect(wordBank.textContent).toContain(title));
+    stories.forEach(({ title, learningPack }) => {
+      expect(wordBank.textContent).toContain(title);
+      expect(wordBank.textContent).toContain(learningPack.patterns[0].template);
+    });
     await user.click(screen.getByRole("button", { name: "打印 48 词累计复习本" }));
     expect(print).toHaveBeenCalledOnce();
     print.mockRestore();
