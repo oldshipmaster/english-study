@@ -110,6 +110,8 @@ describe("StoryStage family story flow", () => {
     expect(script.querySelectorAll(".role-performance-note")).toHaveLength(1);
     expect(script.textContent).toContain("演后 30 秒");
     expect(script.textContent).toContain("两颗星 + 一个愿望");
+    expect(script.textContent).toContain("第 0 天首演");
+    expect(script.textContent).toContain("第 7 天重演");
     expect(script.textContent).toContain("1 / 3");
     expect(script.textContent).toContain("3 / 3");
   });
