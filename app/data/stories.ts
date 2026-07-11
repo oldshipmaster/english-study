@@ -62,7 +62,7 @@ const storyCatalog: Omit<Story, "learningPack">[] = [
       { id: "sam", name: "Sam", emoji: "🧑", childFriendly: false },
     ],
     lines: [
-      { roleId: "leo", english: "It is time for lunch.", chinese: "午餐时间到了。", pronunciation: "lunch: LUNCH（与中文“浪”开头相近）" },
+      { roleId: "leo", english: "It is time for lunch.", chinese: "午餐时间到了。", pronunciation: "lunch: LUNCH（一个音节，结尾 ch 要轻快）" },
       { roleId: "sam", english: "I have rice and carrots.", chinese: "我有米饭和胡萝卜。" },
       { roleId: "leo", english: "My lunchbox is missing!", chinese: "我的午餐盒不见了！", vocabulary: ["lunchbox", "missing"] },
       { roleId: "teacher", english: "Stay calm, Leo.", chinese: "冷静点，利奥。" },

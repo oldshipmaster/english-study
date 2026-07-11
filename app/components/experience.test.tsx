@@ -124,6 +124,15 @@ describe("StoryStage family story flow", () => {
     stories.forEach((story) => story.learningPack.words.forEach((item) => expect(item.pronunciation.trim()).not.toBe("")));
   });
 
+  it("avoids misleading Chinese-homophone pronunciation shortcuts", () => {
+    const lineCues = stories.flatMap(({ lines }) => lines.flatMap(({ pronunciation }) => pronunciation ? [pronunciation] : []));
+    lineCues.forEach((cue) => {
+      expect(cue).not.toContain("中文");
+      expect(cue).not.toContain("相近");
+    });
+    expect(lineCues).toContain("lunch: LUNCH（一个音节，结尾 ch 要轻快）");
+  });
+
   it("labels every current and review word with a usable part of speech", () => {
     stories.forEach(({ learningPack }) => [...learningPack.words, ...learningPack.reviewWords].forEach((item) => expect(item.partOfSpeech).toMatch(/名词|动词|形容词|副词/)));
   });
