@@ -26,6 +26,14 @@ npm run build:pages
 
 `npm run build:pages` 会在 `pages-dist/` 生成供 GitHub Pages 发布的静态站点。
 
+将已经提交并推送到 `main` 的当前版本发布到 GitHub Pages：
+
+```bash
+./scripts/deploy-pages.sh
+```
+
+部署脚本只接受干净工作区。它从当前 `HEAD` 重新构建，在隔离的临时 worktree 中仅提交 `pages-dist/` 内容，并将完整源码 SHA 写入 `gh-pages` 提交消息；推送使用基于已获取远端部署提交的 `--force-with-lease`，并发更新时会安全失败。
+
 ## 内容原则
 
 教材与分级读物可以用于校准故事难度、词汇范围和学习目标，但 StoryStage 不复制受版权保护的教材原文。
