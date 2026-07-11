@@ -77,19 +77,20 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("region", { name: "6 课英语成长地图" })).toBeTruthy();
   });
 
-  it("opens a two-page cumulative word bank with all 48 learning words", async () => {
+  it("opens a four-page cumulative review book with 48 words and 12 sentence patterns", async () => {
     const user = userEvent.setup();
     const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
     render(<Home />);
-    await user.click(screen.getByRole("button", { name: "打开 48 词累计复习本" }));
-    const wordBank = screen.getByRole("region", { name: "六课累计词汇本" });
-    expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(2);
+    await user.click(screen.getByRole("button", { name: "打开 48 词 + 12 句型复习本" }));
+    const wordBank = screen.getByRole("region", { name: "六课词句累计复习本" });
+    expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(4);
     expect(wordBank.querySelectorAll(".word-bank-item")).toHaveLength(48);
+    expect(wordBank.querySelectorAll(".pattern-bank-item")).toHaveLength(12);
     stories.forEach(({ title, learningPack }) => {
       expect(wordBank.textContent).toContain(title);
       expect(wordBank.textContent).toContain(learningPack.patterns[0].template);
     });
-    await user.click(screen.getByRole("button", { name: "打印 48 词累计复习本" }));
+    await user.click(screen.getByRole("button", { name: "打印 48 词 + 12 句型复习本" }));
     expect(print).toHaveBeenCalledOnce();
     print.mockRestore();
   });
@@ -97,7 +98,7 @@ describe("StoryStage family story flow", () => {
   it("renders a direct cumulative word-bank preview URL", () => {
     window.history.replaceState({}, "", "/?wordbank=1");
     render(<Home />);
-    expect(screen.getByRole("region", { name: "六课累计词汇本" })).toBeTruthy();
+    expect(screen.getByRole("region", { name: "六课词句累计复习本" })).toBeTruthy();
   });
 
   it("gives every printable learning word an independent pronunciation cue", () => {

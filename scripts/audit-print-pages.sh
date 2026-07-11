@@ -115,16 +115,16 @@ kill "$chrome_pid" >/dev/null 2>&1 || true
 wait "$chrome_pid" >/dev/null 2>&1 || true
 
 word_bank_pages=$($pdfinfo_bin "$word_bank_pdf" | awk '/^Pages:/ { print $2 }')
-if test "$word_bank_pages" != "2"; then
-  echo "error: cumulative word bank rendered $word_bank_pages pages, expected 2" >&2
+if test "$word_bank_pages" != "4"; then
+  echo "error: cumulative review book rendered $word_bank_pages pages, expected 4" >&2
   exit 1
 fi
 "$pdftotext_bin" "$word_bank_pdf" "$temporary_root/word-bank.txt"
-if ! grep -q "1 / 2" "$temporary_root/word-bank.txt" || ! grep -q "2 / 2" "$temporary_root/word-bank.txt"; then
-  echo "error: cumulative word bank is missing its first or final page marker" >&2
+if ! grep -q "1 / 4" "$temporary_root/word-bank.txt" || ! grep -q "4 / 4" "$temporary_root/word-bank.txt"; then
+  echo "error: cumulative review book is missing its first or final page marker" >&2
   exit 1
 fi
-printf 'ok: %-24s %s A4 pages\n' "six-story-word-bank" "$word_bank_pages"
+printf 'ok: %-24s %s A4 pages\n' "six-story-review-book" "$word_bank_pages"
 
 total_pages=$((total_pages + word_bank_pages))
-echo "Print audit passed: $pack_count learning packs plus the word bank, $total_pages A4 pages total."
+echo "Print audit passed: $pack_count learning packs plus the cumulative review book, $total_pages A4 pages total."

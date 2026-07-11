@@ -85,7 +85,7 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
       </section>
       <section className="journey-launch"><div><h2>把六个故事连成一条学习路</h2><p>打印一张 A4 成长地图，记录第 0、2、7 天的复习。</p></div><button type="button" aria-expanded={showJourney} onClick={() => { setShowJourney((current) => !current); setShowWordBank(false); }}>{showJourney ? "收起 6 课成长地图" : "打开 6 课成长地图"}</button>{showJourney ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 6 课成长地图</button> : null}</section>
       {showJourney ? <JourneyPrint stories={stories} /> : null}
-      <section className="journey-launch word-bank-launch"><div><h2>把 48 个词变成会说的词</h2><p>两张 A4 累计复习：先回忆、再书写、最后放进自己的句子。</p></div><button type="button" aria-expanded={showWordBank} onClick={() => { setShowWordBank((current) => !current); setShowJourney(false); }}>{showWordBank ? "收起 48 词累计复习本" : "打开 48 词累计复习本"}</button>{showWordBank ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 48 词累计复习本</button> : null}</section>
+      <section className="journey-launch word-bank-launch"><div><h2>把 48 个词和 12 个句型变成会说的英语</h2><p>四张 A4 累计复习：先主动回忆，再换词造句，最后脱稿说。</p></div><button type="button" aria-expanded={showWordBank} onClick={() => { setShowWordBank((current) => !current); setShowJourney(false); }}>{showWordBank ? "收起 48 词 + 12 句型复习本" : "打开 48 词 + 12 句型复习本"}</button>{showWordBank ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 48 词 + 12 句型复习本</button> : null}</section>
       {showWordBank ? <WordBankPrint stories={stories} /> : null}
     </main>
   );
