@@ -602,6 +602,10 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).not.toContain("只看关键词：see · in · dark");
     expect(pack.textContent).toContain("第 3 遍 · 不看台词");
     expect(pack.textContent).toContain("停一下 → 从句首重说 → 继续演");
+    expect(pack.textContent).toContain("句子加长器");
+    expect(pack.textContent).toContain("and 加一个动作或细节");
+    expect(pack.textContent).toContain("because 说出理由");
+    expect(pack.querySelectorAll(".sentence-expander-line")).toHaveLength(2);
     expect(pack.querySelectorAll(".daughter-line .fluency-round")).toHaveLength(21);
     expect(Array.from(pack.querySelectorAll(".daughter-line-number"), (node) => node.textContent)).toEqual(["#1", "#4", "#6", "#9", "#12", "#15", "#18"]);
     expect(pack.querySelectorAll(".daughter-action")).toHaveLength(4);
