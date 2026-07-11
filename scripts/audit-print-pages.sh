@@ -181,12 +181,12 @@ wait "$chrome_pid" >/dev/null 2>&1 || true
 
 word_bank_pages=$($pdfinfo_bin "$word_bank_pdf" | awk '/^Pages:/ { print $2 }')
 assert_a4 "$word_bank_pdf" "cumulative review book"
-if test "$word_bank_pages" != "5"; then
-  echo "error: cumulative review book rendered $word_bank_pages pages, expected 5" >&2
+if test "$word_bank_pages" != "6"; then
+  echo "error: cumulative review book rendered $word_bank_pages pages, expected 6" >&2
   exit 1
 fi
 "$pdftotext_bin" "$word_bank_pdf" "$temporary_root/word-bank.txt"
-if ! grep -q "1 / 5" "$temporary_root/word-bank.txt" || ! grep -q "5 / 5" "$temporary_root/word-bank.txt"; then
+if ! grep -q "1 / 6" "$temporary_root/word-bank.txt" || ! grep -q "6 / 6" "$temporary_root/word-bank.txt"; then
   echo "error: cumulative review book is missing its first or final page marker" >&2
   exit 1
 fi

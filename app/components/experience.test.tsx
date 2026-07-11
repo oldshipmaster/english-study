@@ -94,20 +94,24 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("region", { name: "6 课英语成长地图" })).toBeTruthy();
   });
 
-  it("opens a five-page cumulative review book with 48 words, 12 patterns, and a personal error log", async () => {
+  it("opens a six-page cumulative review book with 48 words, 12 patterns, an error log, and a personal word collection", async () => {
     const user = userEvent.setup();
     const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
     render(<Home />);
     await user.click(screen.getByRole("button", { name: "打开 48 词 + 12 句型复习本" }));
     const wordBank = screen.getByRole("region", { name: "六课词句累计复习本" });
-    expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(5);
+    expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(6);
     expect(wordBank.querySelectorAll(".word-bank-item")).toHaveLength(48);
     wordBank.querySelectorAll(".word-bank-item").forEach((item) => expect(item.textContent).toContain("I/H/A"));
     expect(wordBank.textContent).toContain("I = 独立想起");
     expect(wordBank.querySelectorAll(".pattern-bank-item")).toHaveLength(12);
     expect(wordBank.querySelectorAll(".pattern-bank-notice")).toHaveLength(12);
     expect(wordBank.querySelectorAll(".pattern-error-row")).toHaveLength(6);
+    expect(wordBank.querySelectorAll(".personal-word-row")).toHaveLength(12);
     expect(wordBank.textContent).toContain("我的语法错题");
+    expect(wordBank.textContent).toContain("我的生词收藏册");
+    expect(wordBank.textContent).toContain("我在哪里遇到它");
+    expect(wordBank.textContent).toContain("先猜，再查，再用");
     expect(wordBank.textContent).toContain("圈人物/主语");
     stories.forEach(({ title, learningPack }) => {
       expect(wordBank.textContent).toContain(title);

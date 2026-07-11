@@ -34,7 +34,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
               <div className="word-bank-answer"><strong>折线下方是答案 · 做完再看：</strong> {Object.keys(story.vocabulary).join(" · ")}</div>
             </section>
           ))}
-          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 1} / 5</footer>
+          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 1} / 6</footer>
         </article>
       ))}
       {patternPages.map((group, pageIndex) => (
@@ -58,7 +58,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
               </section>
             ))}
           </div>
-          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 3} / 5</footer>
+          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 3} / 6</footer>
         </article>
       ))}
       <article className="word-bank-page pattern-error-page">
@@ -67,7 +67,17 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
         <div className="pattern-error-types">我常见的错误：□ 动作词形式　□ be 动词　□ 词序　□ 介词　□ 单复数　□ 句末标点</div>
         <section className="pattern-error-log"><h2>说错不是失败，是下一次能自己改正的线索</h2>{Array.from({ length: 6 }, (_, index) => <div className="pattern-error-row" key={index}><b>{index + 1}</b><div><p>我原来说 / 写：____________________________________________________________</p><p>改正后：__________________________________________________________________</p><p>我发现的规则：________________________________　第 2 天 I/H/A　　第 7 天 I/H/A</p></div></div>)}</section>
         <div className="pattern-error-finish"><strong>最后检查</strong><p>从上面选 2 句，换一个人物、动作、地点或物品，再说新句。</p><p>新句 1：________________________________________________　□ 不看提示</p><p>新句 2：________________________________________________　□ 不看提示</p></div>
-        <footer>StoryStage 六课词句累计复习本 · 5 / 5</footer>
+        <footer>StoryStage 六课词句累计复习本 · 5 / 6</footer>
+      </article>
+      <article className="word-bank-page personal-word-page">
+        <header className="word-bank-header"><div><p className="eyebrow">StoryStage · Words I chose</p><h1>我的生词收藏册</h1></div><div className="word-bank-name">姓名：________　开始日期：________</div></header>
+        <div className="word-bank-method"><strong>先猜，再查，再用：</strong>遇到想学的词先根据故事猜意思，再用可靠词典核对；写一个自己的记忆钩子，并在当天、第 2 天、第 7 天遮住答案说出来。</div>
+        <div className="personal-word-legend"><strong>收词标准：</strong>□ 我真的遇到过　□ 我想在生活里说　□ 我能写自己的句子　　I = 独立　H = 提示　A = 看答案</div>
+        <section className="personal-word-log" aria-label="12 个自选生词">
+          {Array.from({ length: 12 }, (_, index) => <div className="personal-word-row" key={index}><b>{index + 1}</b><div><p><strong>Word</strong> __________　意思 ________　我在哪里遇到它 ____________________</p><p>我的记忆钩子 __________________　我的句子 ______________________________</p></div><span>0天 I/H/A<br />2天 I/H/A<br />7天 I/H/A</span></div>)}
+        </section>
+        <div className="personal-word-finish"><strong>本页毕业挑战：</strong>任选 3 个词，不看答案讲一个 3 句小故事。　□ 完成　家长听到的词：________ / ________ / ________</div>
+        <footer>StoryStage 六课词句累计复习本 · 6 / 6</footer>
       </article>
     </section>
   );
