@@ -20,6 +20,7 @@ const story: Story = {
   ],
   lines: [],
   challenges: [],
+  learningPack: stories[0].learningPack,
 };
 
 describe("assignRoles", () => {

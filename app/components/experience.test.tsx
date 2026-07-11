@@ -9,6 +9,7 @@ import { ChallengePanel } from "./ChallengePanel";
 import { ScriptPlayer } from "./ScriptPlayer";
 import { PrintScript } from "./PrintScript";
 import { LEARNING_PACK_PAGE_COUNT } from "./LearningPackPrint";
+import type { RoleAssignment } from "../types";
 
 afterEach(() => {
   cleanup();
@@ -382,7 +383,7 @@ describe("StoryStage family story flow", () => {
     await user.click(screen.getByRole("button", { name: "开始演出" }));
 
     expect(onStart).toHaveBeenCalledOnce();
-    const assignments = onStart.mock.calls[0][0];
+    const assignments = onStart.mock.calls[0][0] as RoleAssignment[];
     expect(new Set(assignments.flatMap((assignment) => assignment.roleIds))).toEqual(
       new Set(story!.roles.map((role) => role.id)),
     );
@@ -398,7 +399,7 @@ describe("StoryStage family story flow", () => {
     await user.selectOptions(screen.getByLabelText(/Mia/), "parent1");
     await user.click(screen.getByRole("button", { name: "开始演出" }));
 
-    const assignments = onStart.mock.calls[0][0];
+    const assignments = onStart.mock.calls[0][0] as RoleAssignment[];
     expect(assignments.map((assignment) => assignment.roleIds)).toEqual([["dad"], ["mia"], ["grandma"]]);
   });
 
@@ -411,11 +412,11 @@ describe("StoryStage family story flow", () => {
     await user.selectOptions(screen.getByLabelText("女儿演哪个角色？"), "dad");
     await user.click(screen.getByRole("button", { name: "开始演出" }));
 
-    const assignments = onStart.mock.calls[0][0];
+    const assignments = onStart.mock.calls[0][0] as RoleAssignment[];
     const daughter = assignments.find((assignment) => assignment.personId === "daughter");
     const parent = assignments.find((assignment) => assignment.personId === "parent1");
-    expect(daughter.roleIds).toEqual(["dad"]);
-    expect(parent.roleIds).toEqual(["mia", "grandma"]);
+    expect(daughter?.roleIds).toEqual(["dad"]);
+    expect(parent?.roleIds).toEqual(["mia", "grandma"]);
     expect(new Set(assignments.flatMap((assignment) => assignment.roleIds))).toEqual(
       new Set(story.roles.map((role) => role.id)),
     );
