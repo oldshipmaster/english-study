@@ -94,18 +94,20 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("region", { name: "6 课英语成长地图" })).toBeTruthy();
   });
 
-  it("opens a four-page cumulative review book with 48 words and 12 sentence patterns", async () => {
+  it("opens a five-page cumulative review book with 48 words, 12 patterns, and a personal error log", async () => {
     const user = userEvent.setup();
     const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
     render(<Home />);
     await user.click(screen.getByRole("button", { name: "打开 48 词 + 12 句型复习本" }));
     const wordBank = screen.getByRole("region", { name: "六课词句累计复习本" });
-    expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(4);
+    expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(5);
     expect(wordBank.querySelectorAll(".word-bank-item")).toHaveLength(48);
     wordBank.querySelectorAll(".word-bank-item").forEach((item) => expect(item.textContent).toContain("I/H/A"));
     expect(wordBank.textContent).toContain("I = 独立想起");
     expect(wordBank.querySelectorAll(".pattern-bank-item")).toHaveLength(12);
     expect(wordBank.querySelectorAll(".pattern-bank-notice")).toHaveLength(12);
+    expect(wordBank.querySelectorAll(".pattern-error-row")).toHaveLength(6);
+    expect(wordBank.textContent).toContain("我的语法错题");
     expect(wordBank.textContent).toContain("圈人物/主语");
     stories.forEach(({ title, learningPack }) => {
       expect(wordBank.textContent).toContain(title);
@@ -134,6 +136,7 @@ describe("StoryStage family story flow", () => {
     expect(creator.querySelectorAll(".creator-starter")).toHaveLength(6);
     expect(creator.textContent).toContain("卡住 30 秒再看");
     expect(creator.textContent).toContain("2 人时由家长 1 兼演");
+    expect(creator.textContent).toContain("至少 1 个来自我的生词救援站");
     expect(creator.querySelectorAll(".creator-line")).toHaveLength(18);
     expect(creator.querySelectorAll(".creator-line-number")[17].textContent).toBe("#18");
     expect(creator.textContent).toContain("第 7 天重演");

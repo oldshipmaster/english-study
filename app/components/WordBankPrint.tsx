@@ -34,7 +34,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
               <div className="word-bank-answer"><strong>折线下方是答案 · 做完再看：</strong> {Object.keys(story.vocabulary).join(" · ")}</div>
             </section>
           ))}
-          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 1} / 4</footer>
+          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 1} / 5</footer>
         </article>
       ))}
       {patternPages.map((group, pageIndex) => (
@@ -58,9 +58,17 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
               </section>
             ))}
           </div>
-          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 3} / 4</footer>
+          <footer>StoryStage 六课词句累计复习本 · {pageIndex + 3} / 5</footer>
         </article>
       ))}
+      <article className="word-bank-page pattern-error-page">
+        <header className="word-bank-header"><div><p className="eyebrow">StoryStage · My grammar repairs</p><h1>我的语法错题本</h1></div><div className="word-bank-name">姓名：________　日期：________</div></header>
+        <div className="word-bank-method"><strong>只记自己真正说错或写错的句子：</strong>先保留原句，再改正并写出规则；隔一天和隔一周遮住答案重说。I = 独立，H = 提示，A = 看答案。</div>
+        <div className="pattern-error-types">我常见的错误：□ 动作词形式　□ be 动词　□ 词序　□ 介词　□ 单复数　□ 句末标点</div>
+        <section className="pattern-error-log"><h2>说错不是失败，是下一次能自己改正的线索</h2>{Array.from({ length: 6 }, (_, index) => <div className="pattern-error-row" key={index}><b>{index + 1}</b><div><p>我原来说 / 写：____________________________________________________________</p><p>改正后：__________________________________________________________________</p><p>我发现的规则：________________________________　第 2 天 I/H/A　　第 7 天 I/H/A</p></div></div>)}</section>
+        <div className="pattern-error-finish"><strong>最后检查</strong><p>从上面选 2 句，换一个人物、动作、地点或物品，再说新句。</p><p>新句 1：________________________________________________　□ 不看提示</p><p>新句 2：________________________________________________　□ 不看提示</p></div>
+        <footer>StoryStage 六课词句累计复习本 · 5 / 5</footer>
+      </article>
     </section>
   );
 }
