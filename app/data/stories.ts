@@ -88,7 +88,7 @@ const storyCatalog: Omit<Story, "learningPack">[] = [
     ],
   },
   {
-    id: "secret-tree-house", title: "The Secret Tree House", chineseTitle: "秘密树屋", category: "fantasy", minutes: 12, level: "Elementary",
+    id: "secret-tree-house", title: "The Secret Tree House", chineseTitle: "秘密树屋", category: "fantasy", minutes: 10, level: "Elementary",
     vocabulary: { secret: "秘密", tree: "树", ladder: "梯子", map: "地图", key: "钥匙", window: "窗户", brave: "勇敢的", together: "一起" },
     roles: [
       { id: "lily", name: "Lily", emoji: "🧚", childFriendly: true },
@@ -156,7 +156,7 @@ const storyCatalog: Omit<Story, "learningPack">[] = [
     ],
   },
   {
-    id: "class-talent-show", title: "The Class Talent Show", chineseTitle: "班级才艺秀", category: "school", minutes: 12, level: "Elementary",
+    id: "class-talent-show", title: "The Class Talent Show", chineseTitle: "班级才艺秀", category: "school", minutes: 10, level: "Elementary",
     vocabulary: { talent: "才艺", stage: "舞台", practice: "练习", nervous: "紧张的", costume: "服装", applause: "掌声", perform: "表演", together: "一起" },
     roles: [
       { id: "ava", name: "Ava", emoji: "👧", childFriendly: true },
@@ -190,7 +190,7 @@ const storyCatalog: Omit<Story, "learningPack">[] = [
     ],
   },
   {
-    id: "cloud-postman", title: "The Cloud Postman", chineseTitle: "云朵邮差", category: "fantasy", minutes: 12, level: "Elementary",
+    id: "cloud-postman", title: "The Cloud Postman", chineseTitle: "云朵邮差", category: "fantasy", minutes: 10, level: "Elementary",
     vocabulary: { cloud: "云", postman: "邮差", letter: "信", address: "地址", storm: "暴风雨", feather: "羽毛", deliver: "递送", promise: "承诺" },
     roles: [
       { id: "ruby", name: "Ruby", emoji: "👧", childFriendly: true },

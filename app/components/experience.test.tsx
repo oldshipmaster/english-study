@@ -36,6 +36,7 @@ describe("StoryStage family story flow", () => {
       "The Cloud Postman",
     ]);
     expect(stories.every((story) => story.roles.length === 3 && story.lines.length === 18 && story.challenges.length === 3 && Object.keys(story.vocabulary).length === 8)).toBe(true);
+    expect(stories.every((story) => story.minutes >= 8 && story.minutes <= 10)).toBe(true);
     expect(screen.getByRole("heading", { name: "今晚，把英语故事演出来。" })).toBeTruthy();
     expect(screen.getByText("适合 9–11 岁小学基础 · 每次 8–10 分钟 · 以纸质练习为主")).toBeTruthy();
     expect(screen.getByRole("link", { name: "先看纸质练习" }).getAttribute("href")).toBe("#paper-tools");
