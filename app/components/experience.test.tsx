@@ -97,7 +97,8 @@ describe("StoryStage family story flow", () => {
     expect(script.querySelectorAll(".print-line.is-focus-line")).toHaveLength(7);
     expect(script.querySelectorAll(".role-rehearsal-check")).toHaveLength(3);
     expect(script.textContent).toContain("先听到上一句再开口");
-    expect(script.textContent).toContain("只看关键词");
+    expect(script.textContent).toContain("每句圈 1–3 个关键词");
+    expect(script.textContent).toContain("只看圈词");
   });
 
   it("renders a direct third-person script in three-player mode without dropping context", () => {
