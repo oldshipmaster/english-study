@@ -54,6 +54,16 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "2 人" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "3 人" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "1 人" })).toBeNull();
+    expect(screen.getByRole("button", { name: "先打印纸质学习包" })).toBeTruthy();
+  });
+
+  it("opens the paper learning pack directly from role assignment", async () => {
+    const user = userEvent.setup();
+    render(<RoleAssignmentView story={moonlightStory} onBack={() => undefined} onStart={() => undefined} />);
+    await user.click(screen.getByRole("button", { name: "先打印纸质学习包" }));
+    expect(screen.getByRole("article", { name: "彩色故事学习包" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "收起打印区" })).toBeTruthy();
   });
 
   it("starts two-player mode with every story role covered", async () => {

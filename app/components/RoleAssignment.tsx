@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { assignRoles } from "../lib/session";
 import type { PlayerCount, RoleAssignment, Story } from "../types";
+import { PrintScript } from "./PrintScript";
 
 type RoleAssignmentViewProps = {
   story: Story;
@@ -59,6 +60,7 @@ function swapRoleOwners(
 export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentViewProps) {
   const [playerCount, setPlayerCount] = useState<PlayerCount>(2);
   const [assignments, setAssignments] = useState<RoleAssignment[]>(() => assignRoles(story, 2));
+  const [showPrintPanel, setShowPrintPanel] = useState(false);
   const daughterRoleId = assignments.find((assignment) => assignment.personId === "daughter")?.roleIds[0];
 
   function choosePlayerCount(count: PlayerCount) {
@@ -131,7 +133,8 @@ export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentVie
         )}
       </section>
 
-      <footer className="start-bar"><p>全员就位，故事马上开始。</p><button className="start-button" onClick={() => onStart(assignments)} type="button">开始演出 <span aria-hidden="true">→</span></button></footer>
+      <footer className="start-bar"><p>角色确定后，可以先打印，也可以直接开始排练。</p><div className="assignment-actions"><button className="paper-first-button" aria-expanded={showPrintPanel} onClick={() => setShowPrintPanel((current) => !current)} type="button">{showPrintPanel ? "收起打印区" : "先打印纸质学习包"}</button><button className="start-button" onClick={() => onStart(assignments)} type="button">开始演出 <span aria-hidden="true">→</span></button></div></footer>
+      {showPrintPanel ? <PrintScript story={story} assignments={assignments} /> : null}
     </main>
   );
 }
