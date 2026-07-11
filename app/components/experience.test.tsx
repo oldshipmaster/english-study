@@ -468,6 +468,7 @@ describe("StoryStage family story flow", () => {
     expect(printableScript.textContent).toContain(moonlightStory.lines[1].english);
     expect(printableScript.textContent).toContain("粗框和下划线是我的台词");
     expect(printableScript.textContent).toContain("其他台词完整保留");
+    expect(screen.getByText("角色剧本保留全部 18 句，只重点标出所选角色。")).toBeTruthy();
     expect(screen.getByRole("button", { name: "打印女儿的角色剧本" })).toBeTruthy();
   });
 
