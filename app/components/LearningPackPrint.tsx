@@ -1,5 +1,7 @@
 import type { RoleAssignment, Story } from "../types";
 
+export const LEARNING_PACK_PAGE_COUNT = 17;
+
 const personNames = { daughter: "女儿", parent1: "家长 1", parent2: "家长 2" } as const;
 const cueStopWords = new Set(["a", "an", "and", "are", "can", "do", "here", "how", "i", "is", "it", "our", "the", "this", "to", "we", "will", "you", "your"]);
 

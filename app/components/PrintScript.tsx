@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import type { RoleAssignment, Story } from "../types";
-import { LearningPackPrint } from "./LearningPackPrint";
+import { LEARNING_PACK_PAGE_COUNT, LearningPackPrint } from "./LearningPackPrint";
 
 type PrintScriptProps = {
   story: Story;
@@ -53,8 +53,8 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
           ))}
         </div>
         <button className="print-action primary-control" type="button" onClick={printScript}>打印{printLabel}</button>
-        <div className="print-settings-note"><strong>A4 · 彩色 · 100% 缩放 · 开启背景图形</strong><span>{printMode === "learning-pack" ? "完整学习包共 17 页；打印词卡时关闭双面打印。" : selectedPerson ? "角色剧本保留全部 18 句，只重点标出所选角色。" : "完整家庭剧本保留全部 18 句和故事上下文。"}</span></div>
-        {printMode === "learning-pack" ? <details className="pack-page-guide"><summary>17 页怎么用？打印一次，7 天复用</summary><div><span>第 1–2 页：任务路线、8 个本课词和生词救援</span><span>第 3–5 页：三场彩色完整剧本，不在场景中间跨页</span><span>第 6–9 页：女儿台词、句型、拼图和语法侦探</span><span>第 10–12 页：开口挑战、复述和家庭聊天</span><span>第 13–14 页：可折叠词卡与句型卡</span><span>第 15–16 页：间隔复习与跨故事旧词</span><span>第 17 页：家长答案和第 0/2/7 天记录</span></div></details> : null}
+        <div className="print-settings-note"><strong>A4 · 彩色 · 100% 缩放 · 开启背景图形</strong><span>{printMode === "learning-pack" ? `完整学习包共 ${LEARNING_PACK_PAGE_COUNT} 页；打印词卡时关闭双面打印。` : selectedPerson ? "角色剧本保留全部 18 句，只重点标出所选角色。" : "完整家庭剧本保留全部 18 句和故事上下文。"}</span></div>
+        {printMode === "learning-pack" ? <details className="pack-page-guide"><summary>{LEARNING_PACK_PAGE_COUNT} 页怎么用？打印一次，7 天复用</summary><div><span>第 1–2 页：任务路线、8 个本课词和生词救援</span><span>第 3–5 页：三场彩色完整剧本，不在场景中间跨页</span><span>第 6–9 页：女儿台词、句型、拼图和语法侦探</span><span>第 10–12 页：开口挑战、复述和家庭聊天</span><span>第 13–14 页：可折叠词卡与句型卡</span><span>第 15–16 页：间隔复习与跨故事旧词</span><span>第 17 页：家长答案和第 0/2/7 天记录</span></div></details> : null}
         {printError ? <p className="print-fallback" role="alert">无法自动打开打印窗口，请使用浏览器菜单中的“打印”。</p> : null}
       </div>
 

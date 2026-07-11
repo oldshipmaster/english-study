@@ -8,6 +8,7 @@ import { RoleAssignmentView } from "./RoleAssignment";
 import { ChallengePanel } from "./ChallengePanel";
 import { ScriptPlayer } from "./ScriptPlayer";
 import { PrintScript } from "./PrintScript";
+import { LEARNING_PACK_PAGE_COUNT } from "./LearningPackPrint";
 
 afterEach(() => {
   cleanup();
@@ -358,7 +359,8 @@ describe("StoryStage family story flow", () => {
   it("offers a seventeen-page color learning pack without dropping script lines or cards", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(17);
+    expect(LEARNING_PACK_PAGE_COUNT).toBe(17);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(LEARNING_PACK_PAGE_COUNT);
     expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
     expect(pack.querySelectorAll(".pack-script-scene")).toHaveLength(3);
     expect(pack.querySelectorAll(".scene-check")).toHaveLength(3);
