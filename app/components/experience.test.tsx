@@ -58,10 +58,12 @@ describe("StoryStage family story flow", () => {
   });
 
   it("keeps all eight current-story words and three review words in separate pools", () => {
-    stories.forEach((story) => {
+    stories.forEach((story, index) => {
       expect(story.learningPack.words.map(({ word }) => word)).toEqual(Object.keys(story.vocabulary));
       expect(story.learningPack.reviewWords).toHaveLength(3);
       expect(story.learningPack.reviewWords.every(({ review }) => review)).toBe(true);
+      expect(story.learningPack.reviewWords.every(({ sourceStory }) => Boolean(sourceStory))).toBe(true);
+      if (index >= 3) expect(new Set(story.learningPack.reviewWords.map(({ sourceStory }) => sourceStory)).size).toBe(3);
     });
   });
 
@@ -327,6 +329,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("间隔 10 分钟后");
     expect(pack.textContent).toContain("旧词 + 新词");
     expect(pack.querySelectorAll(".rolling-review-word")).toHaveLength(3);
+    expect(pack.querySelectorAll(".review-source")).toHaveLength(3);
     expect(pack.textContent).toContain("第二天");
     expect(pack.textContent).toContain("第七天");
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);

@@ -245,9 +245,18 @@ const curatedPatterns: Record<string, SentencePattern[]> = {
 
 function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
   const vocabulary = Object.entries(story.vocabulary);
-  const previous = index > 0 ? Object.entries(storyCatalog[index - 1].vocabulary).slice(0, 3) : vocabulary.slice(5, 8);
   const words = vocabulary.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` }));
-  const reviewWords = previous.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: true, example: `Can you use ${word} in a new sentence?` }));
+  const reviewSources = index > 0 ? storyCatalog.slice(0, index).reverse().slice(0, 3) : [story];
+  const usedReviewWords = new Set<string>();
+  const reviewWords = Array.from({ length: 3 }, (_, reviewIndex) => {
+    const source = reviewSources[reviewIndex % reviewSources.length];
+    const entries = Object.entries(source.vocabulary);
+    let entryIndex = (index * 2 + reviewIndex * 3) % entries.length;
+    while (usedReviewWords.has(entries[entryIndex][0])) entryIndex = (entryIndex + 1) % entries.length;
+    const [word, meaning] = entries[entryIndex];
+    usedReviewWords.add(word);
+    return { word, meaning, pronunciation: pronunciationCues[word], review: true, example: `Can you use ${word} in a new sentence?`, sourceStory: source.chineseTitle };
+  });
   const patterns = curatedPatterns[story.id];
   return {
     words,

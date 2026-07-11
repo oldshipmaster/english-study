@@ -142,6 +142,7 @@ p { line-height: 1.6; }
 .rolling-rule { border: 2px solid #8c6bb1; background: #f5effb; padding: 9px; }
 .rolling-review-word { display: grid; gap: 5px; border-left: 6px solid #8c6bb1; background: #faf7fd; padding: 10px 12px; margin: 10px 0; }
 .rolling-review-word p { margin: 2px 0; }
+.review-source { color: #6a4b8a; font-size: 0.76rem; font-weight: 800; }
 .mixed-sentence { border: 2px solid #e39554; background: #fff6e9; padding: 10px 12px; margin-top: 14px; }
 .transfer-rule { border: 2px solid #d87b65; background: #fff1ed; padding: 8px 10px; }
 .pattern-transfer { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: end; margin-top: 8px; font-weight: 800; }
