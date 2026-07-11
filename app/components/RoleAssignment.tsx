@@ -103,7 +103,9 @@ export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentVie
               <div className="role-list">
                 {assignment.roleIds.map((roleId, index) => {
                   const role = story.roles.find((item) => item.id === roleId)!;
-                  return <div className="role-chip" key={role.id}><span aria-hidden="true">{role.emoji}</span><span><strong>{role.name}</strong>{playerCount === 2 && assignment.personId === "parent1" && index === 1 ? <small>兼演</small> : null}</span></div>;
+                  const lineCount = story.lines.filter((line) => line.roleId === role.id).length;
+                  const isExtraParentRole = playerCount === 2 && assignment.personId === "parent1" && index === 1;
+                  return <div className="role-chip" key={role.id}><span aria-hidden="true">{role.emoji}</span><span><strong>{role.name}</strong><small>{lineCount} 句{role.childFriendly ? " · 推荐给孩子" : ""}{isExtraParentRole ? " · 兼演" : ""}</small></span></div>;
                 })}
               </div>
             </article>
@@ -116,7 +118,7 @@ export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentVie
         {playerCount === 2 ? (
           <div className="role-selects role-selects--daughter">
             <label><span>女儿演哪个角色？</span><select value={daughterRoleId} onChange={(event) => changeRoleOwner(event.target.value, "daughter")}>
-              {story.roles.map((role) => <option value={role.id} key={role.id}>{role.emoji} {role.name}</option>)}
+              {story.roles.map((role) => <option value={role.id} key={role.id}>{role.emoji} {role.name} · {story.lines.filter((line) => line.roleId === role.id).length} 句</option>)}
             </select></label>
           </div>
         ) : (

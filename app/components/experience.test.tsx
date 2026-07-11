@@ -127,6 +127,8 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "3 人" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "1 人" })).toBeNull();
     expect(screen.getByRole("button", { name: "先打印纸质学习包" })).toBeTruthy();
+    expect(screen.getAllByText("7 句 · 推荐给孩子").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("6 句").length).toBeGreaterThan(0);
   });
 
   it("opens the paper learning pack directly from role assignment", async () => {
@@ -146,7 +148,7 @@ describe("StoryStage family story flow", () => {
 
     render(<RoleAssignmentView story={story!} onBack={() => undefined} onStart={onStart} />);
     await user.click(screen.getByRole("button", { name: "2 人" }));
-    expect(screen.getByText("兼演")).toBeTruthy();
+    expect(screen.getByText(/兼演/)).toBeTruthy();
     await user.click(screen.getByRole("button", { name: "开始演出" }));
 
     expect(onStart).toHaveBeenCalledOnce();
