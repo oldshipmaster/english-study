@@ -343,17 +343,21 @@ describe("StoryStage family story flow", () => {
   it("shows reliable color A4 printer settings before printing", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     expect(screen.getByText("A4 · 彩色 · 100% 缩放 · 开启背景图形")).toBeTruthy();
-    expect(screen.getByText(/完整学习包共 16 页/)).toBeTruthy();
-    expect(screen.getByText("16 页怎么用？打印一次，7 天复用")).toBeTruthy();
-    expect(screen.getByText("第 3–4 页：彩色完整剧本，保留全部上下文")).toBeTruthy();
-    expect(screen.getByText("第 14–15 页：间隔复习与跨故事旧词")).toBeTruthy();
+    expect(screen.getByText(/完整学习包共 17 页/)).toBeTruthy();
+    expect(screen.getByText("17 页怎么用？打印一次，7 天复用")).toBeTruthy();
+    expect(screen.getByText("第 3–5 页：三场彩色完整剧本，不在场景中间跨页")).toBeTruthy();
+    expect(screen.getByText("第 15–16 页：间隔复习与跨故事旧词")).toBeTruthy();
   });
 
-  it("offers a sixteen-page color learning pack without dropping script lines or cards", () => {
+  it("offers a seventeen-page color learning pack without dropping script lines or cards", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(16);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(17);
     expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
+    expect(pack.querySelectorAll(".pack-script-scene")).toHaveLength(3);
+    expect(pack.querySelectorAll(".scene-check")).toHaveLength(3);
+    expect(pack.textContent).toContain("用一句中文总结本场");
+    expect(pack.textContent).toContain("盖住中文连续演");
     expect(pack.querySelectorAll(".pack-direction")).toHaveLength(4);
     expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
