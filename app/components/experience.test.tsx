@@ -131,6 +131,8 @@ describe("StoryStage family story flow", () => {
     expect(creator.querySelectorAll(".creator-page")).toHaveLength(4);
     expect(creator.querySelectorAll(".creator-word-row")).toHaveLength(8);
     expect(creator.querySelectorAll(".creator-pattern-row")).toHaveLength(2);
+    expect(creator.querySelectorAll(".creator-starter")).toHaveLength(6);
+    expect(creator.textContent).toContain("卡住 30 秒再看");
     expect(creator.querySelectorAll(".creator-line")).toHaveLength(18);
     expect(creator.querySelectorAll(".creator-line-number")[17].textContent).toBe("#18");
     expect(creator.textContent).toContain("第 7 天重演");

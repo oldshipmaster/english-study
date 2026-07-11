@@ -1,4 +1,5 @@
 const sceneNames = ["开场 · 人物和地点", "问题 · 尝试和合作", "结局 · 解决和庆祝"];
+const starterFrames = ["There is...", "I can...", "Let us...", "I will...", "We must...", "...is too...for..."];
 
 export function StoryCreatorPrint() {
   return (
@@ -10,6 +11,7 @@ export function StoryCreatorPrint() {
         <section className="creator-cast"><h2>2 · 2–3 人分角色</h2>{["女儿", "家长 1", "家长 2（可选）"].map((person, index) => <div key={person}><strong>{index + 1}. {person}</strong><span>英文角色名：____________</span><span>人物特点 / 动作：____________________</span></div>)}</section>
         <section><h2>3 · 我主动选择的 8 个词</h2><p className="creator-help">优先选仍在红色或黄色盒里的词；至少包含 2 个动作词。</p><div className="creator-word-grid">{Array.from({ length: 8 }, (_, index) => <div className="creator-word-row" key={index}><b>{index + 1}</b><span>英文：__________</span><span>意思：________</span><span>词性：______</span><span>我要放在第 __ 句</span></div>)}</div></section>
         <section><h2>4 · 我选择的 2 个句型</h2>{Array.from({ length: 2 }, (_, index) => <div className="creator-pattern-row" key={index}><strong>句型 {index + 1}</strong><span>句型骨架：________________________________________</span><span>我的新句：________________________________________</span></div>)}</section>
+        <section className="creator-starter-bank"><h2>卡住 30 秒再看 · 句型求助条</h2><p>只选一个开头，把人物、动作、地点或物品换成自己故事里的内容。</p><div>{starterFrames.map((frame) => <span className="creator-starter" key={frame}>{frame}</span>)}</div></section>
         <footer>StoryStage 家庭原创剧本工坊 · 1 / 4</footer>
       </article>
       {sceneNames.map((sceneName, sceneIndex) => (
