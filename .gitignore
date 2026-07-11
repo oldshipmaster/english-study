@@ -41,4 +41,5 @@ next-env.d.ts
 /outputs/
 /work/
 /.superpowers/
+/.worktrees/
 .dev.vars*
