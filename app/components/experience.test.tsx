@@ -508,6 +508,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("查证后");
     expect(pack.textContent).toContain("我自己的句子");
     expect(pack.querySelectorAll(".unknown-word-journal tbody tr")).toHaveLength(4);
+    expect(Array.from(pack.querySelectorAll(".unknown-word-journal th")).map((cell) => cell.textContent)).toEqual(["生词", "先猜意思", "查证后", "我自己的句子", "第 2 天 I/H/A", "第 7 天 I/H/A"]);
     expect(pack.querySelectorAll(".word-memory-card .card-front")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .card-back")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .word-pronunciation")).toHaveLength(8);
