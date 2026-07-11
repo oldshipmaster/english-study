@@ -194,6 +194,9 @@ p { line-height: 1.6; }
 .review-passport { width: 100%; border-collapse: collapse; margin: 18px 0; }
 .review-passport th, .review-passport td { border: 1px solid #7890a6; padding: 12px 8px; text-align: center; }
 .review-passport thead { background: #eaf6f1; }
+.spelling-practice { width: 100%; border-collapse: collapse; font-size: .78rem; }
+.spelling-practice th, .spelling-practice td { border: 1px solid #7890a6; padding: 5px; text-align: center; }
+.spelling-practice thead { background: #fff1da; }
 
 @media print {
   .learning-pack-print { display: block; }

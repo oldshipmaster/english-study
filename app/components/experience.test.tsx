@@ -382,6 +382,9 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".review-source")).toHaveLength(3);
     expect(pack.textContent).toContain("第二天");
     expect(pack.textContent).toContain("第七天");
+    expect(pack.textContent).toContain("看 → 盖 → 写 → 查");
+    expect(pack.textContent).toContain("只练我自己选的难词");
+    expect(pack.querySelectorAll(".spelling-practice tbody tr")).toHaveLength(4);
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
     expect(pack.textContent).toContain("我的记词工具箱");
     expect(pack.textContent).toContain("本次我主动选的 3 个难词");
