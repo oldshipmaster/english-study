@@ -5,8 +5,16 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { stories } from "../data/stories";
 import Home from "../page";
 import { RoleAssignmentView } from "./RoleAssignment";
+import { ChallengePanel } from "./ChallengePanel";
+import { ScriptPlayer } from "./ScriptPlayer";
 
 afterEach(cleanup);
+
+const moonlightStory = stories.find(({ id }) => id === "moonlight-picnic")!;
+const twoPlayerAssignments = [
+  { personId: "daughter" as const, roleIds: ["mia"] },
+  { personId: "parent1" as const, roleIds: ["dad", "grandma"] },
+];
 
 describe("StoryStage family story flow", () => {
   it("shows six stories and filters the library by category", async () => {
@@ -92,5 +100,112 @@ describe("StoryStage family story flow", () => {
     expect(new Set(assignments.flatMap((assignment) => assignment.roleIds))).toEqual(
       new Set(story.roles.map((role) => role.id)),
     );
+  });
+
+  it("navigates the script, identifies the actor, and toggles hints and performance mode", async () => {
+    const user = userEvent.setup();
+    render(
+      <ScriptPlayer
+        story={moonlightStory}
+        assignments={twoPlayerAssignments}
+        mode="rehearsal"
+        showHints={false}
+        onComplete={() => undefined}
+        onExit={() => undefined}
+      />,
+    );
+
+    expect(screen.getByText("Mia · 女儿")).toBeTruthy();
+    expect(screen.getByText("Today is our picnic day!")).toBeTruthy();
+    expect(screen.getByText("1 / 18")).toBeTruthy();
+    expect(screen.queryByText("今天是我们的野餐日！")).toBeNull();
+    expect((screen.getByRole("button", { name: "上一句" }) as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.getByRole("button", { name: "下一句" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "显示中文提示" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "切换到演出模式" })).toBeTruthy();
+
+    await user.click(screen.getByRole("button", { name: "显示中文提示" }));
+    expect(screen.getByText("今天是我们的野餐日！")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "切换到演出模式" }));
+    expect(screen.getByText("演出模式")).toBeTruthy();
+    expect(screen.queryByText("今天是我们的野餐日！")).toBeNull();
+
+    await user.click(screen.getByRole("button", { name: "下一句" }));
+    expect(screen.getByText("Dad · 家长 1")).toBeTruthy();
+    expect(screen.getByText("2 / 18")).toBeTruthy();
+    expect((screen.getByRole("button", { name: "上一句" }) as HTMLButtonElement).disabled).toBe(false);
+  });
+
+  it("supports ArrowLeft and ArrowRight without moving outside the script", async () => {
+    const user = userEvent.setup();
+    render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="rehearsal" showHints onComplete={() => undefined} onExit={() => undefined} />);
+
+    await user.keyboard("{ArrowLeft}");
+    expect(screen.getByText("1 / 18")).toBeTruthy();
+    await user.keyboard("{ArrowRight}{ArrowRight}");
+    expect(screen.getByText("3 / 18")).toBeTruthy();
+    await user.keyboard("{ArrowLeft}");
+    expect(screen.getByText("2 / 18")).toBeTruthy();
+  });
+
+  it("completes on the final line and exposes focusable named controls", async () => {
+    const user = userEvent.setup();
+    const onComplete = vi.fn();
+    const shortStory = { ...moonlightStory, lines: moonlightStory.lines.slice(0, 2) };
+    render(<ScriptPlayer story={shortStory} assignments={twoPlayerAssignments} mode="performance" showHints={false} onComplete={onComplete} onExit={() => undefined} />);
+
+    const exit = screen.getByRole("button", { name: "退出故事" });
+    const next = screen.getByRole("button", { name: "下一句" });
+    expect(exit.tabIndex).toBe(0);
+    expect(next.tabIndex).toBe(0);
+    await user.click(next);
+    await user.click(screen.getByRole("button", { name: "完成故事" }));
+    expect(onComplete).toHaveBeenCalledOnce();
+  });
+
+  it("locks each challenge answer and completes all three questions", async () => {
+    const user = userEvent.setup();
+    const onRestart = vi.fn();
+    const onChooseStory = vi.fn();
+    render(<ChallengePanel questions={moonlightStory.challenges} onRestart={onRestart} onChooseStory={onChooseStory} />);
+
+    expect(screen.getByText("1 / 3")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "It is dark" }));
+    expect(screen.getByText("Great listening!")).toBeTruthy();
+    expect((screen.getByRole("button", { name: "It is raining" }) as HTMLButtonElement).disabled).toBe(true);
+    await user.click(screen.getByRole("button", { name: "下一题" }));
+    await user.click(screen.getByRole("button", { name: "In a tree" }));
+    expect(screen.getByText("Wonderful work!")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "下一题" }));
+    await user.click(screen.getByRole("button", { name: "Paper stars" }));
+    expect(screen.getByText("You remembered it!")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "查看完成页" }));
+
+    expect(screen.queryByText(/score|排名|得分/i)).toBeNull();
+    await user.click(screen.getByRole("button", { name: "再演一次" }));
+    await user.click(screen.getByRole("button", { name: "选择新故事" }));
+    expect(onRestart).toHaveBeenCalledOnce();
+    expect(onChooseStory).toHaveBeenCalledOnce();
+  });
+
+  it("persists only safe preferences and restores the story at line one", async () => {
+    const user = userEvent.setup();
+    window.localStorage.clear();
+    const firstRender = render(<Home />);
+    await user.click(screen.getByRole("button", { name: "选择 The Moonlight Picnic" }));
+    await user.click(screen.getByRole("button", { name: "3 人" }));
+    await user.click(screen.getByRole("button", { name: "开始演出" }));
+    await user.click(screen.getByRole("button", { name: "显示中文提示" }));
+
+    expect(JSON.parse(window.localStorage.getItem("storystage.preferences")!)).toEqual({
+      storyId: "moonlight-picnic",
+      playerCount: 3,
+      showHints: true,
+    });
+    firstRender.unmount();
+    render(<Home />);
+    expect(screen.getByText("Today is our picnic day!")).toBeTruthy();
+    expect(screen.getByText("1 / 18")).toBeTruthy();
+    expect(screen.getByText("今天是我们的野餐日！")).toBeTruthy();
   });
 });
