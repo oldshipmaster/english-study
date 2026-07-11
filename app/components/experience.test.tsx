@@ -69,6 +69,9 @@ describe("StoryStage family story flow", () => {
     expect(journey.querySelectorAll(".journey-score")).toHaveLength(12);
     expect(journey.textContent).toContain("独立说出");
     expect(journey.textContent).toContain("句型脱稿");
+    expect(journey.querySelectorAll(".journey-personal-words")).toHaveLength(6);
+    expect(journey.textContent).toContain("主动收词");
+    expect(journey.textContent).toContain("第 7 天独立");
     expect(journey.textContent).toContain("每次练习后填数字");
     expect(journey.textContent).toContain("建议每周 1 个故事，6 周走完");
     expect(journey.textContent).not.toContain("涂一颗星");
