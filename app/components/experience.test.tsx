@@ -376,6 +376,11 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("本课学习目标");
     expect(pack.textContent).toContain("道具建议");
     expect(pack.querySelectorAll(".prop-chip")).toHaveLength(3);
+    expect(pack.textContent).toContain("今天怎么调难度？");
+    expect(pack.textContent).toContain("轻松版");
+    expect(pack.textContent).toContain("标准版");
+    expect(pack.textContent).toContain("挑战版");
+    expect(pack.querySelectorAll(".difficulty-option")).toHaveLength(3);
     expect(pack.querySelectorAll(".mission-goal")).toHaveLength(2);
     expect(pack.textContent).toContain("第 0 天 · 首演");
     expect(pack.textContent).toContain("第 2 天 · 唤醒");
