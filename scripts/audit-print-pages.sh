@@ -127,4 +127,37 @@ fi
 printf 'ok: %-24s %s A4 pages\n' "six-story-review-book" "$word_bank_pages"
 
 total_pages=$((total_pages + word_bank_pages))
-echo "Print audit passed: $pack_count learning packs plus the cumulative review book, $total_pages A4 pages total."
+
+journey_pdf="$temporary_root/journey.pdf"
+"$chrome" --headless=new --disable-gpu --no-pdf-header-footer \
+  --user-data-dir="$temporary_root/chrome-journey" \
+  --print-to-pdf="$journey_pdf" \
+  "http://127.0.0.1:4179/english-study/?journey=1" >/dev/null 2>&1 &
+chrome_pid=$!
+attempt=0
+while ! test -s "$journey_pdf"; do
+  attempt=$((attempt + 1))
+  if test "$attempt" -ge 100; then
+    kill "$chrome_pid" >/dev/null 2>&1 || true
+    echo "error: learning-journey PDF generation timed out" >&2
+    exit 1
+  fi
+  sleep 0.1
+done
+kill "$chrome_pid" >/dev/null 2>&1 || true
+wait "$chrome_pid" >/dev/null 2>&1 || true
+
+journey_pages=$($pdfinfo_bin "$journey_pdf" | awk '/^Pages:/ { print $2 }')
+if test "$journey_pages" != "1"; then
+  echo "error: learning journey rendered $journey_pages pages, expected 1" >&2
+  exit 1
+fi
+"$pdftotext_bin" "$journey_pdf" "$temporary_root/journey.txt"
+if ! grep -q "The Moonlight Picnic" "$temporary_root/journey.txt" || ! grep -q "The Cloud Postman" "$temporary_root/journey.txt"; then
+  echo "error: learning journey is missing its first or final story marker" >&2
+  exit 1
+fi
+printf 'ok: %-24s %s A4 page\n' "six-story-learning-journey" "$journey_pages"
+
+total_pages=$((total_pages + journey_pages))
+echo "Print audit passed: $pack_count learning packs plus both cumulative resources, $total_pages A4 pages total."
