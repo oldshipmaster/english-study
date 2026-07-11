@@ -75,21 +75,22 @@ describe("StoryStage family story flow", () => {
     expect(assignments.map((assignment) => assignment.roleIds)).toEqual([["dad"], ["mia"], ["grandma"]]);
   });
 
-  it("keeps the daughter on one child-friendly role in two-player mode", async () => {
+  it("lets two players choose a different daughter role without losing coverage", async () => {
     const user = userEvent.setup();
     const onStart = vi.fn();
     const story = stories.find(({ title }) => title === "The Moonlight Picnic")!;
     render(<RoleAssignmentView story={story} onBack={() => undefined} onStart={onStart} />);
 
-    const dadSelect = screen.getByLabelText(/Dad/) as HTMLSelectElement;
-    expect((dadSelect.querySelector('option[value="daughter"]') as HTMLOptionElement).disabled).toBe(true);
+    await user.selectOptions(screen.getByLabelText("女儿演哪个角色？"), "dad");
     await user.click(screen.getByRole("button", { name: "开始演出" }));
 
     const assignments = onStart.mock.calls[0][0];
     const daughter = assignments.find((assignment) => assignment.personId === "daughter");
-    const daughterRole = story.roles.find((role) => role.id === daughter.roleIds[0]);
-    expect(daughter.roleIds).toHaveLength(1);
-    expect(daughterRole?.childFriendly).toBe(true);
-    expect(assignments.find((assignment) => assignment.personId === "parent1").roleIds).toHaveLength(2);
+    const parent = assignments.find((assignment) => assignment.personId === "parent1");
+    expect(daughter.roleIds).toEqual(["dad"]);
+    expect(parent.roleIds).toEqual(["mia", "grandma"]);
+    expect(new Set(assignments.flatMap((assignment) => assignment.roleIds))).toEqual(
+      new Set(story.roles.map((role) => role.id)),
+    );
   });
 });

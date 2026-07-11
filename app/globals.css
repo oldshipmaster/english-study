@@ -61,6 +61,7 @@ p { line-height: 1.6; }
 .person-heading { display: flex; align-items: center; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid rgba(36,51,46,.25); }.person-heading h2 { font-size: 1.55rem; }.person-heading p { margin: 4px 0 0; color: var(--muted-ink); font-size: .85rem; }.person-emoji { font-size: 2.4rem; }
 .role-list { display: grid; gap: 10px; padding-top: 18px; }.role-chip { display: flex; align-items: center; gap: 12px; padding: 11px; border: 1px solid rgba(36,51,46,.35); background: var(--cream); }.role-chip > span:first-child { font-size: 1.6rem; }.role-chip small { display: block; margin-top: 3px; color: #a54231; font-weight: 800; }
 .role-controls { align-items: flex-start; }.role-selects { display: grid; grid-template-columns: repeat(3, minmax(150px, 1fr)); gap: 12px; flex: 1; }.role-selects label { display: grid; gap: 6px; font-size: .8rem; font-weight: 700; }.role-selects select { border: 1.5px solid var(--line); background: var(--cream); padding: 8px; }
+.role-selects--daughter { grid-template-columns: minmax(220px, 1fr); max-width: 360px; }
 .start-bar { margin-top: 22px; background: var(--mint); }.start-bar p { font-weight: 700; }.start-button { width: min(260px, 100%); margin: 0; }
 .ready-screen { display: grid; place-items: center; min-height: 100vh; padding: 32px; text-align: center; }.ready-screen h1 { font-size: clamp(3rem, 8vw, 6rem); }.ready-screen button { border: 1.5px solid var(--line); background: var(--paper); padding: 8px 18px; }
 

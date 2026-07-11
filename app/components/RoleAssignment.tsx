@@ -27,7 +27,11 @@ function swapRoleOwners(
   const nextOwner = assignments.find((assignment) => assignment.personId === nextPersonId);
   if (!currentOwner || !nextOwner || currentOwner.personId === nextPersonId) return assignments;
 
-  const roleToSwap = nextOwner.roleIds[0];
+  const isTwoPlayerCast = assignments.length === 2;
+  if (isTwoPlayerCast && nextPersonId !== "daughter") return null;
+
+  const daughter = assignments.find((assignment) => assignment.personId === "daughter");
+  const roleToSwap = isTwoPlayerCast ? daughter?.roleIds[0] : nextOwner.roleIds[0];
   if (!roleToSwap) return null;
 
   const candidate = assignments.map((assignment) => {
@@ -40,23 +44,22 @@ function swapRoleOwners(
     return assignment;
   });
   const coveredRoleIds = candidate.flatMap((assignment) => assignment.roleIds);
-  const daughter = candidate.find((assignment) => assignment.personId === "daughter");
+  const nextDaughter = candidate.find((assignment) => assignment.personId === "daughter");
   const parent1 = candidate.find((assignment) => assignment.personId === "parent1");
-  const isThreePlayerCast = candidate.length === 3 && candidate.every((assignment) => assignment.roleIds.length === 1);
-  const daughterRole = story.roles.find((role) => role.id === daughter?.roleIds[0]);
-  const isTwoPlayerCast = candidate.length === 2
-    && daughter?.roleIds.length === 1
-    && daughterRole?.childFriendly === true
+  const isValidThreePlayerCast = candidate.length === 3 && candidate.every((assignment) => assignment.roleIds.length === 1);
+  const isValidTwoPlayerCast = candidate.length === 2
+    && nextDaughter?.roleIds.length === 1
     && parent1?.roleIds.length === 2;
   const hasEveryRoleOnce = coveredRoleIds.length === story.roles.length
     && new Set(coveredRoleIds).size === story.roles.length;
 
-  return hasEveryRoleOnce && (isThreePlayerCast || isTwoPlayerCast) ? candidate : null;
+  return hasEveryRoleOnce && (isValidThreePlayerCast || isValidTwoPlayerCast) ? candidate : null;
 }
 
 export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentViewProps) {
   const [playerCount, setPlayerCount] = useState<PlayerCount>(2);
   const [assignments, setAssignments] = useState<RoleAssignment[]>(() => assignRoles(story, 2));
+  const daughterRoleId = assignments.find((assignment) => assignment.personId === "daughter")?.roleIds[0];
 
   function choosePlayerCount(count: PlayerCount) {
     setPlayerCount(count);
@@ -107,23 +110,25 @@ export function RoleAssignmentView({ story, onBack, onStart }: RoleAssignmentVie
       </section>
 
       <section className="role-controls" aria-labelledby="adjust-title">
-        <div><h2 id="adjust-title">想换角色？</h2><p>为每个故事角色选择演员，角色不会落空。</p></div>
-        <div className="role-selects">
-          {story.roles.map((role) => {
-            const owner = assignments.find((assignment) => assignment.roleIds.includes(role.id))!;
-            return (
-              <label key={role.id}><span>{role.emoji} {role.name}</span><select value={owner.personId} onChange={(event) => changeRoleOwner(role.id, event.target.value as RoleAssignment["personId"])}>
-                {assignments.map((assignment) => (
-                  <option
-                    disabled={swapRoleOwners(story, assignments, role.id, assignment.personId) === null}
-                    value={assignment.personId}
-                    key={assignment.personId}
-                  >{people[assignment.personId].name}</option>
-                ))}
-              </select></label>
-            );
-          })}
-        </div>
+        <div><h2 id="adjust-title">想换角色？</h2><p>{playerCount === 2 ? "选一个角色给女儿，其余两个由家长演。" : "交换两位演员的角色，角色不会落空。"}</p></div>
+        {playerCount === 2 ? (
+          <div className="role-selects role-selects--daughter">
+            <label><span>女儿演哪个角色？</span><select value={daughterRoleId} onChange={(event) => changeRoleOwner(event.target.value, "daughter")}>
+              {story.roles.map((role) => <option value={role.id} key={role.id}>{role.emoji} {role.name}</option>)}
+            </select></label>
+          </div>
+        ) : (
+          <div className="role-selects">
+            {story.roles.map((role) => {
+              const owner = assignments.find((assignment) => assignment.roleIds.includes(role.id))!;
+              return (
+                <label key={role.id}><span>{role.emoji} {role.name}</span><select value={owner.personId} onChange={(event) => changeRoleOwner(role.id, event.target.value as RoleAssignment["personId"])}>
+                  {assignments.map((assignment) => <option value={assignment.personId} key={assignment.personId}>{people[assignment.personId].name}</option>)}
+                </select></label>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       <footer className="start-bar"><p>全员就位，故事马上开始。</p><button className="start-button" onClick={() => onStart(assignments)} type="button">开始演出 <span aria-hidden="true">→</span></button></footer>
