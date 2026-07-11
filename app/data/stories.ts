@@ -342,13 +342,13 @@ function createLearningPack(story: Omit<Story, "learningPack">, index: number): 
     patterns,
     speakingChallenges: [
       { prompt: "不看剧本，说出故事开始发生了什么。", hint: story.lines[0].english },
-      { prompt: "用今天的句型向家人提出一个建议。", hint: patterns[1].template },
+      { prompt: `用句型“${patterns[1].title}”，换一个人物、动作、地点或物品说新句。`, hint: patterns[1].template },
       { prompt: "选择两个重点词，编一句新的台词。", hint: words.slice(0, 2).map(({ word }) => word).join(" + ") },
     ],
     retell: curatedRetells[story.id],
     conversationPrompts: conversationPrompts[story.id],
     props: storyProps[story.id],
-    parentPrompts: ["先说中文，请孩子说英文。", "只给首字母，再让孩子补完整词。", "请孩子换一个人物或动作造新句。"],
+    parentPrompts: ["先说中文，请孩子说英文。", "只给首字母，再让孩子补完整词。", "请孩子换一个人物、动作、地点或物品造新句。"],
   };
 }
 

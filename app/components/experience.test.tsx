@@ -159,6 +159,13 @@ describe("StoryStage family story flow", () => {
     }));
   });
 
+  it("aligns each sentence-transfer speaking challenge with that story's actual pattern", () => {
+    stories.forEach(({ learningPack }) => {
+      expect(learningPack.speakingChallenges[1].prompt).toContain(learningPack.patterns[1].title);
+      expect(learningPack.speakingChallenges[1].hint).toBe(learningPack.patterns[1].template);
+    });
+  });
+
   it("gives every story three personal conversation prompts with answer starters", () => {
     stories.forEach(({ learningPack }) => {
       expect(learningPack.conversationPrompts).toHaveLength(3);
