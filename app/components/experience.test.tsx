@@ -243,12 +243,18 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(9);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("句型与语法发现");
-    expect(pack.textContent).toContain("可裁剪记忆卡");
+    expect(pack.textContent).toContain("可折叠记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");
     expect(pack.textContent).toContain("第二天");
     expect(pack.textContent).toContain("第七天");
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
+    expect(pack.querySelectorAll(".word-memory-card .card-front")).toHaveLength(8);
+    expect(pack.querySelectorAll(".word-memory-card .card-back")).toHaveLength(8);
+    expect(pack.textContent).toContain("先回答，再沿中线翻卡");
+    expect(pack.textContent).toContain("我不会盒");
+    expect(pack.textContent).toContain("练习中盒");
+    expect(pack.textContent).toContain("已掌握盒");
     expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
   });
 

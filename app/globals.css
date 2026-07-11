@@ -104,8 +104,15 @@ p { line-height: 1.6; }
 .pattern-box, .speaking-task { border: 2px solid #b9a6d8; border-radius: 14px; padding: 14px; margin: 12px 0; background: #f7f1ff; }
 .pattern-template { font-size: 1.15rem; font-weight: 800; color: #17324d; }
 .memory-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.memory-card { min-height: 120px; border: 2px dashed #ef765f; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.memory-card { min-height: 210px; border: 2px dashed #ef765f; padding: 10px; display: grid; grid-template-rows: 1fr auto 1fr; gap: 6px; }
 .memory-card strong { font-size: 1.25rem; }
+.card-front, .card-back { display: flex; flex-direction: column; justify-content: center; gap: 6px; min-height: 80px; }
+.card-back { transform: rotate(180deg); background: #fff8e8; padding: 6px; }
+.card-fold-line { border-top: 1px dashed #7890a6; border-bottom: 1px dashed #7890a6; text-align: center; font-size: 9pt; color: #66798b; }
+.card-instructions { border: 2px solid #f2bd47; background: #fff9e8; padding: 10px; }
+.card-box-labels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+.card-box-labels span { border: 2px solid currentColor; padding: 12px; text-align: center; font-weight: 800; }
+.box-red { color: #a93d32; background: #fff0ed; }.box-yellow { color: #80600c; background: #fff8d8; }.box-green { color: #26765f; background: #eaf8f2; }
 .daughter-line, .pack-script-line { padding: 10px 12px; margin: 8px 0; border-left: 6px solid #f2bd47; background: #fff9e8; break-inside: avoid; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }
 .role-color-3 { border-color: #ef765f; background: #fff3f0; }
