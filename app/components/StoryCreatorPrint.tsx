@@ -1,5 +1,5 @@
 const sceneNames = ["开场 · 人物和地点", "问题 · 尝试和合作", "结局 · 解决和庆祝"];
-const starterFrames = ["There is...", "I can...", "Let us...", "I will...", "We must...", "...is too...for..."];
+const starterFrames = ["There is...", "I can...", "Let us...", "I will...", "We must...", "...is too...for...", "I... and...", "I... because..."];
 
 export function StoryCreatorPrint() {
   return (

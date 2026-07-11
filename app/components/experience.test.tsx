@@ -157,7 +157,9 @@ describe("StoryStage family story flow", () => {
     expect(creator.querySelectorAll(".creator-page")).toHaveLength(4);
     expect(creator.querySelectorAll(".creator-word-row")).toHaveLength(8);
     expect(creator.querySelectorAll(".creator-pattern-row")).toHaveLength(2);
-    expect(creator.querySelectorAll(".creator-starter")).toHaveLength(6);
+    expect(creator.querySelectorAll(".creator-starter")).toHaveLength(8);
+    expect(creator.textContent).toContain("I... and...");
+    expect(creator.textContent).toContain("I... because...");
     expect(creator.textContent).toContain("卡住 30 秒再看");
     expect(creator.textContent).toContain("2 人时由家长 1 兼演");
     expect(creator.textContent).toContain("至少 1 个来自我的生词救援站");
