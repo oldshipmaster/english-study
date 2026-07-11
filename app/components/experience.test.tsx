@@ -94,6 +94,15 @@ describe("StoryStage family story flow", () => {
     expect(script.querySelectorAll(".print-line.is-focus-line")).toHaveLength(7);
   });
 
+  it("renders a direct third-person script in three-player mode without dropping context", () => {
+    window.history.replaceState({}, "", "/?print=moonlight-picnic&players=3&person=parent2");
+    render(<Home />);
+    const script = screen.getByRole("region", { name: "家长 2的角色剧本" });
+    expect(script.querySelectorAll(".print-line")).toHaveLength(18);
+    expect(script.querySelectorAll(".print-line-number")).toHaveLength(18);
+    expect(script.querySelectorAll(".print-line.is-focus-line")).toHaveLength(5);
+  });
+
   it("renders a direct journey preview URL for A4 quality checks", () => {
     window.history.replaceState({}, "", "/?journey=1");
     render(<Home />);
