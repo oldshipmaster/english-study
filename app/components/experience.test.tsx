@@ -571,6 +571,8 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".word-memory-card .word-pronunciation")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .word-type")).toHaveLength(8);
     expect(pack.textContent).toContain("先回答，再沿中线翻卡");
+    expect(pack.textContent).toContain("大写部分重读");
+    expect(pack.textContent).toContain("不确定时听教材或可靠词典音频");
     expect(pack.textContent).toContain("我不会盒");
     expect(pack.textContent).toContain("练习中盒");
     expect(pack.textContent).toContain("已掌握盒");
