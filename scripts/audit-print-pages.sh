@@ -50,13 +50,16 @@ done
 story_ids="moonlight-picnic missing-lunchbox secret-tree-house busy-morning class-talent-show cloud-postman"
 expected_pages=17
 
+pack_count=0
+
+for players in 2 3; do
 for story_id in $story_ids; do
-  pdf="$temporary_root/$story_id.pdf"
-  profile="$temporary_root/chrome-$story_id"
+  pdf="$temporary_root/$story_id-$players-players.pdf"
+  profile="$temporary_root/chrome-$story_id-$players-players"
   "$chrome" --headless=new --disable-gpu --no-pdf-header-footer \
     --user-data-dir="$profile" \
     --print-to-pdf="$pdf" \
-    "http://127.0.0.1:4179/english-study/?print=$story_id&players=2" >/dev/null 2>&1 &
+    "http://127.0.0.1:4179/english-study/?print=$story_id&players=$players" >/dev/null 2>&1 &
   chrome_pid=$!
 
   attempt=0
@@ -64,7 +67,7 @@ for story_id in $story_ids; do
     attempt=$((attempt + 1))
     if test "$attempt" -ge 100; then
       kill "$chrome_pid" >/dev/null 2>&1 || true
-      echo "error: PDF generation timed out for $story_id" >&2
+      echo "error: PDF generation timed out for $story_id with $players players" >&2
       exit 1
     fi
     sleep 0.1
@@ -74,18 +77,21 @@ for story_id in $story_ids; do
 
   pages=$($pdfinfo_bin "$pdf" | awk '/^Pages:/ { print $2 }')
   if test "$pages" != "$expected_pages"; then
-    echo "error: $story_id rendered $pages pages, expected $expected_pages" >&2
+    echo "error: $story_id with $players players rendered $pages pages, expected $expected_pages" >&2
     exit 1
   fi
 
-  text_file="$temporary_root/$story_id.txt"
+  text_file="$temporary_root/$story_id-$players-players.txt"
   "$pdftotext_bin" "$pdf" "$text_file"
   if ! grep -q "1 / $expected_pages" "$text_file" || ! grep -q "$expected_pages / $expected_pages" "$text_file"; then
-    echo "error: $story_id is missing the first or final learning-pack marker" >&2
+    echo "error: $story_id with $players players is missing the first or final learning-pack marker" >&2
     tail -20 "$text_file" >&2
     exit 1
   fi
-  printf 'ok: %-24s %s A4 pages\n' "$story_id" "$pages"
+  pack_count=$((pack_count + 1))
+  printf 'ok: %-24s %s players · %s A4 pages\n' "$story_id" "$players" "$pages"
+done
 done
 
-echo "Print audit passed: 6 learning packs, 102 A4 pages total."
+total_pages=$((pack_count * expected_pages))
+echo "Print audit passed: $pack_count learning packs, $total_pages A4 pages total."
