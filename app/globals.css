@@ -158,6 +158,7 @@ p { line-height: 1.6; }
 .word-memory-card .card-front { min-height: 68px; gap: 2px; }
 .word-memory-card .word-type, .word-memory-card .word-pronunciation { font-size: .72rem; }
 .memory-hook { border-top: 1px dotted #a77; padding-top: 4px; font-size: 0.76rem; }
+.blank-memory-card { border-color: #6685b3; background: #eef4ff; }
 .card-front, .card-back { display: flex; flex-direction: column; justify-content: center; gap: 6px; min-height: 80px; }
 .card-back { transform: rotate(180deg); background: #fff8e8; padding: 6px; }
 .card-fold-line { border-top: 1px dashed #7890a6; border-bottom: 1px dashed #7890a6; text-align: center; font-size: 9pt; color: #66798b; }
