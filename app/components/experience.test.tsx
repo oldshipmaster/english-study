@@ -164,6 +164,7 @@ describe("StoryStage family story flow", () => {
     expect(creator.querySelectorAll(".creator-grammar-check")).toHaveLength(18);
     expect(creator.textContent).toContain("谁 / 人称");
     expect(creator.textContent).toContain("动词形式");
+    expect(creator.textContent).toContain("每场至少 1 句用 and / because");
     expect(creator.textContent).toContain("第 7 天重演");
     expect(creator.textContent).toContain("原创词句还能独立说出");
     expect(creator.textContent).toContain("一个愿望");
