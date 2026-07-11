@@ -429,6 +429,8 @@ describe("StoryStage family story flow", () => {
     expect(printableScript.querySelectorAll(".print-line:not(.is-focus-line)")).toHaveLength(moonlightStory.lines.length - expectedFocusLines);
     expect(printableScript.textContent).toContain(moonlightStory.lines[0].english);
     expect(printableScript.textContent).toContain(moonlightStory.lines[1].english);
+    expect(printableScript.textContent).toContain("粗框和下划线是我的台词");
+    expect(printableScript.textContent).toContain("其他台词完整保留");
     expect(screen.getByRole("button", { name: "打印女儿的角色剧本" })).toBeTruthy();
   });
 

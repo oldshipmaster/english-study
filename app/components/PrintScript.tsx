@@ -63,6 +63,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
           <h1>{story.title}</h1>
           <p>{story.chineseTitle} · {story.minutes} 分钟</p>
         </header>
+        {selectedPerson ? <p className="focus-legend">★ 粗框和下划线是我的台词；其他台词完整保留，用来听提示、接下一句和理解故事。</p> : null}
         <section className="print-cast" aria-label="演员表">
           <h2>演员表</h2>
           <ul>{story.roles.map((role) => {
