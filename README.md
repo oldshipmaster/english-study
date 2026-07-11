@@ -2,7 +2,7 @@
 
 StoryStage 是面向 9–11 岁孩子与家长的家庭英语角色扮演应用。家庭可以选择六个短故事，为 2–3 位演员分配角色，在排练和演出模式间切换，并打印完整或角色高亮剧本。
 
-在线体验：https://oldshipmaster.github.io/english-study/
+在线体验：https://oldshipmaster.github.io/english-study/#top
 
 源码位于 `/Volumes/extfastdata01/english-study`，公开仓库为 https://github.com/oldshipmaster/english-study 。
 
