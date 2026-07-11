@@ -112,6 +112,14 @@ describe("StoryStage family story flow", () => {
     expect(script.textContent).toContain("我的台词 5 句");
   });
 
+  it("marks role switches when one parent performs two characters", () => {
+    window.history.replaceState({}, "", "/?print=moonlight-picnic&players=2&person=parent1");
+    render(<Home />);
+    const script = screen.getByRole("region", { name: "家长 1的角色剧本" });
+    expect(script.querySelectorAll(".role-switch").length).toBeGreaterThan(0);
+    expect(script.textContent).toContain("换角色");
+  });
+
   it("renders a direct journey preview URL for A4 quality checks", () => {
     window.history.replaceState({}, "", "/?journey=1");
     render(<Home />);
