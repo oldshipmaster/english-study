@@ -203,6 +203,7 @@ p { line-height: 1.6; }
 .week-path-step strong { color: #275b49; }
 .week-path-step em { font-style: normal; font-size: 0.8rem; }
 .family-promise { border-bottom: 2px solid #ef765f; padding: 10px 0; }
+.micro-session-plan { border-left: 6px solid #e39554; background: #fff6e9; padding: 8px 10px; }
 .mission-goals { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 12px; }
 .mission-goal { display: grid; gap: 4px; border-left: 5px solid #8c6bb1; background: #f7f1ff; padding: 8px 10px; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }

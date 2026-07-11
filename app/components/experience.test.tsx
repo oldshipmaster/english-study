@@ -362,6 +362,9 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("7 天家庭学习路线");
+    expect(pack.textContent).toContain("每次 8–10 分钟");
+    expect(pack.textContent).toContain("短休息");
+    expect(pack.textContent).not.toContain("25–30 分钟");
     expect(pack.textContent).toContain("本课学习目标");
     expect(pack.querySelectorAll(".mission-goal")).toHaveLength(2);
     expect(pack.textContent).toContain("第 0 天 · 首演");
