@@ -96,6 +96,10 @@ for story_id in $story_ids; do
     tail -20 "$text_file" >&2
     exit 1
   fi
+  if ! grep -q "句子加长器" "$text_file" || ! grep -q "第 7 天仍需提示的词" "$text_file" || ! grep -q "姓名：________" "$text_file"; then
+    echo "error: $story_id with $players players is missing a core active-learning or ownership marker" >&2
+    exit 1
+  fi
   normalized_text_file="$temporary_root/$story_id-$players-players-normalized.txt"
   tr -d '\014' <"$text_file" >"$normalized_text_file"
   line_number=1
@@ -148,6 +152,15 @@ for role_case in $role_cases; do
   fi
   text_file="$temporary_root/$story_id-$script_label-script.txt"
   "$pdftotext_bin" "$pdf" "$text_file"
+  rehearsal_count=$(grep -c "本场三遍排练" "$text_file" || true)
+  if test "$rehearsal_count" != "3" || ! grep -q "演后 30 秒" "$text_file" || ! grep -q "演员姓名：________" "$text_file" || ! grep -q "1 / 3" "$text_file" || ! grep -q "3 / 3" "$text_file"; then
+    echo "error: $story_id $script_label script is missing rehearsal, feedback, or ownership markers" >&2
+    exit 1
+  fi
+  if test "$role_case" = "2:parent1" && ! grep -q "换角色" "$text_file"; then
+    echo "error: $story_id $script_label script is missing its role-switch cue" >&2
+    exit 1
+  fi
   normalized_text_file="$temporary_root/$story_id-$script_label-script-normalized.txt"
   tr -d '\014' <"$text_file" >"$normalized_text_file"
   line_number=1
@@ -196,6 +209,10 @@ if ! grep -q "1 / 6" "$temporary_root/word-bank.txt" || ! grep -q "6 / 6" "$temp
   echo "error: cumulative review book is missing its first or final page marker" >&2
   exit 1
 fi
+if ! grep -q "我的生词收藏册" "$temporary_root/word-bank.txt" || ! grep -q "不同日期连续两次 I" "$temporary_root/word-bank.txt" || ! grep -q "才算掌握" "$temporary_root/word-bank.txt"; then
+  echo "error: cumulative review book is missing the personal-word collection or mastery rule" >&2
+  exit 1
+fi
 printf 'ok: %-24s %s A4 pages\n' "six-story-review-book" "$word_bank_pages"
 
 total_pages=$((total_pages + word_bank_pages))
@@ -226,6 +243,10 @@ if test "$journey_pages" != "1"; then
   exit 1
 fi
 "$pdftotext_bin" "$journey_pdf" "$temporary_root/journey.txt"
+if ! grep -q "主动收词" "$temporary_root/journey.txt" || ! grep -q "开始周" "$temporary_root/journey.txt"; then
+  echo "error: six-story journey is missing personal-word or ownership tracking" >&2
+  exit 1
+fi
 if ! grep -q "The Moonlight Picnic" "$temporary_root/journey.txt" || ! grep -q "The Cloud Postman" "$temporary_root/journey.txt"; then
   echo "error: learning journey is missing its first or final story marker" >&2
   exit 1
@@ -260,6 +281,10 @@ if test "$creator_pages" != "4"; then
   exit 1
 fi
 "$pdftotext_bin" "$creator_pdf" "$temporary_root/story-creator.txt"
+if ! grep -q "谢幕问答" "$temporary_root/story-creator.txt" || ! grep -q "and / because" "$temporary_root/story-creator.txt"; then
+  echo "error: family story workshop is missing spontaneous speaking or sentence-expansion prompts" >&2
+  exit 1
+fi
 tr -d '\014' <"$temporary_root/story-creator.txt" >"$temporary_root/story-creator-normalized.txt"
 line_number=1
 while test "$line_number" -le 18; do
