@@ -1,0 +1,29 @@
+const sceneNames = ["开场 · 人物和地点", "问题 · 尝试和合作", "结局 · 解决和庆祝"];
+
+export function StoryCreatorPrint() {
+  return (
+    <section className="creator-print" role="region" aria-label="家庭原创剧本工坊">
+      <article className="creator-page">
+        <header className="creator-header"><div><p className="eyebrow">StoryStage · Graduation project</p><h1>家庭原创剧本工坊</h1></div><p>小编剧：________　日期：________</p></header>
+        <div className="creator-rule"><strong>毕业任务：</strong>从六课材料里挑词和句型，但故事必须是你自己的。先说想法，再写；写完一定要全家演出来。</div>
+        <section className="creator-plan"><h2>1 · 我的故事地图</h2><div className="creator-plan-grid"><p><strong>英文标题</strong>________________________________</p><p><strong>故事地点</strong>________________________________</p><p><strong>发生的问题</strong>____________________________</p><p><strong>怎样解决</strong>________________________________</p><p><strong>最后结局</strong>________________________________</p><p><strong>想表达的心情</strong>____________________________</p></div></section>
+        <section className="creator-cast"><h2>2 · 2–3 人分角色</h2>{["女儿", "家长 1", "家长 2（可选）"].map((person, index) => <div key={person}><strong>{index + 1}. {person}</strong><span>英文角色名：____________</span><span>人物特点 / 动作：____________________</span></div>)}</section>
+        <section><h2>3 · 我主动选择的 8 个词</h2><p className="creator-help">优先选仍在红色或黄色盒里的词；至少包含 2 个动作词。</p><div className="creator-word-grid">{Array.from({ length: 8 }, (_, index) => <div className="creator-word-row" key={index}><b>{index + 1}</b><span>英文：__________</span><span>意思：________</span><span>词性：______</span><span>我要放在第 __ 句</span></div>)}</div></section>
+        <section><h2>4 · 我选择的 2 个句型</h2>{Array.from({ length: 2 }, (_, index) => <div className="creator-pattern-row" key={index}><strong>句型 {index + 1}</strong><span>句型骨架：________________________________________</span><span>我的新句：________________________________________</span></div>)}</section>
+        <footer>StoryStage 家庭原创剧本工坊 · 1 / 4</footer>
+      </article>
+      {sceneNames.map((sceneName, sceneIndex) => (
+        <article className="creator-page creator-scene-page" key={sceneName}>
+          <header className="creator-scene-header"><div><p className="eyebrow">My family story</p><h1>Scene {sceneIndex + 1}</h1><p>{sceneName}</p></div><div><span>地点：____________</span><span>道具：____________</span><span>本场目标：________________</span></div></header>
+          <div className="creator-scene-guide">每句先大声说一遍，再写下来。至少写 1 个动作提示；用圆圈标重点词，用下划线标本课句型。</div>
+          {Array.from({ length: 6 }, (_, lineIndex) => {
+            const number = sceneIndex * 6 + lineIndex + 1;
+            return <div className="creator-line" key={number}><b className="creator-line-number">#{number}</b><div><p>角色：____________　动作 / 表情：________________________________________</p><p><strong>English:</strong> ________________________________________________________</p><p>中文意思 / 关键词：__________________________________________________</p></div></div>;
+          })}
+          {sceneIndex === 2 ? <section className="creator-performance"><h2>写完就演：两遍毕业演出</h2><div><p><strong>第 1 遍 · 可看稿</strong>　□ 18 句完整　□ 8 个词都用到　□ 2 个句型都用到</p><p><strong>第 2 遍 · 只看关键词</strong>　□ 声音清楚　□ 有动作　□ 说错能重来</p></div><p>孩子最满意的一句：________________　家长的两颗星：________________ / ________________</p></section> : <div className="creator-scene-check">□ 6 句写完　□ 连续演一遍　□ 圈出本场用到的词　□ 检查关键语法形式</div>}
+          <footer>StoryStage 家庭原创剧本工坊 · {sceneIndex + 2} / 4</footer>
+        </article>
+      ))}
+    </section>
+  );
+}

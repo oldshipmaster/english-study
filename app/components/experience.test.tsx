@@ -121,6 +121,28 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("region", { name: "六课词句累计复习本" })).toBeTruthy();
   });
 
+  it("opens a four-page family story workshop with 18 numbered writing lines", async () => {
+    const user = userEvent.setup();
+    const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
+    render(<Home />);
+    await user.click(screen.getByRole("button", { name: "打开家庭原创剧本工坊" }));
+    const creator = screen.getByRole("region", { name: "家庭原创剧本工坊" });
+    expect(creator.querySelectorAll(".creator-page")).toHaveLength(4);
+    expect(creator.querySelectorAll(".creator-word-row")).toHaveLength(8);
+    expect(creator.querySelectorAll(".creator-pattern-row")).toHaveLength(2);
+    expect(creator.querySelectorAll(".creator-line")).toHaveLength(18);
+    expect(creator.querySelectorAll(".creator-line-number")[17].textContent).toBe("#18");
+    await user.click(screen.getByRole("button", { name: "打印家庭原创剧本工坊" }));
+    expect(print).toHaveBeenCalledOnce();
+    print.mockRestore();
+  });
+
+  it("renders a direct family story-workshop preview URL", () => {
+    window.history.replaceState({}, "", "/?creator=1");
+    render(<Home />);
+    expect(screen.getByRole("region", { name: "家庭原创剧本工坊" })).toBeTruthy();
+  });
+
   it("gives every printable learning word an independent pronunciation cue", () => {
     stories.forEach((story) => story.learningPack.words.forEach((item) => expect(item.pronunciation.trim()).not.toBe("")));
   });

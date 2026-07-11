@@ -227,4 +227,43 @@ fi
 printf 'ok: %-24s %s A4 page\n' "six-story-learning-journey" "$journey_pages"
 
 total_pages=$((total_pages + journey_pages))
-echo "Print audit passed: $pack_count learning packs, $role_script_count daughter scripts, and both cumulative resources; $total_pages A4 pages total."
+
+creator_pdf="$temporary_root/story-creator.pdf"
+"$chrome" --headless=new --disable-gpu --no-pdf-header-footer \
+  --user-data-dir="$temporary_root/chrome-story-creator" \
+  --print-to-pdf="$creator_pdf" \
+  "http://127.0.0.1:4179/english-study/?creator=1" >/dev/null 2>&1 &
+chrome_pid=$!
+attempt=0
+while ! test -s "$creator_pdf"; do
+  attempt=$((attempt + 1))
+  if test "$attempt" -ge 100; then
+    kill "$chrome_pid" >/dev/null 2>&1 || true
+    echo "error: story-creator PDF generation timed out" >&2
+    exit 1
+  fi
+  sleep 0.1
+done
+kill "$chrome_pid" >/dev/null 2>&1 || true
+wait "$chrome_pid" >/dev/null 2>&1 || true
+
+creator_pages=$($pdfinfo_bin "$creator_pdf" | awk '/^Pages:/ { print $2 }')
+assert_a4 "$creator_pdf" "family story workshop"
+if test "$creator_pages" != "4"; then
+  echo "error: family story workshop rendered $creator_pages pages, expected 4" >&2
+  exit 1
+fi
+"$pdftotext_bin" "$creator_pdf" "$temporary_root/story-creator.txt"
+tr -d '\014' <"$temporary_root/story-creator.txt" >"$temporary_root/story-creator-normalized.txt"
+line_number=1
+while test "$line_number" -le 18; do
+  if ! grep -qx "#$line_number" "$temporary_root/story-creator-normalized.txt"; then
+    echo "error: family story workshop is missing line #$line_number" >&2
+    exit 1
+  fi
+  line_number=$((line_number + 1))
+done
+printf 'ok: %-24s %s A4 pages\n' "family-story-workshop" "$creator_pages"
+
+total_pages=$((total_pages + creator_pages))
+echo "Print audit passed: $pack_count learning packs, $role_script_count daughter scripts, and 3 cumulative/capstone resources; $total_pages A4 pages total."
