@@ -84,6 +84,13 @@ describe("StoryStage family story flow", () => {
     });
   });
 
+  it("gives every grammar pattern a distinct common mistake and correction", () => {
+    stories.forEach(({ learningPack }) => learningPack.patterns.forEach((pattern) => {
+      expect(pattern.commonMistake).not.toBe(pattern.correction);
+      expect(pattern.correction).not.toBe("");
+    }));
+  });
+
   it("opens role assignment for The Moonlight Picnic", async () => {
     const user = userEvent.setup();
     render(<Home />);
@@ -294,13 +301,13 @@ describe("StoryStage family story flow", () => {
   it("shows reliable color A4 printer settings before printing", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     expect(screen.getByText("A4 · 彩色 · 100% 缩放 · 开启背景图形")).toBeTruthy();
-    expect(screen.getByText(/完整学习包共 14 页/)).toBeTruthy();
+    expect(screen.getByText(/完整学习包共 15 页/)).toBeTruthy();
   });
 
-  it("offers a fourteen-page color learning pack without dropping script lines or cards", () => {
+  it("offers a fifteen-page color learning pack without dropping script lines or cards", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(14);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(15);
     expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
     expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
@@ -330,6 +337,9 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("First → Then → Finally");
     expect(pack.textContent).toContain("不看剧本讲 30–60 秒");
     expect(pack.querySelectorAll(".retell-stage")).toHaveLength(4);
+    expect(pack.textContent).toContain("语法小侦探");
+    expect(pack.textContent).toContain("语法侦探答案");
+    expect(pack.querySelectorAll(".grammar-detective-case")).toHaveLength(2);
     expect(pack.textContent).toContain("可折叠记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");

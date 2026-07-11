@@ -162,6 +162,11 @@ p { line-height: 1.6; }
 .sentence-puzzle { border: 2px solid #6685b3; background: #eef4ff; padding: 12px; margin: 14px 0; }
 .word-tiles { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
 .word-tile { min-width: 72px; border: 2px dashed #315f83; background: #fff; padding: 10px 14px; text-align: center; font-size: 1.05rem; font-weight: 800; }
+.detective-guide { border: 2px solid #e39554; background: #fff6e9; padding: 10px 12px; }
+.grammar-detective-case { border: 2px solid #8c6bb1; background: #f7f1ff; padding: 14px; margin: 14px 0; }
+.grammar-detective-case p { margin: 8px 0; }
+.mistake-sentence { border-left: 5px solid #d44; background: #fff; padding: 10px; font-size: 1.15rem; font-weight: 800; }
+.detective-verdict { border: 2px solid #6e9d8b; background: #eef8f2; padding: 12px; }
 .week-path { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 8px; }
 .week-path-step { display: grid; gap: 8px; border: 2px solid #6e9d8b; background: #f1f9f4; padding: 10px; }
 .week-path-step strong { color: #275b49; }

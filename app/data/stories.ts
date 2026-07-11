@@ -216,7 +216,7 @@ const storyCatalog: Omit<Story, "learningPack">[] = [
   },
 ];
 
-const curatedPatterns: Record<string, SentencePattern[]> = {
+const curatedPatterns: Record<string, Array<Omit<SentencePattern, "commonMistake" | "correction">>> = {
   "moonlight-picnic": [
     { title: "提出一起做的建议", purpose: "邀请家人一起行动。", example: "Let us pack the basket.", template: "Let us + 动作 + 物品", substitutions: ["pack", "share", "hang"], grammarTip: "Let us 后面的动作词用原形。口语里常说 Let’s。", tasks: ["邀请家人一起收拾桌子。", "邀请家人一起分享水果。"] },
     { title: "说出自己将要做什么", purpose: "主动承担一个家庭任务。", example: "I will make paper stars.", template: "I will + 动作 + 物品", substitutions: ["make", "bring", "light"], grammarTip: "will 后面的动作词不加 s，也不加 ing。", tasks: ["说一件你晚饭后会做的事。", "换一个故事物品再说一遍。"] },
@@ -243,6 +243,15 @@ const curatedPatterns: Record<string, SentencePattern[]> = {
   ],
 };
 
+const grammarCorrections: Record<string, Array<[string, string]>> = {
+  "moonlight-picnic": [["Let us packs the basket.", "Let us pack the basket."], ["I will makes paper stars.", "I will make paper stars."]],
+  "missing-lunchbox": [["It are not under my desk.", "It is not under my desk."], ["Where did you went this morning?", "Where did you go this morning?"]],
+  "secret-tree-house": [["There are a secret path in the forest.", "There is a secret path in the forest."], ["I can opens the dusty chest.", "I can open the dusty chest."]],
+  "busy-morning": [["Please feeds the cat first.", "Please feed the cat first."], ["I will filling the water bottles.", "I will fill the water bottles."]],
+  "class-talent-show": [["I is nervous about my magic trick.", "I am nervous about my magic trick."], ["Use instead this paper flower.", "Use this paper flower instead."]],
+  "cloud-postman": [["We must delivers it before the rain.", "We must deliver it before the rain."], ["The parcel is too heavy to my cloud.", "The parcel is too heavy for my cloud."]],
+};
+
 const curatedRetells: Record<string, RetellPlan> = {
   "moonlight-picnic": { settingHint: "garden · evening · picnic", problemHint: "dark · cannot see", actionHints: ["hang a lantern", "spread the blanket"], endingHint: "bright · magical picnic" },
   "missing-lunchbox": { settingHint: "school · lunchtime", problemHint: "lunchbox · missing", actionHints: ["retrace the steps", "check the library"], endingHint: "find the label · found" },
@@ -266,7 +275,7 @@ function createLearningPack(story: Omit<Story, "learningPack">, index: number): 
     usedReviewWords.add(word);
     return { word, meaning, pronunciation: pronunciationCues[word], review: true, example: `Can you use ${word} in a new sentence?`, sourceStory: source.chineseTitle };
   });
-  const patterns = curatedPatterns[story.id];
+  const patterns = curatedPatterns[story.id].map((pattern, patternIndex) => ({ ...pattern, commonMistake: grammarCorrections[story.id][patternIndex][0], correction: grammarCorrections[story.id][patternIndex][1] }));
   return {
     words,
     reviewWords,
