@@ -304,6 +304,11 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("画小图");
     expect(pack.textContent).toContain("做动作");
     expect(pack.querySelectorAll(".memory-hook")).toHaveLength(8);
+    expect(pack.textContent).toContain("我的生词救援站");
+    expect(pack.textContent).toContain("先猜意思");
+    expect(pack.textContent).toContain("查证后");
+    expect(pack.textContent).toContain("我自己的句子");
+    expect(pack.querySelectorAll(".unknown-word-journal tbody tr")).toHaveLength(4);
     expect(pack.querySelectorAll(".word-memory-card .card-front")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .card-back")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .word-pronunciation")).toHaveLength(8);
