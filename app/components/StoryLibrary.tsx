@@ -33,7 +33,7 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
         <span className="header-note">家庭英语小剧场</span>
       </header>
 
-      <section className="hero" id="top">
+      <section className="hero">
         <div className="hero-copy">
           <p className="eyebrow">Family story night</p>
           <h1>今晚，把英语故事演出来。</h1>
