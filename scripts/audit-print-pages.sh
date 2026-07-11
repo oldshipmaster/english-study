@@ -50,6 +50,13 @@ done
 story_ids="moonlight-picnic missing-lunchbox secret-tree-house busy-morning class-talent-show cloud-postman"
 expected_pages=17
 
+assert_a4() {
+  if ! "$pdfinfo_bin" "$1" | grep -q 'Page size:.*(A4)'; then
+    echo "error: $2 did not render at A4 size" >&2
+    exit 1
+  fi
+}
+
 pack_count=0
 
 for players in 2 3; do
@@ -76,6 +83,7 @@ for story_id in $story_ids; do
   wait "$chrome_pid" >/dev/null 2>&1 || true
 
   pages=$($pdfinfo_bin "$pdf" | awk '/^Pages:/ { print $2 }')
+  assert_a4 "$pdf" "$story_id with $players players"
   if test "$pages" != "$expected_pages"; then
     echo "error: $story_id with $players players rendered $pages pages, expected $expected_pages" >&2
     exit 1
@@ -88,6 +96,16 @@ for story_id in $story_ids; do
     tail -20 "$text_file" >&2
     exit 1
   fi
+  normalized_text_file="$temporary_root/$story_id-$players-players-normalized.txt"
+  tr -d '\014' <"$text_file" >"$normalized_text_file"
+  line_number=1
+  while test "$line_number" -le 18; do
+    if ! grep -qx "#$line_number" "$normalized_text_file"; then
+      echo "error: $story_id with $players players is missing script line #$line_number" >&2
+      exit 1
+    fi
+    line_number=$((line_number + 1))
+  done
   pack_count=$((pack_count + 1))
   printf 'ok: %-24s %s players · %s A4 pages\n' "$story_id" "$players" "$pages"
 done
@@ -118,6 +136,7 @@ for story_id in $story_ids; do
   wait "$chrome_pid" >/dev/null 2>&1 || true
 
   pages=$($pdfinfo_bin "$pdf" | awk '/^Pages:/ { print $2 }')
+  assert_a4 "$pdf" "$story_id daughter script"
   if test "$pages" != "3"; then
     echo "error: $story_id daughter script rendered $pages pages, expected 3" >&2
     exit 1
@@ -161,6 +180,7 @@ kill "$chrome_pid" >/dev/null 2>&1 || true
 wait "$chrome_pid" >/dev/null 2>&1 || true
 
 word_bank_pages=$($pdfinfo_bin "$word_bank_pdf" | awk '/^Pages:/ { print $2 }')
+assert_a4 "$word_bank_pdf" "cumulative review book"
 if test "$word_bank_pages" != "4"; then
   echo "error: cumulative review book rendered $word_bank_pages pages, expected 4" >&2
   exit 1
@@ -194,6 +214,7 @@ kill "$chrome_pid" >/dev/null 2>&1 || true
 wait "$chrome_pid" >/dev/null 2>&1 || true
 
 journey_pages=$($pdfinfo_bin "$journey_pdf" | awk '/^Pages:/ { print $2 }')
+assert_a4 "$journey_pdf" "learning journey"
 if test "$journey_pages" != "1"; then
   echo "error: learning journey rendered $journey_pages pages, expected 1" >&2
   exit 1
