@@ -280,10 +280,10 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "打印完整家庭剧本" })).toBeTruthy();
   });
 
-  it("offers a twelve-page color learning pack without dropping script lines or cards", () => {
+  it("offers a thirteen-page color learning pack without dropping script lines or cards", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(12);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(13);
     expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
     expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
@@ -299,6 +299,11 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("我的新句子");
     expect(pack.querySelectorAll(".pattern-transfer")).toHaveLength(2);
     expect(pack.querySelectorAll(".pattern-self-check")).toHaveLength(2);
+    expect(pack.textContent).toContain("可剪句子拼图");
+    expect(pack.textContent).toContain("拼回故事原句");
+    expect(pack.textContent).toContain("换掉一张词卡");
+    expect(pack.querySelectorAll(".sentence-puzzle")).toHaveLength(2);
+    expect(pack.querySelectorAll(".word-tile").length).toBeGreaterThan(8);
     expect(pack.textContent).toContain("先演完，再反馈");
     expect(pack.textContent).toContain("孩子自评");
     expect(pack.textContent).toContain("家长观察");
