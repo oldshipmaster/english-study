@@ -60,6 +60,11 @@ describe("StoryStage family story flow", () => {
     expect(journey.textContent).toContain("第 0 天");
     expect(journey.textContent).toContain("第 2 天");
     expect(journey.textContent).toContain("第 7 天");
+    expect(journey.querySelectorAll(".journey-score")).toHaveLength(12);
+    expect(journey.textContent).toContain("独立说出");
+    expect(journey.textContent).toContain("句型脱稿");
+    expect(journey.textContent).toContain("每次练习后填数字");
+    expect(journey.textContent).not.toContain("涂一颗星");
     await user.click(screen.getByRole("button", { name: "打印 6 课成长地图" }));
     expect(print).toHaveBeenCalledOnce();
     print.mockRestore();
