@@ -65,7 +65,7 @@ p { line-height: 1.6; }
 .start-bar { margin-top: 22px; background: var(--mint); }.start-bar p { font-weight: 700; }.start-button { width: min(260px, 100%); margin: 0; }
 .ready-screen { display: grid; place-items: center; min-height: 100vh; padding: 32px; text-align: center; }.ready-screen h1 { font-size: clamp(3rem, 8vw, 6rem); }.ready-screen button { border: 1.5px solid var(--line); background: var(--paper); padding: 8px 18px; }
 .player-header { gap: 24px; }.player-header .brand { margin: auto; }.player-mode-label { color: var(--muted-ink); font-size: .8rem; font-weight: 800; letter-spacing: .08em; }
-.script-stage { min-height: 560px; margin-top: 34px; padding: 34px clamp(24px, 7vw, 90px) 54px; border: 1.5px solid var(--line); background: var(--paper); box-shadow: var(--shadow); text-align: center; }
+.script-stage { min-height: 560px; margin-top: 34px; padding: 34px clamp(24px, 7vw, 90px) 54px; border: 1.5px solid var(--line); background: var(--paper); box-shadow: var(--shadow); text-align: center; touch-action: pan-y; }
 .script-meta, .challenge-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; }.script-meta .eyebrow { margin: 0; }.line-progress { margin: 0; color: var(--muted-ink); font-weight: 800; }
 .progress-track { overflow: hidden; height: 7px; margin: 20px 0 54px; background: #e7dfd0; }.progress-track span { display: block; height: 100%; background: var(--coral); transition: width .2s ease; }
 .speaker-mark { margin-bottom: 22px; font-size: 4rem; }.script-stage h1 { max-width: 900px; margin: 0 auto; font-size: clamp(2.4rem, 6vw, 5.2rem); }.chinese-hint { margin: 28px 0 0; color: var(--muted-ink); font-size: 1.25rem; }.stage-direction { color: #a54231; font-style: italic; }

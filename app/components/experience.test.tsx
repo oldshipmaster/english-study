@@ -183,6 +183,23 @@ describe("StoryStage family story flow", () => {
     expect(onShowHintsChange).not.toHaveBeenCalled();
   });
 
+  it("resets temporary performance help on keyboard navigation and mode re-entry", async () => {
+    const user = userEvent.setup();
+    render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="performance" showHints={false} onComplete={() => undefined} onExit={() => undefined} />);
+
+    await user.click(screen.getByRole("button", { name: "查看本句提示" }));
+    expect(screen.getByText("今天是我们的野餐日！")).toBeTruthy();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByText("2 / 18")).toBeTruthy();
+    expect(screen.queryByText("我们来装好篮子吧。")).toBeNull();
+
+    await user.click(screen.getByRole("button", { name: "查看本句提示" }));
+    await user.click(screen.getByRole("button", { name: "切换到排练模式" }));
+    await user.click(screen.getByRole("button", { name: "切换到演出模式" }));
+    expect(screen.queryByText("我们来装好篮子吧。")).toBeNull();
+    expect(screen.getByRole("button", { name: "查看本句提示" })).toBeTruthy();
+  });
+
   it("navigates on horizontal pointer swipes, ignores vertical movement, and respects boundaries", () => {
     render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="rehearsal" showHints={false} onComplete={() => undefined} onExit={() => undefined} />);
     const stage = screen.getByRole("region", { name: "台词舞台" });

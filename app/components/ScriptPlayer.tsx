@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { RoleAssignment, Story } from "../types";
 import { PrintScript } from "./PrintScript";
@@ -35,24 +35,24 @@ export function ScriptPlayer({ story, assignments, mode: initialMode, showHints:
   const lineVocabulary = (line.vocabulary ?? []).flatMap((word) => story.vocabulary[word] ? [{ word, definition: story.vocabulary[word] }] : []);
   const helpIsVisible = mode === "rehearsal" ? showHints : showPerformanceHint;
 
+  const moveLine = useCallback((direction: -1 | 1) => {
+    setShowPerformanceHint(false);
+    setLineIndex((current) => Math.max(0, Math.min(lastLineIndex, current + direction)));
+  }, [lastLineIndex]);
+
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "ArrowLeft") setLineIndex((current) => Math.max(0, current - 1));
-      if (event.key === "ArrowRight") setLineIndex((current) => Math.min(lastLineIndex, current + 1));
+      if (event.key === "ArrowLeft") moveLine(-1);
+      if (event.key === "ArrowRight") moveLine(1);
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lastLineIndex]);
+  }, [moveLine]);
 
   function toggleHints() {
     const next = !showHints;
     setShowHints(next);
     onShowHintsChange?.(next);
-  }
-
-  function moveLine(direction: -1 | 1) {
-    setShowPerformanceHint(false);
-    setLineIndex((current) => Math.max(0, Math.min(lastLineIndex, current + direction)));
   }
 
   function finishSwipe(clientX: number, clientY: number) {
@@ -96,7 +96,7 @@ export function ScriptPlayer({ story, assignments, mode: initialMode, showHints:
       <section className="player-settings" aria-label="演出设置">
         {mode === "rehearsal" ? <button type="button" aria-pressed={showHints} onClick={toggleHints}>{showHints ? "隐藏中文提示" : "显示中文提示"}</button> :
           <button type="button" aria-pressed={showPerformanceHint} onClick={() => setShowPerformanceHint((current) => !current)}>{showPerformanceHint ? "隐藏本句提示" : "查看本句提示"}</button>}
-        <button type="button" onClick={() => setMode((current) => current === "rehearsal" ? "performance" : "rehearsal")}>
+        <button type="button" onClick={() => { setShowPerformanceHint(false); setMode((current) => current === "rehearsal" ? "performance" : "rehearsal"); }}>
           {mode === "rehearsal" ? "切换到演出模式" : "切换到排练模式"}
         </button>
       </section>

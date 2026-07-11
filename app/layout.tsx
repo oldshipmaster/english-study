@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
+import { createStoryMetadata } from "./lib/metadata";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,20 +14,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "StoryStage | 家庭英语剧场",
-  description: "适合 9–11 岁孩子的家庭英语角色扮演故事，支持 2–3 人排练与打印。",
-  openGraph: {
-    title: "StoryStage | 家庭英语剧场",
-    description: "适合 9–11 岁孩子的家庭英语角色扮演故事，支持 2–3 人排练与打印。",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "StoryStage | 家庭英语剧场",
-    description: "适合 9–11 岁孩子的家庭英语角色扮演故事，支持 2–3 人排练与打印。",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  const protocol = requestHeaders.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? null;
+  return createStoryMetadata(host, protocol);
+}
 
 export default function RootLayout({
   children,

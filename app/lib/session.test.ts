@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { Story } from "../types";
 import { assignRoles, parsePreferences, restoreAssignments } from "./session";
+import { createStoryMetadata } from "./metadata";
 
 const story: Story = {
   id: "test-story",
@@ -34,6 +35,22 @@ describe("assignRoles", () => {
       { personId: "daughter", roleIds: ["child"] },
       { personId: "parent1", roleIds: ["helper", "friend"] },
     ]);
+  });
+});
+
+describe("createStoryMetadata", () => {
+  it("uses the incoming deployment origin for absolute social-card URLs", () => {
+    const metadata = createStoryMetadata("story-stage.example.com", "https");
+    expect(metadata.openGraph?.images).toEqual([{
+      url: "https://story-stage.example.com/og.png", width: 1200, height: 630, alt: "StoryStage 家庭英语剧场",
+    }]);
+    expect(metadata.twitter?.images).toEqual(["https://story-stage.example.com/og.png"]);
+  });
+
+  it("omits host-dependent images when request origin is unavailable", () => {
+    const metadata = createStoryMetadata(null, null);
+    expect(metadata.openGraph?.images).toBeUndefined();
+    expect(metadata.twitter?.images).toBeUndefined();
   });
 });
 

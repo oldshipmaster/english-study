@@ -213,3 +213,56 @@ Exit 0: vinext completed all 5/5 build stages. It emitted the existing proxy-env
 - Browser and print-preview inspection were intentionally not performed per controller instruction; swipe and print behavior are covered by DOM tests and production build verification.
 - The generated `public/og.png` remains available, but host-dependent OG/X image metadata is intentionally omitted until the publishing controller can provide the real deployed origin.
 - `npm install --package-lock-only` reports 11 audit findings (2 low, 3 moderate, 6 high). No broad audit remediation was attempted because that could introduce out-of-scope dependency changes.
+
+## Final re-review follow-up (2026-07-11)
+
+### Fixes
+
+- Centralized button, pointer, and keyboard line changes through `moveLine`, which clears temporary performance help before clamped navigation. Leaving or re-entering performance mode also clears the temporary reveal.
+- Added `touch-action: pan-y` to `.script-stage`, preserving native vertical scrolling while allowing horizontal pointer swipe delivery.
+- Added `createStoryMetadata` and request-aware `generateMetadata`. The absolute `public/og.png` URL now derives from `x-forwarded-host` (falling back to `host`) and `x-forwarded-proto`, with no assumed deployment hostname. Invalid or absent request origins omit only the host-dependent images while retaining title/description.
+
+### RED / GREEN evidence
+
+Focused RED:
+
+```text
+npm test -- --run app/lib/session.test.ts app/components/experience.test.tsx
+```
+
+Exit 1: 2 files failed. The performance regression proved keyboard navigation retained the temporary hint on the next line; the metadata suite failed to resolve the not-yet-created helper.
+
+Focused GREEN after implementation:
+
+```text
+npm test -- --run app/lib/session.test.ts app/components/experience.test.tsx
+```
+
+Exit 0: 2 files passed; 29/29 tests passed. New coverage verifies keyboard reset, mode exit/re-entry reset, request-origin absolute OG/X URLs, and missing-origin fallback.
+
+### Fresh final gate
+
+```text
+npm test -- --run && npm run lint && npm run build
+```
+
+Exit 0 throughout:
+
+- Vitest: 2 files passed; 29/29 tests passed.
+- ESLint: no findings.
+- vinext: all 5/5 build stages completed. Dynamic `headers()` metadata remains deployable; vinext emitted its existing informational unknown-route classification plus the proxy warning, with no build error.
+
+### Files changed
+
+- Added `app/lib/metadata.ts`
+- Modified `app/layout.tsx`
+- Modified `app/components/ScriptPlayer.tsx`
+- Modified `app/components/experience.test.tsx`
+- Modified `app/lib/session.test.ts`
+- Modified `app/globals.css`
+- Modified `.superpowers/sdd/task-4-report.md`
+
+### Concerns
+
+- The build succeeds with dynamic request headers, but vinext still reports its generic informational `Unknown` route classification because its static analyzer cannot yet classify `headers()` usage.
+- No browser/device gesture or deployed-host inspection was performed, consistent with the controller's no-browser/no-deploy boundary.
