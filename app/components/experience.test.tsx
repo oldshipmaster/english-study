@@ -95,6 +95,7 @@ describe("StoryStage family story flow", () => {
     expect(script.querySelectorAll(".print-line")).toHaveLength(18);
     expect(script.querySelectorAll(".print-line-number")).toHaveLength(18);
     expect(script.querySelectorAll(".print-line.is-focus-line")).toHaveLength(7);
+    expect(script.textContent).toContain("我的台词 7 句");
     expect(script.querySelectorAll(".role-rehearsal-check")).toHaveLength(3);
     expect(script.textContent).toContain("先听到上一句再开口");
     expect(script.textContent).toContain("每句圈 1–3 个关键词");
@@ -108,6 +109,7 @@ describe("StoryStage family story flow", () => {
     expect(script.querySelectorAll(".print-line")).toHaveLength(18);
     expect(script.querySelectorAll(".print-line-number")).toHaveLength(18);
     expect(script.querySelectorAll(".print-line.is-focus-line")).toHaveLength(5);
+    expect(script.textContent).toContain("我的台词 5 句");
   });
 
   it("renders a direct journey preview URL for A4 quality checks", () => {

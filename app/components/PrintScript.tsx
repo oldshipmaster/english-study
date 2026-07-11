@@ -21,6 +21,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
   const [printMode, setPrintMode] = useState<"learning-pack" | "script">(selectedPersonId ? "script" : "learning-pack");
   const [selectedPerson, setSelectedPerson] = useState<RoleAssignment["personId"] | null>(selectedPersonId ?? null);
   const focusRoleIds = selectedPerson ? assignments.find(({ personId }) => personId === selectedPerson)?.roleIds ?? [] : [];
+  const focusLineCount = story.lines.filter(({ roleId }) => focusRoleIds.includes(roleId)).length;
   const printLabel = printMode === "learning-pack" ? "彩色故事学习包" : selectedPerson ? `${personNames[selectedPerson]}的角色剧本` : "完整家庭剧本";
   const scenes = Array.from({ length: Math.ceil(story.lines.length / 6) }, (_, index) => story.lines.slice(index * 6, index * 6 + 6));
   const [printError, setPrintError] = useState(false);
@@ -62,7 +63,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
         <header className="print-title">
           <p className="eyebrow">StoryStage · {printLabel}</p>
           <h1>{story.title}</h1>
-          <p>{story.chineseTitle} · {story.minutes} 分钟</p>
+          <p>{story.chineseTitle} · {story.minutes} 分钟{selectedPerson ? ` · 我的台词 ${focusLineCount} 句` : ""}</p>
         </header>
         {selectedPerson ? <p className="focus-legend">★ 粗框和下划线是我的台词；其他台词完整保留，用来听提示、接下一句和理解故事。</p> : null}
         <section className="print-cast" aria-label="演员表">
