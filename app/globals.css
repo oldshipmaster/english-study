@@ -140,6 +140,7 @@ p { line-height: 1.6; }
 .role-rehearsal-check { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin-top: 7px; border: 1.5px solid #6e9d8b; background: #eef8f2; padding: 5px 8px; font-size: .7rem; }.role-rehearsal-check em { margin-left: auto; color: #315f83; font-style: normal; font-weight: 800; }
 .role-switch { display: inline-block; margin-left: 6px; color: #a54231; font-size: .7rem; font-weight: 900; }
 .role-performance-note { margin-top: 14px; border: 2px solid #e39554; background: #fff6e9; padding: 9px 12px; }.role-performance-note p { margin: 5px 0; font-size: .74rem; }
+.print-title { position: relative; }.role-sheet-owner { position: absolute; top: 0; right: 0; display: grid; gap: 3px; margin: 0; text-align: right; font-size: .72rem; font-weight: 800; }.role-sheet-owner span { color: #315f83; font-size: .68rem; }
 .print-line-number { display: inline-grid; place-items: center; min-width: 2.1em; margin-right: 6px; border-radius: 999px; background: var(--ink); color: white; font-size: .72rem; }
 .focus-legend { border: 2px solid #17324d; background: #fff3ce; padding: 10px 12px; font-weight: 800; }
 

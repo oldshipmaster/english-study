@@ -62,6 +62,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
       {printMode === "learning-pack" ? <LearningPackPrint story={story} assignments={assignments} /> : <article className="print-sheet" role="region" aria-label={printLabel}>
         <header className="print-title">
           <p className="eyebrow">StoryStage · {printLabel}</p>
+          {selectedPerson ? <p className="role-sheet-owner">演员姓名：________<span>演出日期：________</span></p> : null}
           <h1>{story.title}</h1>
           <p>{story.chineseTitle} · {story.minutes} 分钟{selectedPerson ? ` · 我的台词 ${focusLineCount} 句` : ""}</p>
         </header>
