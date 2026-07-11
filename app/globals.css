@@ -110,6 +110,9 @@ p { line-height: 1.6; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }
 .role-color-3 { border-color: #ef765f; background: #fff3f0; }
 .parent-only { display: inline-block; padding: 5px 10px; border: 2px solid #ef765f; color: #a22f24; font-weight: 800; }
+.review-passport { width: 100%; border-collapse: collapse; margin: 18px 0; }
+.review-passport th, .review-passport td { border: 1px solid #7890a6; padding: 12px 8px; text-align: center; }
+.review-passport thead { background: #eaf6f1; }
 
 @media print {
   .learning-pack-print { display: block; }

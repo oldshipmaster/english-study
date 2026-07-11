@@ -237,14 +237,17 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "打印完整家庭剧本" })).toBeTruthy();
   });
 
-  it("offers an eight-page color learning pack by default", () => {
+  it("offers a nine-page color learning pack by default", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(8);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(9);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("句型与语法发现");
     expect(pack.textContent).toContain("可裁剪记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
+    expect(pack.textContent).toContain("我的复习护照");
+    expect(pack.textContent).toContain("第二天");
+    expect(pack.textContent).toContain("第七天");
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
     expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
   });
