@@ -256,6 +256,11 @@ describe("StoryStage family story flow", () => {
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
     expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
+    expect(pack.textContent).toContain("7 天家庭学习路线");
+    expect(pack.textContent).toContain("第 0 天 · 首演");
+    expect(pack.textContent).toContain("第 2 天 · 唤醒");
+    expect(pack.textContent).toContain("第 7 天 · 迁移");
+    expect(pack.querySelectorAll(".week-path-step")).toHaveLength(3);
     expect(pack.textContent).toContain("句型与语法发现");
     expect(pack.textContent).toContain("说 → 换 → 写 → 再说");
     expect(pack.textContent).toContain("我的新句子");

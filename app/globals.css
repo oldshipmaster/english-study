@@ -133,6 +133,11 @@ p { line-height: 1.6; }
 .pattern-transfer { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: end; margin-top: 8px; font-weight: 800; }
 .writing-line { min-height: 1.4em; }
 .pattern-self-check { font-size: 0.82rem; color: #315f83; }
+.week-path { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 8px; }
+.week-path-step { display: grid; gap: 8px; border: 2px solid #6e9d8b; background: #f1f9f4; padding: 10px; }
+.week-path-step strong { color: #275b49; }
+.week-path-step em { font-style: normal; font-size: 0.8rem; }
+.family-promise { border-bottom: 2px solid #ef765f; padding: 10px 0; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }
 .role-color-3 { border-color: #ef765f; background: #fff3f0; }
 .parent-only { display: inline-block; padding: 5px 10px; border: 2px solid #ef765f; color: #a22f24; font-weight: 800; }
