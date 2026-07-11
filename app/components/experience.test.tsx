@@ -246,6 +246,12 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("可折叠记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");
+    expect(pack.textContent).toContain("三遍开口阶梯");
+    expect(pack.textContent).toContain("第 1 遍 · 看完整台词");
+    expect(pack.textContent).toContain("第 2 遍 · 只看关键词");
+    expect(pack.textContent).toContain("第 3 遍 · 不看台词");
+    expect(pack.textContent).toContain("停一下 → 从句首重说 → 继续演");
+    expect(pack.querySelectorAll(".daughter-line .fluency-round")).toHaveLength(21);
     expect(pack.textContent).toContain("第二天");
     expect(pack.textContent).toContain("第七天");
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
