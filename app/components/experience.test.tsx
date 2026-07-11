@@ -85,6 +85,8 @@ describe("StoryStage family story flow", () => {
     const wordBank = screen.getByRole("region", { name: "六课词句累计复习本" });
     expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(4);
     expect(wordBank.querySelectorAll(".word-bank-item")).toHaveLength(48);
+    wordBank.querySelectorAll(".word-bank-item").forEach((item) => expect(item.textContent).toContain("I/H/A"));
+    expect(wordBank.textContent).toContain("I = 独立想起");
     expect(wordBank.querySelectorAll(".pattern-bank-item")).toHaveLength(12);
     expect(wordBank.querySelectorAll(".pattern-bank-notice")).toHaveLength(12);
     expect(wordBank.textContent).toContain("圈人物/主语");

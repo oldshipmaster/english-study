@@ -55,7 +55,7 @@ p { line-height: 1.6; }
 .word-bank-story { margin-top: 11px; border: 2px solid #6e9d8b; background: #f4faf6; padding: 9px 11px; break-inside: avoid; }
 .word-bank-story-title { display: flex; align-items: center; gap: 9px; margin-bottom: 7px; }.word-bank-story-title > span { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 50%; background: #17324d; color: white; font-weight: 900; }.word-bank-story-title h2 { font-size: 1rem; }.word-bank-story-title p { margin: 1px 0 0; font-size: .7rem; }
 .word-bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; }
-.word-bank-item { display: grid; grid-template-columns: .7fr 1fr 1.35fr; align-items: center; gap: 5px; border-bottom: 1px solid #a9c4b8; padding: 3px 2px; font-size: .68rem; }
+.word-bank-item { display: grid; grid-template-columns: .62fr .82fr 1.75fr; align-items: center; gap: 5px; border-bottom: 1px solid #a9c4b8; padding: 3px 2px; font-size: .64rem; }
 .word-bank-recall { color: #315f83; font-family: ui-monospace, monospace; font-weight: 800; letter-spacing: .07em; }
 .word-bank-sentence { margin: 7px 0 4px; font-size: .72rem; }.word-bank-answer { border-top: 1px dashed #a54231; padding-top: 4px; color: #6a4b8a; font-size: .62rem; }
 .word-bank-page > footer { position: absolute; right: 28px; bottom: 18px; color: var(--muted-ink); font-size: .7rem; }

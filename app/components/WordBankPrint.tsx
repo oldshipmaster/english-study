@@ -17,7 +17,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
             <div><p className="eyebrow">StoryStage · 48-word challenge</p><h1>六课词句累计复习本</h1></div>
             <div className="word-bank-name">姓名：________　日期：________</div>
           </header>
-          <div className="word-bank-method"><strong>先遮答案，再主动想：</strong>看中文 → 说英文 → 写英文 → 选一个词放进句子。不会时先看首字母，不要立刻翻答案。</div>
+          <div className="word-bank-method"><strong>先遮答案，再主动想：</strong>看中文 → 说英文 → 写英文 → 选一个词放进句子。圈出结果：I = 独立想起，H = 提示后想起，A = 看答案后重说。</div>
           {group.map((story, storyIndex) => (
             <section className="word-bank-story" key={story.id}>
               <div className="word-bank-story-title"><span>{pageIndex * 3 + storyIndex + 1}</span><div><h2>{story.title}</h2><p>{story.chineseTitle}</p></div></div>
@@ -26,7 +26,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
                   <div className="word-bank-item" key={word}>
                     <strong>{meaning}</strong>
                     <span className="word-bank-recall">{word[0].toUpperCase()} {"_".repeat(Math.max(3, word.length - 1))}</span>
-                    <span>第 0 天 □　第 2 天 □　第 7 天 □</span>
+                    <span>0天 I/H/A · 2天 I/H/A · 7天 I/H/A</span>
                   </div>
                 ))}
               </div>
@@ -43,7 +43,7 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
             <div><p className="eyebrow">StoryStage · 12 sentence patterns</p><h1>句型变身实验室</h1></div>
             <div className="word-bank-name">姓名：________　日期：________</div>
           </header>
-          <div className="word-bank-method"><strong>例句不是背完就结束：</strong>先读原句，再换掉彩色词块，说出一个和自己生活有关的新句子；第 7 天完全遮住支架再说。</div>
+          <div className="word-bank-method"><strong>例句不是背完就结束：</strong>先读原句，再换掉彩色词块，说出一个和自己生活有关的新句子；第 7 天完全遮住支架再说。I = 独立，H = 提示，A = 看答案。</div>
           <div className="pattern-bank-grid">
             {group.map(({ story, pattern }, index) => (
               <section className="pattern-bank-item" key={`${story.id}-${pattern.title}`}>
