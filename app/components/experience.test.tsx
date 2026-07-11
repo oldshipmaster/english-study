@@ -225,14 +225,28 @@ describe("StoryStage family story flow", () => {
     expect(screen.queryByText(/PIC-nik/)).toBeNull();
   });
 
-  it("prints the complete family script with every line in stable scene and line blocks", () => {
+  it("prints the complete family script with every line in stable scene and line blocks", async () => {
+    const user = userEvent.setup();
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+    await user.click(screen.getByRole("button", { name: "选择完整家庭剧本" }));
 
     const printableScript = screen.getByRole("region", { name: "完整家庭剧本" });
     expect(printableScript.querySelectorAll(".print-scene")).toHaveLength(3);
     expect(printableScript.querySelectorAll(".print-line")).toHaveLength(moonlightStory.lines.length);
     moonlightStory.lines.forEach(({ english }) => expect(printableScript.textContent).toContain(english));
     expect(screen.getByRole("button", { name: "打印完整家庭剧本" })).toBeTruthy();
+  });
+
+  it("offers an eight-page color learning pack by default", () => {
+    render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+    const pack = screen.getByRole("article", { name: "彩色故事学习包" });
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(8);
+    expect(pack.textContent).toContain("演前词汇热身");
+    expect(pack.textContent).toContain("句型与语法发现");
+    expect(pack.textContent).toContain("可裁剪记忆卡");
+    expect(pack.textContent).toContain("家长抽查页");
+    expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
+    expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
   });
 
   it("keeps cue lines and emphasizes only the daughter's roles in her printable script", async () => {
@@ -255,6 +269,7 @@ describe("StoryStage family story flow", () => {
     const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
 
+    await user.click(screen.getByRole("button", { name: "选择完整家庭剧本" }));
     await user.click(screen.getByRole("button", { name: "打印完整家庭剧本" }));
     await user.click(screen.getByRole("button", { name: "选择女儿的剧本" }));
     await user.click(screen.getByRole("button", { name: "打印女儿的角色剧本" }));
@@ -266,6 +281,7 @@ describe("StoryStage family story flow", () => {
     const user = userEvent.setup();
     const print = vi.spyOn(window, "print").mockImplementation(() => { throw new Error("blocked"); });
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+    await user.click(screen.getByRole("button", { name: "选择完整家庭剧本" }));
     await user.click(screen.getByRole("button", { name: "打印完整家庭剧本" }));
     expect(screen.getByRole("alert").textContent).toContain("浏览器菜单");
     print.mockRestore();

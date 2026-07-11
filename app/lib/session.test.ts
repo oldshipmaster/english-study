@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { Story } from "../types";
 import { assignRoles, parsePreferences, restoreAssignments } from "./session";
 import { createStoryMetadata } from "./metadata";
+import { stories } from "../data/stories";
 
 const story: Story = {
   id: "test-story",
@@ -110,5 +111,22 @@ describe("parsePreferences", () => {
 
     expect(restoreAssignments(story, stale)).toEqual(assignRoles(story, 3));
     expect(restoreAssignments(story, duplicated)).toEqual(assignRoles(story, 3));
+  });
+});
+
+describe("story learning packs", () => {
+  it("gives every story a complete paper learning pack", () => {
+    for (const story of stories) {
+      expect(story.learningPack.words).toHaveLength(8);
+      expect(story.learningPack.patterns).toHaveLength(2);
+      expect(story.learningPack.speakingChallenges.length).toBeGreaterThanOrEqual(3);
+      expect(story.learningPack.parentPrompts.length).toBeGreaterThanOrEqual(3);
+      story.learningPack.patterns.forEach((pattern) => {
+        expect(pattern.example).toBeTruthy();
+        expect(pattern.template).toBeTruthy();
+        expect(pattern.grammarTip).toBeTruthy();
+        expect(pattern.tasks).toHaveLength(2);
+      });
+    }
   });
 });

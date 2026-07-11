@@ -1,0 +1,19 @@
+import type { RoleAssignment, Story } from "../types";
+
+const personNames = { daughter: "女儿", parent1: "家长 1", parent2: "家长 2" } as const;
+
+export function LearningPackPrint({ story, assignments }: { story: Story; assignments: RoleAssignment[] }) {
+  const daughterRoles = assignments.find(({ personId }) => personId === "daughter")?.roleIds ?? [];
+  const daughterLines = story.lines.filter(({ roleId }) => daughterRoles.includes(roleId));
+  const pages = [
+    <section key="mission"><h1>{story.title}</h1><h2>1 · 家庭任务卡</h2><p>25–30 分钟：词汇热身 5 分钟 · 排练 10 分钟 · 演出 8 分钟 · 复习 5 分钟</p><ul>{story.roles.map((role) => { const owner = assignments.find((item) => item.roleIds.includes(role.id)); return <li key={role.id}>{role.emoji} {role.name} — {owner ? personNames[owner.personId] : "待分配"}</li>; })}</ul></section>,
+    <section key="warmup"><h2>2 · 演前词汇热身</h2><p>由孩子自己勾选：</p>{story.learningPack.words.map((item) => <div className="mastery-row" key={item.word}><strong>{item.word}</strong><span>{item.meaning}</span><span>□ 我认识　△ 有点难　○ 我不会</span>{item.review ? <small>滚动复习</small> : null}</div>)}</section>,
+    <section key="script"><h2>3 · 彩色完整剧本</h2>{story.lines.map((line, index) => { const role = story.roles.find(({ id }) => id === line.roleId)!; return <div className={`pack-script-line role-color-${story.roles.indexOf(role) + 1}`} key={index}><strong>{role.emoji} {role.name}</strong><p>{line.english}</p><small>{line.chinese}</small></div>})}</section>,
+    <section key="daughter"><h2>4 · 女儿角色练习页</h2>{daughterLines.map((line, index) => <div className="daughter-line" key={index}><p>{line.english}</p><small>{line.pronunciation ?? "先慢读，再带着表情说一遍。"}</small><span>□ 能读　□ 能看提示说　□ 能脱稿说</span></div>)}</section>,
+    <section key="patterns"><h2>5 · 句型与语法发现</h2>{story.learningPack.patterns.map((pattern) => <div className="pattern-box" key={pattern.title}><h3>{pattern.title}</h3><p>{pattern.purpose}</p><strong>{pattern.example}</strong><p className="pattern-template">{pattern.template}</p><p>替换词：{pattern.substitutions.join(" · ")}</p><p>小提醒：{pattern.grammarTip}</p>{pattern.tasks.map((task) => <p key={task}>□ {task}</p>)}</div>)}</section>,
+    <section key="speaking"><h2>6 · 开口挑战</h2>{story.learningPack.speakingChallenges.map((challenge, index) => <div className="speaking-task" key={challenge.prompt}><strong>挑战 {index + 1}</strong><p>{challenge.prompt}</p><small>需要时才看提示：{challenge.hint}</small><p>家长签名：____________　完成：☆ ☆ ☆</p></div>)}</section>,
+    <section key="cards"><h2>7 · 可裁剪记忆卡</h2><div className="memory-card-grid">{story.learningPack.words.map((item) => <article className="memory-card" key={item.word}><strong>{item.word}</strong><span>{item.meaning}</span><small>{item.example}</small></article>)}{story.learningPack.patterns.map((pattern) => <article className="memory-card sentence-card" key={pattern.title}><strong>{pattern.template}</strong><span>{pattern.purpose}</span></article>)}</div></section>,
+    <section key="parent"><h2>8 · 家长抽查页</h2><p className="parent-only">家长保管</p>{story.learningPack.parentPrompts.map((prompt, index) => <p key={prompt}>{index + 1}. {prompt}</p>)}<h3>答案与复习</h3><p>重点词：{story.learningPack.words.map(({ word, meaning }) => `${word}（${meaning}）`).join("；")}</p><p>□ 第二天抽查黄色和红色卡　□ 一周后再次造句　□ 会了的卡放入“已掌握”盒</p></section>,
+  ];
+  return <article className="learning-pack-print" aria-label="彩色故事学习包">{pages.map((page, index) => <div className="learning-pack-page" key={index}>{page}<footer>{story.title} · {index + 1} / {pages.length}</footer></div>)}</article>;
+}

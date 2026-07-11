@@ -1,6 +1,6 @@
-import type { Story } from "../types";
+import type { LearningPack, Story } from "../types";
 
-export const stories: Story[] = [
+const storyCatalog: Omit<Story, "learningPack">[] = [
   {
     id: "moonlight-picnic", title: "The Moonlight Picnic", chineseTitle: "月光野餐", category: "family", minutes: 10, level: "Elementary",
     vocabulary: { picnic: "野餐", basket: "篮子", moonlight: "月光", lantern: "灯笼", blanket: "毯子", evening: "傍晚", share: "分享", delicious: "美味的" },
@@ -206,3 +206,31 @@ export const stories: Story[] = [
     ],
   },
 ];
+
+function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
+  const vocabulary = Object.entries(story.vocabulary);
+  const previous = index > 0 ? Object.entries(storyCatalog[index - 1].vocabulary).slice(0, 3) : vocabulary.slice(5, 8);
+  const words = [...vocabulary.slice(0, 5).map(([word, meaning]) => ({ word, meaning, review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` })), ...previous.map(([word, meaning]) => ({ word, meaning, review: true, example: `Can you use ${word} in a new sentence?` }))];
+  const patternLines = [story.lines[0], story.lines.find((line) => line.roleId !== story.lines[0].roleId) ?? story.lines[1]];
+  const patterns = patternLines.map((line, patternIndex) => ({
+    title: patternIndex === 0 ? "说出正在发生的事" : "提出建议或表达计划",
+    purpose: patternIndex === 0 ? "用完整句描述故事里的情景。" : "告诉家人你想做什么。",
+    example: line.english,
+    template: patternIndex === 0 ? "人物 + is/are + 动作或状态" : "I/We + can/will + 动作",
+    substitutions: vocabulary.slice(patternIndex * 3, patternIndex * 3 + 3).map(([word]) => word),
+    grammarTip: patternIndex === 0 ? "人物不同，注意选择 is 或 are。" : "can 和 will 后面的动作词保持原形。",
+    tasks: ["换一个人物说新句子。", "换一个动作，再大声说一遍。"],
+  }));
+  return {
+    words: words.slice(0, 8),
+    patterns,
+    speakingChallenges: [
+      { prompt: "不看剧本，说出故事开始发生了什么。", hint: story.lines[0].english },
+      { prompt: "用今天的句型向家人提出一个建议。", hint: patterns[1].template },
+      { prompt: "选择两个重点词，编一句新的台词。", hint: words.slice(0, 2).map(({ word }) => word).join(" + ") },
+    ],
+    parentPrompts: ["先说中文，请孩子说英文。", "只给首字母，再让孩子补完整词。", "请孩子换一个人物或动作造新句。"],
+  };
+}
+
+export const stories: Story[] = storyCatalog.map((story, index) => ({ ...story, learningPack: createLearningPack(story, index) }));

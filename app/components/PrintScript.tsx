@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import type { RoleAssignment, Story } from "../types";
+import { LearningPackPrint } from "./LearningPackPrint";
 
 type PrintScriptProps = {
   story: Story;
@@ -17,9 +18,10 @@ const personNames: Record<RoleAssignment["personId"], string> = {
 };
 
 export function PrintScript({ story, assignments, selectedPersonId }: PrintScriptProps) {
+  const [printMode, setPrintMode] = useState<"learning-pack" | "script">(selectedPersonId ? "script" : "learning-pack");
   const [selectedPerson, setSelectedPerson] = useState<RoleAssignment["personId"] | null>(selectedPersonId ?? null);
   const focusRoleIds = selectedPerson ? assignments.find(({ personId }) => personId === selectedPerson)?.roleIds ?? [] : [];
-  const printLabel = selectedPerson ? `${personNames[selectedPerson]}的角色剧本` : "完整家庭剧本";
+  const printLabel = printMode === "learning-pack" ? "彩色故事学习包" : selectedPerson ? `${personNames[selectedPerson]}的角色剧本` : "完整家庭剧本";
   const scenes = Array.from({ length: Math.ceil(story.lines.length / 6) }, (_, index) => story.lines.slice(index * 6, index * 6 + 6));
   const [printError, setPrintError] = useState(false);
 
@@ -38,13 +40,14 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
       <div className="print-controls">
         <div>
           <p className="eyebrow">带到纸上</p>
-          <h2>打印排练剧本</h2>
-          <p>保留全剧提示，或突出某位家庭成员的台词。</p>
+          <h2>打印家庭学习材料</h2>
+          <p>推荐彩色学习包，也可打印完整或角色剧本。</p>
         </div>
         <div className="print-choice-list" aria-label="选择打印版本">
-          <button type="button" aria-pressed={selectedPerson === null} onClick={() => setSelectedPerson(null)}>选择完整家庭剧本</button>
+          <button type="button" aria-pressed={printMode === "learning-pack"} onClick={() => setPrintMode("learning-pack")}>选择彩色故事学习包</button>
+          <button type="button" aria-pressed={printMode === "script" && selectedPerson === null} onClick={() => { setPrintMode("script"); setSelectedPerson(null); }}>选择完整家庭剧本</button>
           {assignments.map(({ personId }) => (
-            <button key={personId} type="button" aria-pressed={selectedPerson === personId} onClick={() => setSelectedPerson(personId)}>
+            <button key={personId} type="button" aria-pressed={printMode === "script" && selectedPerson === personId} onClick={() => { setPrintMode("script"); setSelectedPerson(personId); }}>
               选择{personNames[personId]}的剧本
             </button>
           ))}
@@ -53,7 +56,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
         {printError ? <p className="print-fallback" role="alert">无法自动打开打印窗口，请使用浏览器菜单中的“打印”。</p> : null}
       </div>
 
-      <article className="print-sheet" role="region" aria-label={printLabel}>
+      {printMode === "learning-pack" ? <LearningPackPrint story={story} assignments={assignments} /> : <article className="print-sheet" role="region" aria-label={printLabel}>
         <header className="print-title">
           <p className="eyebrow">StoryStage · {printLabel}</p>
           <h1>{story.title}</h1>
@@ -91,7 +94,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
           <dl>{Object.entries(story.vocabulary).map(([word, meaning]) => <div key={word}><dt>{word}</dt><dd>{meaning}</dd></div>)}</dl>
         </section>
         <footer className="print-footer">StoryStage 家庭英语剧场 · 一起读，一起演。</footer>
-      </article>
+      </article>}
     </section>
   );
 }

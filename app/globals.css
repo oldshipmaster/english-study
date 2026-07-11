@@ -98,3 +98,24 @@ p { line-height: 1.6; }
   .print-speaker span { font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif; }
   .print-footer { position: relative; }
 }
+
+.learning-pack-print { display: none; }
+.mastery-row { display: grid; grid-template-columns: 1fr 1fr 2fr auto; gap: 10px; padding: 10px 0; border-bottom: 1px solid #b8c7d6; }
+.pattern-box, .speaking-task { border: 2px solid #b9a6d8; border-radius: 14px; padding: 14px; margin: 12px 0; background: #f7f1ff; }
+.pattern-template { font-size: 1.15rem; font-weight: 800; color: #17324d; }
+.memory-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.memory-card { min-height: 120px; border: 2px dashed #ef765f; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.memory-card strong { font-size: 1.25rem; }
+.daughter-line, .pack-script-line { padding: 10px 12px; margin: 8px 0; border-left: 6px solid #f2bd47; background: #fff9e8; break-inside: avoid; }
+.role-color-2 { border-color: #63b89a; background: #effaf6; }
+.role-color-3 { border-color: #ef765f; background: #fff3f0; }
+.parent-only { display: inline-block; padding: 5px 10px; border: 2px solid #ef765f; color: #a22f24; font-weight: 800; }
+
+@media print {
+  .learning-pack-print { display: block; }
+  .learning-pack-page { width: 100%; min-height: 260mm; padding: 12mm; background: white; break-after: page; page-break-after: always; color: #17324d; }
+  .learning-pack-page:last-child { break-after: auto; page-break-after: auto; }
+  .learning-pack-page > section { break-inside: avoid; }
+  .learning-pack-page footer { margin-top: 12mm; border-top: 1px solid #9aaabd; padding-top: 4mm; text-align: right; font-size: 10pt; }
+  .memory-card { break-inside: avoid; }
+}
