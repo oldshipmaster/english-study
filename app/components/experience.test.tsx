@@ -634,6 +634,9 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("只练我自己选的难词");
     expect(pack.querySelectorAll(".spelling-practice tbody tr")).toHaveLength(4);
     expect(pack.textContent).toContain("声音成长对比（可选）");
+    expect(pack.textContent).toContain("第 7 天仍需提示的词");
+    expect(pack.textContent).toContain("抄进《我的生词收藏册》");
+    expect(pack.querySelectorAll(".word-carryover")).toHaveLength(1);
     expect(pack.textContent).toContain("只保存在家长手机，不上传");
     expect(pack.textContent).toContain("停顿更少");
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
