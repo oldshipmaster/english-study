@@ -259,6 +259,14 @@ describe("StoryStage family story flow", () => {
     });
   });
 
+  it("keeps every bilingual story line complete enough to read aloud and print", () => {
+    stories.flatMap(({ lines }) => lines).forEach((line) => {
+      expect(line.english).toMatch(/^[A-Z]/);
+      expect(line.english).toMatch(/[.!?]$/);
+      expect(line.chinese).toMatch(/[。！？]$/);
+    });
+  });
+
   it("keeps every script role, vocabulary tag, and challenge answer internally valid", () => {
     stories.forEach((story) => {
       const roleIds = new Set(story.roles.map(({ id }) => id));
