@@ -94,4 +94,37 @@ done
 done
 
 total_pages=$((pack_count * expected_pages))
-echo "Print audit passed: $pack_count learning packs, $total_pages A4 pages total."
+
+word_bank_pdf="$temporary_root/word-bank.pdf"
+"$chrome" --headless=new --disable-gpu --no-pdf-header-footer \
+  --user-data-dir="$temporary_root/chrome-word-bank" \
+  --print-to-pdf="$word_bank_pdf" \
+  "http://127.0.0.1:4179/english-study/?wordbank=1" >/dev/null 2>&1 &
+chrome_pid=$!
+attempt=0
+while ! test -s "$word_bank_pdf"; do
+  attempt=$((attempt + 1))
+  if test "$attempt" -ge 100; then
+    kill "$chrome_pid" >/dev/null 2>&1 || true
+    echo "error: cumulative word-bank PDF generation timed out" >&2
+    exit 1
+  fi
+  sleep 0.1
+done
+kill "$chrome_pid" >/dev/null 2>&1 || true
+wait "$chrome_pid" >/dev/null 2>&1 || true
+
+word_bank_pages=$($pdfinfo_bin "$word_bank_pdf" | awk '/^Pages:/ { print $2 }')
+if test "$word_bank_pages" != "2"; then
+  echo "error: cumulative word bank rendered $word_bank_pages pages, expected 2" >&2
+  exit 1
+fi
+"$pdftotext_bin" "$word_bank_pdf" "$temporary_root/word-bank.txt"
+if ! grep -q "1 / 2" "$temporary_root/word-bank.txt" || ! grep -q "2 / 2" "$temporary_root/word-bank.txt"; then
+  echo "error: cumulative word bank is missing its first or final page marker" >&2
+  exit 1
+fi
+printf 'ok: %-24s %s A4 pages\n' "six-story-word-bank" "$word_bank_pages"
+
+total_pages=$((total_pages + word_bank_pages))
+echo "Print audit passed: $pack_count learning packs plus the word bank, $total_pages A4 pages total."

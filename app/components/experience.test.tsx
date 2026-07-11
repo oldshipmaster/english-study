@@ -77,6 +77,26 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("region", { name: "6 课英语成长地图" })).toBeTruthy();
   });
 
+  it("opens a two-page cumulative word bank with all 48 learning words", async () => {
+    const user = userEvent.setup();
+    const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
+    render(<Home />);
+    await user.click(screen.getByRole("button", { name: "打开 48 词累计复习本" }));
+    const wordBank = screen.getByRole("region", { name: "六课累计词汇本" });
+    expect(wordBank.querySelectorAll(".word-bank-page")).toHaveLength(2);
+    expect(wordBank.querySelectorAll(".word-bank-item")).toHaveLength(48);
+    stories.forEach(({ title }) => expect(wordBank.textContent).toContain(title));
+    await user.click(screen.getByRole("button", { name: "打印 48 词累计复习本" }));
+    expect(print).toHaveBeenCalledOnce();
+    print.mockRestore();
+  });
+
+  it("renders a direct cumulative word-bank preview URL", () => {
+    window.history.replaceState({}, "", "/?wordbank=1");
+    render(<Home />);
+    expect(screen.getByRole("region", { name: "六课累计词汇本" })).toBeTruthy();
+  });
+
   it("gives every printable learning word an independent pronunciation cue", () => {
     stories.forEach((story) => story.learningPack.words.forEach((item) => expect(item.pronunciation.trim()).not.toBe("")));
   });

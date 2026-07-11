@@ -8,6 +8,7 @@ import { ScriptPlayer } from "./components/ScriptPlayer";
 import { StoryLibrary } from "./components/StoryLibrary";
 import { PrintScript } from "./components/PrintScript";
 import { JourneyPrint } from "./components/JourneyPrint";
+import { WordBankPrint } from "./components/WordBankPrint";
 import { stories } from "./data/stories";
 import { assignRoles, parsePreferences, restoreAssignments } from "./lib/session";
 import type { LocalPreferences, PlayerCount, RoleAssignment, Story } from "./types";
@@ -51,6 +52,7 @@ export function StoryStageApp() {
   const printParams = hydrated ? new URLSearchParams(window.location.search) : null;
   const directPrintStory = printParams ? stories.find(({ id }) => id === printParams.get("print")) : null;
   const directJourney = printParams?.get("journey") === "1";
+  const directWordBank = printParams?.get("wordbank") === "1";
   const directPrintPlayerCount: PlayerCount = printParams?.get("players") === "3" ? 3 : 2;
 
   function startStory(assignments: RoleAssignment[]) {
@@ -75,6 +77,10 @@ export function StoryStageApp() {
 
   if (directJourney) {
     return <main className="library-shell journey-print-mode"><JourneyPrint stories={stories} /></main>;
+  }
+
+  if (directWordBank) {
+    return <main className="library-shell word-bank-print-mode"><WordBankPrint stories={stories} /></main>;
   }
 
   if (directPrintStory) {

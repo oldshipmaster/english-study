@@ -22,6 +22,7 @@ npm test -- --run
 npm run lint
 npm run build
 npm run build:pages
+npm run audit:print
 ```
 
 `npm run build:pages` 会在 `pages-dist/` 生成供 GitHub Pages 发布的静态站点。
@@ -48,6 +49,7 @@ npm run build:pages
 - 演后理解挑战与无障碍反馈
 - 完整家庭剧本和“保留全部台词、只重点突出自己台词”的角色打印版
 - 一张 A4 的六课成长地图
+- 两张 A4 的 48 词累计复习本：遮答案主动回忆、间隔复习、写词和新句迁移
 
 ## 彩色纸质学习包
 
@@ -69,9 +71,10 @@ npm run build:pages
 ```text
 http://localhost:4174/english-study/?print=moonlight-picnic&players=2
 http://localhost:4174/english-study/?journey=1
+http://localhost:4174/english-study/?wordbank=1
 ```
 
-打印验证要求为 A4、100% 缩放、开启背景图形；每次修改纸质布局后，应实际生成 PDF 并逐页检查裁切、页脚和可读性。
+打印验证要求为 A4、100% 缩放、开启背景图形；每次修改纸质布局后，应实际生成 PDF 并逐页检查裁切、页脚和可读性。`npm run audit:print` 使用 Chrome、`pdfinfo` 和 `pdftotext` 检查全部六个故事的 2 人与 3 人版本，以及累计词汇本；可通过 `CHROME_BIN`、`PDFINFO_BIN`、`PDFTOTEXT_BIN` 指定本机工具路径。
 
 ## 技术栈
 
