@@ -70,11 +70,12 @@ npm run audit:print
 
 ```text
 http://localhost:4174/english-study/?print=moonlight-picnic&players=2
+http://localhost:4174/english-study/?print=moonlight-picnic&players=2&person=daughter
 http://localhost:4174/english-study/?journey=1
 http://localhost:4174/english-study/?wordbank=1
 ```
 
-打印验证要求为 A4、100% 缩放、开启背景图形；每次修改纸质布局后，应实际生成 PDF 并逐页检查裁切、页脚和可读性。`npm run audit:print` 使用 Chrome、`pdfinfo` 和 `pdftotext` 检查全部六个故事的 2 人与 3 人版本，以及累计词汇本；可通过 `CHROME_BIN`、`PDFINFO_BIN`、`PDFTOTEXT_BIN` 指定本机工具路径。
+打印验证要求为 A4、100% 缩放、开启背景图形；每次修改纸质布局后，应实际生成 PDF 并逐页检查裁切、页脚和可读性。`npm run audit:print` 使用 Chrome、`pdfinfo` 和 `pdftotext` 检查全部六个故事的 2 人与 3 人学习包、六份保留完整 18 句的女儿剧本、累计词句本和成长地图；可通过 `CHROME_BIN`、`PDFINFO_BIN`、`PDFTOTEXT_BIN` 指定本机工具路径。
 
 ## 技术栈
 

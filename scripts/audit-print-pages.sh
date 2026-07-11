@@ -95,6 +95,52 @@ done
 
 total_pages=$((pack_count * expected_pages))
 
+role_script_count=0
+role_script_pages=0
+for story_id in $story_ids; do
+  pdf="$temporary_root/$story_id-daughter-script.pdf"
+  "$chrome" --headless=new --disable-gpu --no-pdf-header-footer \
+    --user-data-dir="$temporary_root/chrome-$story_id-daughter-script" \
+    --print-to-pdf="$pdf" \
+    "http://127.0.0.1:4179/english-study/?print=$story_id&players=2&person=daughter" >/dev/null 2>&1 &
+  chrome_pid=$!
+  attempt=0
+  while ! test -s "$pdf"; do
+    attempt=$((attempt + 1))
+    if test "$attempt" -ge 100; then
+      kill "$chrome_pid" >/dev/null 2>&1 || true
+      echo "error: daughter script generation timed out for $story_id" >&2
+      exit 1
+    fi
+    sleep 0.1
+  done
+  kill "$chrome_pid" >/dev/null 2>&1 || true
+  wait "$chrome_pid" >/dev/null 2>&1 || true
+
+  pages=$($pdfinfo_bin "$pdf" | awk '/^Pages:/ { print $2 }')
+  if test "$pages" != "3"; then
+    echo "error: $story_id daughter script rendered $pages pages, expected 3" >&2
+    exit 1
+  fi
+  text_file="$temporary_root/$story_id-daughter-script.txt"
+  "$pdftotext_bin" "$pdf" "$text_file"
+  normalized_text_file="$temporary_root/$story_id-daughter-script-normalized.txt"
+  tr -d '\014' <"$text_file" >"$normalized_text_file"
+  line_number=1
+  while test "$line_number" -le 18; do
+    if ! grep -qx "#$line_number" "$normalized_text_file"; then
+      echo "error: $story_id daughter script is missing line #$line_number" >&2
+      exit 1
+    fi
+    line_number=$((line_number + 1))
+  done
+  role_script_count=$((role_script_count + 1))
+  role_script_pages=$((role_script_pages + pages))
+  printf 'ok: %-24s daughter script · %s A4 pages\n' "$story_id" "$pages"
+done
+
+total_pages=$((total_pages + role_script_pages))
+
 word_bank_pdf="$temporary_root/word-bank.pdf"
 "$chrome" --headless=new --disable-gpu --no-pdf-header-footer \
   --user-data-dir="$temporary_root/chrome-word-bank" \
@@ -160,4 +206,4 @@ fi
 printf 'ok: %-24s %s A4 page\n' "six-story-learning-journey" "$journey_pages"
 
 total_pages=$((total_pages + journey_pages))
-echo "Print audit passed: $pack_count learning packs plus both cumulative resources, $total_pages A4 pages total."
+echo "Print audit passed: $pack_count learning packs, $role_script_count daughter scripts, and both cumulative resources; $total_pages A4 pages total."

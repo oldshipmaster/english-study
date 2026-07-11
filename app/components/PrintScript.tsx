@@ -81,7 +81,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
                 const isFocusLine = selectedPerson !== null && focusRoleIds.includes(line.roleId);
                 return (
                   <div className={`print-line${isFocusLine ? " is-focus-line" : ""}`} key={`${sceneIndex}-${lineIndex}`}>
-                    <p className="print-speaker"><span aria-hidden="true">{role.emoji}</span> {role.name}{isFocusLine ? " · 我的台词" : ""}</p>
+                    <p className="print-speaker"><b className="print-line-number">#{sceneIndex * 6 + lineIndex + 1}</b><span aria-hidden="true">{role.emoji}</span> {role.name}{isFocusLine ? " · 我的台词" : ""}</p>
                     {line.stageDirection ? <p className="print-direction">提示：{line.stageDirection}</p> : null}
                     <p className="print-english">{line.english}</p>
                     {line.pronunciation ? <p className="print-pronunciation">发音：{line.pronunciation}</p> : null}

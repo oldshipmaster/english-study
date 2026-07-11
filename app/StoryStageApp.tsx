@@ -54,6 +54,9 @@ export function StoryStageApp() {
   const directJourney = printParams?.get("journey") === "1";
   const directWordBank = printParams?.get("wordbank") === "1";
   const directPrintPlayerCount: PlayerCount = printParams?.get("players") === "3" ? 3 : 2;
+  const directPrintAssignments = directPrintStory ? assignRoles(directPrintStory, directPrintPlayerCount) : [];
+  const requestedPrintPerson = printParams?.get("person");
+  const directPrintPerson = directPrintAssignments.find(({ personId }) => personId === requestedPrintPerson)?.personId;
 
   function startStory(assignments: RoleAssignment[]) {
     const count = assignments.length as PlayerCount;
@@ -84,7 +87,7 @@ export function StoryStageApp() {
   }
 
   if (directPrintStory) {
-    return <div id="top"><PrintScript story={directPrintStory} assignments={assignRoles(directPrintStory, directPrintPlayerCount)} /></div>;
+    return <div id="top"><PrintScript story={directPrintStory} assignments={directPrintAssignments} selectedPersonId={directPrintPerson} /></div>;
   }
 
   let content;

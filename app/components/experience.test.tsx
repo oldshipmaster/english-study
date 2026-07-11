@@ -77,6 +77,15 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
   });
 
+  it("renders a direct daughter script with all numbered cue lines", () => {
+    window.history.replaceState({}, "", "/?print=moonlight-picnic&players=2&person=daughter");
+    render(<Home />);
+    const script = screen.getByRole("region", { name: "女儿的角色剧本" });
+    expect(script.querySelectorAll(".print-line")).toHaveLength(18);
+    expect(script.querySelectorAll(".print-line-number")).toHaveLength(18);
+    expect(script.querySelectorAll(".print-line.is-focus-line")).toHaveLength(7);
+  });
+
   it("renders a direct journey preview URL for A4 quality checks", () => {
     window.history.replaceState({}, "", "/?journey=1");
     render(<Home />);
@@ -541,6 +550,8 @@ describe("StoryStage family story flow", () => {
     const expectedFocusLines = moonlightStory.lines.filter(({ roleId }) => daughterRoleIds.includes(roleId)).length;
     expect(printableScript.querySelectorAll(".print-line.is-focus-line")).toHaveLength(expectedFocusLines);
     expect(printableScript.querySelectorAll(".print-line:not(.is-focus-line)")).toHaveLength(moonlightStory.lines.length - expectedFocusLines);
+    expect(printableScript.querySelectorAll(".print-line-number")).toHaveLength(18);
+    expect(printableScript.querySelectorAll(".print-line-number")[17].textContent).toBe("#18");
     expect(printableScript.textContent).toContain(moonlightStory.lines[0].english);
     expect(printableScript.textContent).toContain(moonlightStory.lines[1].english);
     expect(printableScript.textContent).toContain("粗框和下划线是我的台词");
