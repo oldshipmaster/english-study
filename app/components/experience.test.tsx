@@ -241,10 +241,10 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("button", { name: "打印完整家庭剧本" })).toBeTruthy();
   });
 
-  it("offers a nine-page color learning pack by default", () => {
+  it("offers a ten-page color learning pack by default", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(9);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(10);
     expect(pack.textContent).toContain("演前词汇热身");
     expect(pack.textContent).toContain("句型与语法发现");
     expect(pack.textContent).toContain("可折叠记忆卡");
@@ -261,6 +261,10 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("A = 看答案后重说");
     expect(pack.textContent).toContain("当天基线");
     expect(pack.querySelectorAll(".parent-evidence tbody tr")).toHaveLength(3);
+    expect(pack.textContent).toContain("旧词滚动挑战");
+    expect(pack.textContent).toContain("间隔 10 分钟后");
+    expect(pack.textContent).toContain("旧词 + 新词");
+    expect(pack.querySelectorAll(".rolling-review-word")).toHaveLength(3);
     expect(pack.textContent).toContain("第二天");
     expect(pack.textContent).toContain("第七天");
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);

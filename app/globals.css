@@ -123,6 +123,10 @@ p { line-height: 1.6; }
 .parent-evidence { width: 100%; border-collapse: collapse; margin: 10px 0; }
 .parent-evidence th, .parent-evidence td { border: 1px solid #789; padding: 7px; text-align: center; }
 .parent-evidence thead th { background: #e8eef8; }
+.rolling-rule { border: 2px solid #8c6bb1; background: #f5effb; padding: 9px; }
+.rolling-review-word { display: grid; gap: 5px; border-left: 6px solid #8c6bb1; background: #faf7fd; padding: 10px 12px; margin: 10px 0; }
+.rolling-review-word p { margin: 2px 0; }
+.mixed-sentence { border: 2px solid #e39554; background: #fff6e9; padding: 10px 12px; margin-top: 14px; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }
 .role-color-3 { border-color: #ef765f; background: #fff3f0; }
 .parent-only { display: inline-block; padding: 5px 10px; border: 2px solid #ef765f; color: #a22f24; font-weight: 800; }
