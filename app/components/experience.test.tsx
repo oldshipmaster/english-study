@@ -381,6 +381,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".retell-stage")).toHaveLength(4);
     expect(pack.textContent).toContain("语法小侦探");
     expect(pack.textContent).toContain("语法侦探答案");
+    expect(pack.textContent).toContain("句子拼图答案");
     expect(pack.querySelectorAll(".grammar-detective-case")).toHaveLength(2);
     expect(pack.textContent).toContain("家庭英语聊天卡");
     expect(pack.textContent).toContain("先回答自己真实的想法");

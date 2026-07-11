@@ -11,7 +11,7 @@
     "build:pages": "vite build --config vite.pages.config.ts",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "vitest",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern pages-dist"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern pages-dist --ignore-pattern tmp --ignore-pattern output"
   },
   "dependencies": {
     "next": "16.2.6",
