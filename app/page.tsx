@@ -7,7 +7,7 @@ import { RoleAssignmentView } from "./components/RoleAssignment";
 import { ScriptPlayer } from "./components/ScriptPlayer";
 import { StoryLibrary } from "./components/StoryLibrary";
 import { stories } from "./data/stories";
-import { assignRoles } from "./lib/session";
+import { parsePreferences, restoreAssignments } from "./lib/session";
 import type { LocalPreferences, PlayerCount, RoleAssignment, Story } from "./types";
 
 const preferenceKey = "storystage.preferences";
@@ -18,9 +18,7 @@ function readPreferences(): LocalPreferences | null {
   try {
     const stored = window.localStorage.getItem(preferenceKey);
     if (!stored) return null;
-    const value = JSON.parse(stored) as Partial<LocalPreferences>;
-    if (typeof value.storyId !== "string" || (value.playerCount !== 2 && value.playerCount !== 3) || typeof value.showHints !== "boolean") return null;
-    return { storyId: value.storyId, playerCount: value.playerCount, showHints: value.showHints };
+    return parsePreferences(stored);
   } catch {
     return null;
   }
@@ -45,7 +43,7 @@ export default function Home() {
   const [showHints, setShowHints] = useState<boolean | null>(null);
   const [challenge, setChallenge] = useState(false);
   const activeStory = selectedStory ?? (ignoreRestoredSession ? null : restoredStory);
-  const activeAssignments = started ?? (ignoreRestoredSession || !restoredStory || !restoredPreferences ? null : assignRoles(restoredStory, restoredPreferences.playerCount));
+  const activeAssignments = started ?? (ignoreRestoredSession || !restoredStory || !restoredPreferences ? null : restoreAssignments(restoredStory, restoredPreferences));
   const activePlayerCount = playerCount ?? restoredPreferences?.playerCount ?? 2;
   const activeShowHints = showHints ?? restoredPreferences?.showHints ?? false;
 
@@ -54,12 +52,12 @@ export default function Home() {
     setPlayerCount(count);
     setStarted(assignments);
     setChallenge(false);
-    if (activeStory) writePreferences({ storyId: activeStory.id, playerCount: count, showHints: activeShowHints });
+    if (activeStory) writePreferences({ storyId: activeStory.id, playerCount: count, showHints: activeShowHints, assignments });
   }
 
   function changeHints(nextShowHints: boolean) {
     setShowHints(nextShowHints);
-    if (activeStory) writePreferences({ storyId: activeStory.id, playerCount: activePlayerCount, showHints: nextShowHints });
+    if (activeStory && activeAssignments) writePreferences({ storyId: activeStory.id, playerCount: activePlayerCount, showHints: nextShowHints, assignments: activeAssignments });
   }
 
   function chooseNewStory() {

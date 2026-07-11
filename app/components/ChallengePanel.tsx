@@ -53,8 +53,8 @@ export function ChallengePanel({ questions, onRestart, onChooseStory }: Challeng
           ))}
         </div>
         {selectedAnswer !== null ? (
-          <div className="encouragement">
-            <p>{question.encouragement}</p>
+          <div className="encouragement" role="status">
+            <p><strong>{selectedAnswer === question.answerIndex ? "答对了！" : "还差一点，下次一定行！"}</strong> {question.encouragement}</p>
             <button
               className="primary-control"
               type="button"

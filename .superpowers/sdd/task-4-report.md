@@ -128,3 +128,88 @@ Built-metadata check confirmed the requested title/description and `/og.png` ref
 - `metadataBase` currently uses `https://storystage.pages.dev` to ensure absolute Open Graph/X image URLs before a final hosting URL exists. The publishing controller should replace it if Sites assigns a different canonical production host.
 - `npm install` reports 14 pre-existing audit findings (1 low, 7 moderate, 6 high). No audit remediation was attempted because it would expand scope and could introduce breaking dependency changes.
 - No browser or print-preview inspection was performed because the controller explicitly prohibited browser testing; automated DOM, CSS, asset, lint, and production-build evidence is green.
+
+## Final whole-branch review fix wave (2026-07-11)
+
+### Implementation details
+
+- Challenge answers now compare the chosen option with `answerIndex`, announce correct/incorrect feedback through a `status` region, and retain the story-specific encouragement.
+- Performance mode now has a per-line temporary help control that reveals Chinese, current vocabulary, and pronunciation without writing rehearsal hint preferences. It hides on request and line navigation.
+- The named script stage supports pointer/touch horizontal swipes with a 60px threshold, rejects predominantly vertical gestures, and clamps at the first/last line.
+- Print CSS adds a paged-media bottom-center `counter(page)` footer while preserving monochrome focus treatment, protected page breaks, and the approved all-lines role-specific print sequence.
+- Local preferences now persist anonymous role mappings. Restoration accepts them only when people match the selected cast size, every current story role appears exactly once, and per-person role counts fit 2- or 3-player mode; otherwise it uses safe default assignments.
+- Added optional line pronunciation guidance and one elementary pronunciation/stress example to each of the six stories. Help appears in rehearsal/performance assistance and printable lines only when present.
+- Printing now catches missing or throwing `window.print()` and exposes concise browser-menu instructions in an alert.
+- Removed the assumed `storystage.pages.dev` origin and host-dependent social image metadata while retaining title, description, and non-host-dependent social metadata.
+- Replaced the starter README and removed the unused auth helper, D1 API/example, database helpers/schema, Drizzle config/script, and Drizzle packages. Retained `build/sites-vite-plugin.ts` because `vite.config.ts` actively uses it to package `.openai/hosting.json` for Sites builds.
+
+### RED / GREEN evidence
+
+Initial focused RED:
+
+```text
+npm test -- --run app/lib/session.test.ts app/components/experience.test.tsx
+```
+
+Exit 1: 2 files failed; 7 failed / 19 passed; one expected uncaught print error. Failures identified missing temporary performance hint, swipe region/behavior, pronunciation help, print fallback, challenge status feedback, and assignment restoration.
+
+First implementation run: exit 1; 1 failed / 25 passed. The only failure was the old local-storage snapshot expecting no `assignments`; the implementation correctly persisted the new anonymous mapping, so the contract assertion was updated.
+
+Focused GREEN:
+
+```text
+npm test -- --run app/lib/session.test.ts app/components/experience.test.tsx
+```
+
+Exit 0: 2 files passed; 26/26 tests passed.
+
+### Final verification
+
+```text
+npm test -- --run
+```
+
+Exit 0: 2 files passed; 26/26 tests passed.
+
+```text
+npm run lint
+```
+
+Exit 0: ESLint completed with no findings.
+
+```text
+npm run build
+```
+
+Exit 0: vinext completed all 5/5 build stages. It emitted the existing proxy-environment warning and informational unknown-route classification, with no build error.
+
+`git diff --check` also exited 0 with no whitespace errors before commit.
+
+### Files changed in final fix wave
+
+- `README.md`
+- `app/components/ChallengePanel.tsx`
+- `app/components/PrintScript.tsx`
+- `app/components/ScriptPlayer.tsx`
+- `app/components/experience.test.tsx`
+- `app/data/stories.ts`
+- `app/globals.css`
+- `app/layout.tsx`
+- `app/lib/session.test.ts`
+- `app/lib/session.ts`
+- `app/page.tsx`
+- `app/types.ts`
+- `package.json`
+- `package-lock.json`
+- Deleted `app/chatgpt-auth.ts`
+- Deleted `db/index.ts`
+- Deleted `db/schema.ts`
+- Deleted `drizzle.config.ts`
+- Deleted `examples/d1/app/api/notes/route.ts`
+- Deleted `examples/d1/db/schema.ts`
+
+### Final concerns
+
+- Browser and print-preview inspection were intentionally not performed per controller instruction; swipe and print behavior are covered by DOM tests and production build verification.
+- The generated `public/og.png` remains available, but host-dependent OG/X image metadata is intentionally omitted until the publishing controller can provide the real deployed origin.
+- `npm install --package-lock-only` reports 11 audit findings (2 low, 3 moderate, 6 high). No broad audit remediation was attempted because that could introduce out-of-scope dependency changes.

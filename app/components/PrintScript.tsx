@@ -21,6 +21,17 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
   const focusRoleIds = selectedPerson ? assignments.find(({ personId }) => personId === selectedPerson)?.roleIds ?? [] : [];
   const printLabel = selectedPerson ? `${personNames[selectedPerson]}的角色剧本` : "完整家庭剧本";
   const scenes = Array.from({ length: Math.ceil(story.lines.length / 6) }, (_, index) => story.lines.slice(index * 6, index * 6 + 6));
+  const [printError, setPrintError] = useState(false);
+
+  function printScript() {
+    setPrintError(false);
+    try {
+      if (typeof window.print !== "function") throw new Error("Printing unavailable");
+      window.print();
+    } catch {
+      setPrintError(true);
+    }
+  }
 
   return (
     <section className="print-panel">
@@ -38,7 +49,8 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
             </button>
           ))}
         </div>
-        <button className="print-action primary-control" type="button" onClick={() => window.print()}>打印{printLabel}</button>
+        <button className="print-action primary-control" type="button" onClick={printScript}>打印{printLabel}</button>
+        {printError ? <p className="print-fallback" role="alert">无法自动打开打印窗口，请使用浏览器菜单中的“打印”。</p> : null}
       </div>
 
       <article className="print-sheet" role="region" aria-label={printLabel}>
@@ -66,6 +78,7 @@ export function PrintScript({ story, assignments, selectedPersonId }: PrintScrip
                     <p className="print-speaker"><span aria-hidden="true">{role.emoji}</span> {role.name}{isFocusLine ? " · 我的台词" : ""}</p>
                     {line.stageDirection ? <p className="print-direction">提示：{line.stageDirection}</p> : null}
                     <p className="print-english">{line.english}</p>
+                    {line.pronunciation ? <p className="print-pronunciation">发音：{line.pronunciation}</p> : null}
                     <p className="print-chinese">{line.chinese}</p>
                   </div>
                 );

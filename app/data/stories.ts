@@ -10,7 +10,7 @@ export const stories: Story[] = [
       { id: "grandma", name: "Grandma", emoji: "👵", childFriendly: false },
     ],
     lines: [
-      { roleId: "mia", english: "Today is our picnic day!", chinese: "今天是我们的野餐日！", vocabulary: ["picnic"] },
+      { roleId: "mia", english: "Today is our picnic day!", chinese: "今天是我们的野餐日！", vocabulary: ["picnic"], pronunciation: "picnic: PIC-nik（重音在 PIC）" },
       { roleId: "dad", english: "Let us pack the basket.", chinese: "我们来装好篮子吧。", vocabulary: ["basket"] },
       { roleId: "grandma", english: "I made delicious sandwiches.", chinese: "我做了美味的三明治。", vocabulary: ["delicious"] },
       { roleId: "mia", english: "The moonlight is shining.", chinese: "月光正在闪耀。", vocabulary: ["moonlight"] },
@@ -44,7 +44,7 @@ export const stories: Story[] = [
       { id: "sam", name: "Sam", emoji: "🧑", childFriendly: false },
     ],
     lines: [
-      { roleId: "leo", english: "It is time for lunch.", chinese: "午餐时间到了。" },
+      { roleId: "leo", english: "It is time for lunch.", chinese: "午餐时间到了。", pronunciation: "lunch: LUNCH（与中文“浪”开头相近）" },
       { roleId: "sam", english: "I have rice and carrots.", chinese: "我有米饭和胡萝卜。" },
       { roleId: "leo", english: "My lunchbox is missing!", chinese: "我的午餐盒不见了！", vocabulary: ["lunchbox", "missing"] },
       { roleId: "teacher", english: "Stay calm, Leo.", chinese: "冷静点，利奥。" },
@@ -78,7 +78,7 @@ export const stories: Story[] = [
       { id: "owl", name: "Wise Owl", emoji: "🦉", childFriendly: false },
     ],
     lines: [
-      { roleId: "lily", english: "There is a secret path in the forest.", chinese: "森林里有一条秘密小路。", vocabulary: ["secret"] },
+      { roleId: "lily", english: "There is a secret path in the forest.", chinese: "森林里有一条秘密小路。", vocabulary: ["secret"], pronunciation: "secret: SEE-krit（重音在 SEE）" },
       { roleId: "owl", english: "Look up at the old tree.", chinese: "抬头看看那棵老树。", vocabulary: ["tree"] },
       { roleId: "dragon", english: "I found a wooden ladder.", chinese: "我发现了一架木梯。", vocabulary: ["ladder"] },
       { roleId: "lily", english: "It leads to a secret tree house.", chinese: "它通向一间秘密树屋。" },
@@ -112,7 +112,7 @@ export const stories: Story[] = [
       { id: "uncle", name: "Uncle Ben", emoji: "👨", childFriendly: false },
     ],
     lines: [
-      { roleId: "zoe", english: "What a busy morning!", chinese: "真是个忙碌的早晨！", vocabulary: ["morning"] },
+      { roleId: "zoe", english: "What a busy morning!", chinese: "真是个忙碌的早晨！", vocabulary: ["morning"], pronunciation: "morning: MOR-ning（重音在 MOR）" },
       { roleId: "mom", english: "We have twenty minutes to get ready.", chinese: "我们有二十分钟准备好。", vocabulary: ["ready"] },
       { roleId: "uncle", english: "I will make breakfast.", chinese: "我来做早餐。", vocabulary: ["breakfast"] },
       { roleId: "zoe", english: "I can pack my backpack.", chinese: "我可以收拾书包。", vocabulary: ["backpack"] },
@@ -146,7 +146,7 @@ export const stories: Story[] = [
       { id: "noah", name: "Noah", emoji: "🧒", childFriendly: false },
     ],
     lines: [
-      { roleId: "ava", english: "Today is our class talent show!", chinese: "今天是班级才艺秀！", vocabulary: ["talent"] },
+      { roleId: "ava", english: "Today is our class talent show!", chinese: "今天是班级才艺秀！", vocabulary: ["talent"], pronunciation: "talent: TAL-ent（重音在 TAL）" },
       { roleId: "noah", english: "The stage looks bright.", chinese: "舞台看起来真明亮。", vocabulary: ["stage"] },
       { roleId: "mrchen", english: "Everyone has time to practice.", chinese: "每个人都有时间练习。", vocabulary: ["practice"] },
       { roleId: "ava", english: "I will sing an English song.", chinese: "我要唱一首英文歌。" },
@@ -180,7 +180,7 @@ export const stories: Story[] = [
       { id: "bird", name: "Sky Bird", emoji: "🦜", childFriendly: false },
     ],
     lines: [
-      { roleId: "ruby", english: "A silver cloud is beside my window.", chinese: "一朵银色的云在我窗边。", vocabulary: ["cloud"] },
+      { roleId: "ruby", english: "A silver cloud is beside my window.", chinese: "一朵银色的云在我窗边。", vocabulary: ["cloud"], pronunciation: "cloud: CLOUD（一个音节，嘴形从 a 滑向 oo）" },
       { roleId: "bird", english: "Climb on! The postman needs you.", chinese: "爬上来！邮差需要你。", vocabulary: ["postman"] },
       { roleId: "giant", english: "Welcome to the cloud post office.", chinese: "欢迎来到云朵邮局。" },
       { roleId: "ruby", english: "Why are these letters still here?", chinese: "这些信为什么还在这里？", vocabulary: ["letter"] },

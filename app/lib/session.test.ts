@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { Story } from "../types";
-import { assignRoles, parsePreferences } from "./session";
+import { assignRoles, parsePreferences, restoreAssignments } from "./session";
 
 const story: Story = {
   id: "test-story",
@@ -59,5 +59,39 @@ describe("parsePreferences", () => {
         JSON.stringify({ storyId: "picnic", playerCount: 2, showHints: "yes" }),
       ),
     ).toBeNull();
+  });
+
+  it("restores a complete customized role mapping for the selected cast size", () => {
+    const preferences = parsePreferences(JSON.stringify({
+      storyId: "test-story", playerCount: 2, showHints: false,
+      assignments: [
+        { personId: "daughter", roleIds: ["helper"] },
+        { personId: "parent1", roleIds: ["child", "friend"] },
+      ],
+    }));
+
+    expect(preferences && restoreAssignments(story, preferences)).toEqual([
+      { personId: "daughter", roleIds: ["helper"] },
+      { personId: "parent1", roleIds: ["child", "friend"] },
+    ]);
+  });
+
+  it("falls back when a saved mapping is stale, duplicated, or mismatched to the cast size", () => {
+    const stale = parsePreferences(JSON.stringify({
+      storyId: "test-story", playerCount: 3, showHints: false,
+      assignments: [
+        { personId: "daughter", roleIds: ["child"] },
+        { personId: "parent1", roleIds: ["helper"] },
+        { personId: "parent2", roleIds: ["missing"] },
+      ],
+    }))!;
+    const duplicated = { ...stale, assignments: [
+      { personId: "daughter" as const, roleIds: ["child"] },
+      { personId: "parent1" as const, roleIds: ["child"] },
+      { personId: "parent2" as const, roleIds: ["friend"] },
+    ] };
+
+    expect(restoreAssignments(story, stale)).toEqual(assignRoles(story, 3));
+    expect(restoreAssignments(story, duplicated)).toEqual(assignRoles(story, 3));
   });
 });

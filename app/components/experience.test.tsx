@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -169,6 +169,45 @@ describe("StoryStage family story flow", () => {
     expect(screen.queryByRole("region", { name: "重点词汇" })).toBeNull();
   });
 
+  it("reveals and hides a temporary performance hint without changing rehearsal preferences", async () => {
+    const user = userEvent.setup();
+    const onShowHintsChange = vi.fn();
+    render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="performance" showHints={false} onShowHintsChange={onShowHintsChange} onComplete={() => undefined} onExit={() => undefined} />);
+
+    await user.click(screen.getByRole("button", { name: "查看本句提示" }));
+    expect(screen.getByText("今天是我们的野餐日！")).toBeTruthy();
+    expect(screen.getByRole("region", { name: "重点词汇" }).textContent).toContain("picnic");
+    expect(screen.getByText(/PIC-nik/)).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "隐藏本句提示" }));
+    expect(screen.queryByText("今天是我们的野餐日！")).toBeNull();
+    expect(onShowHintsChange).not.toHaveBeenCalled();
+  });
+
+  it("navigates on horizontal pointer swipes, ignores vertical movement, and respects boundaries", () => {
+    render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="rehearsal" showHints={false} onComplete={() => undefined} onExit={() => undefined} />);
+    const stage = screen.getByRole("region", { name: "台词舞台" });
+
+    fireEvent.pointerDown(stage, { clientX: 240, clientY: 100, pointerId: 1 });
+    fireEvent.pointerUp(stage, { clientX: 100, clientY: 110, pointerId: 1 });
+    expect(screen.getByText("2 / 18")).toBeTruthy();
+    fireEvent.pointerDown(stage, { clientX: 100, clientY: 100, pointerId: 2 });
+    fireEvent.pointerUp(stage, { clientX: 120, clientY: 220, pointerId: 2 });
+    expect(screen.getByText("2 / 18")).toBeTruthy();
+    fireEvent.pointerDown(stage, { clientX: 100, clientY: 100, pointerId: 3 });
+    fireEvent.pointerUp(stage, { clientX: 240, clientY: 110, pointerId: 3 });
+    fireEvent.pointerDown(stage, { clientX: 100, clientY: 100, pointerId: 4 });
+    fireEvent.pointerUp(stage, { clientX: 240, clientY: 110, pointerId: 4 });
+    expect(screen.getByText("1 / 18")).toBeTruthy();
+  });
+
+  it("shows pronunciation help when supplied and omits it when absent", async () => {
+    const user = userEvent.setup();
+    render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="rehearsal" showHints onComplete={() => undefined} onExit={() => undefined} />);
+    expect(screen.getByText(/PIC-nik/)).toBeTruthy();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.queryByText(/PIC-nik/)).toBeNull();
+  });
+
   it("prints the complete family script with every line in stable scene and line blocks", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
 
@@ -203,6 +242,15 @@ describe("StoryStage family story flow", () => {
     await user.click(screen.getByRole("button", { name: "选择女儿的剧本" }));
     await user.click(screen.getByRole("button", { name: "打印女儿的角色剧本" }));
     expect(print).toHaveBeenCalledTimes(2);
+    print.mockRestore();
+  });
+
+  it("shows browser-menu fallback instructions when printing is unavailable or fails", async () => {
+    const user = userEvent.setup();
+    const print = vi.spyOn(window, "print").mockImplementation(() => { throw new Error("blocked"); });
+    render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+    await user.click(screen.getByRole("button", { name: "打印完整家庭剧本" }));
+    expect(screen.getByRole("alert").textContent).toContain("浏览器菜单");
     print.mockRestore();
   });
 
@@ -246,6 +294,18 @@ describe("StoryStage family story flow", () => {
     expect(onChooseStory).toHaveBeenCalledOnce();
   });
 
+  it("announces correct and incorrect challenge feedback while retaining encouragement", async () => {
+    const user = userEvent.setup();
+    render(<ChallengePanel questions={moonlightStory.challenges} onRestart={() => undefined} onChooseStory={() => undefined} />);
+    await user.click(screen.getByRole("button", { name: "It is raining" }));
+    expect(screen.getByRole("status").textContent).toContain("还差一点");
+    expect(screen.getByRole("status").textContent).toContain("Great listening!");
+    await user.click(screen.getByRole("button", { name: "下一题" }));
+    await user.click(screen.getByRole("button", { name: "In a tree" }));
+    expect(screen.getByRole("status").textContent).toContain("答对了");
+    expect(screen.getByRole("status").textContent).toContain("Wonderful work!");
+  });
+
   it("persists only safe preferences and restores the story at line one", async () => {
     const user = userEvent.setup();
     window.localStorage.clear();
@@ -259,6 +319,11 @@ describe("StoryStage family story flow", () => {
       storyId: "moonlight-picnic",
       playerCount: 3,
       showHints: true,
+      assignments: [
+        { personId: "daughter", roleIds: ["mia"] },
+        { personId: "parent1", roleIds: ["dad"] },
+        { personId: "parent2", roleIds: ["grandma"] },
+      ],
     });
     firstRender.unmount();
     render(<Home />);
