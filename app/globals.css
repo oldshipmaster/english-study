@@ -216,6 +216,8 @@ p { line-height: 1.6; }
 .spelling-practice { width: 100%; border-collapse: collapse; font-size: .78rem; }
 .spelling-practice th, .spelling-practice td { border: 1px solid #7890a6; padding: 5px; text-align: center; }
 .spelling-practice thead { background: #fff1da; }
+.voice-comparison { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin-top: 10px; border: 2px solid #6e9d8b; background: #eef8f2; padding: 8px 10px; }
+.voice-comparison span { font-size: .76rem; }.voice-comparison p { grid-column: 1 / -1; margin: 2px 0; }
 
 @media print {
   .learning-pack-print { display: block; }
