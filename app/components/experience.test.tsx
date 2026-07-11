@@ -39,6 +39,11 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("heading", { name: "今晚，把英语故事演出来。" })).toBeTruthy();
     expect(screen.getByText("适合 9–11 岁小学基础 · 每次 8–10 分钟 · 以纸质练习为主")).toBeTruthy();
     expect(screen.getByRole("link", { name: "先看纸质练习" }).getAttribute("href")).toBe("#paper-tools");
+    expect(screen.getByRole("region", { name: "纸质练习打印导航" })).toBeTruthy();
+    expect(screen.getByText("每课学习包").parentElement?.textContent).toContain("17 页");
+    expect(screen.getByText("角色重点剧本").parentElement?.textContent).toContain("3 页");
+    expect(screen.getByText("六课累计复习").parentElement?.textContent).toContain("6 页");
+    expect(screen.getByText("原创毕业工坊").parentElement?.textContent).toContain("4 页");
     expect(screen.getAllByText("小学基础")).toHaveLength(6);
     expect(screen.getByText("提出一起做的建议")).toBeTruthy();
     expect(screen.getByText("说出自己将要做什么")).toBeTruthy();

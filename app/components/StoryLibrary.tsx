@@ -86,7 +86,11 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
           ))}
         </div>
       </section>
-      <section className="journey-launch" id="paper-tools"><div><p className="eyebrow">Paper practice</p><h2>把六个故事连成一条学习路</h2><p>打印一张 A4 成长地图，记录第 0、2、7 天的复习。</p></div><button type="button" aria-expanded={showJourney} onClick={() => { setShowJourney((current) => !current); setShowWordBank(false); setShowCreator(false); }}>{showJourney ? "收起 6 课成长地图" : "打开 6 课成长地图"}</button>{showJourney ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 6 课成长地图</button> : null}</section>
+      <section className="paper-print-guide" id="paper-tools" role="region" aria-label="纸质练习打印导航">
+        <div className="paper-guide-intro"><div><p className="eyebrow">Paper practice</p><h2>按今天的目标打印</h2></div><p>先选最需要的一份；每张都按彩色 A4、100% 缩放设计。</p></div>
+        <div className="paper-guide-options"><article><strong>每课学习包</strong><b>17 页</b><span>首次学习 · 7 天复用</span></article><article><strong>角色重点剧本</strong><b>3 页</b><span>保留全剧 · 重点标自己的台词</span></article><article><strong>六课累计复习</strong><b>6 页</b><span>48 词 · 12 句型 · 自选生词</span></article><article><strong>原创毕业工坊</strong><b>4 页</b><span>2–3 人 · 18 句原创剧本</span></article></div>
+      </section>
+      <section className="journey-launch"><div><h2>把六个故事连成一条学习路</h2><p>打印一张 A4 成长地图，记录第 0、2、7 天的复习。</p></div><button type="button" aria-expanded={showJourney} onClick={() => { setShowJourney((current) => !current); setShowWordBank(false); setShowCreator(false); }}>{showJourney ? "收起 6 课成长地图" : "打开 6 课成长地图"}</button>{showJourney ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 6 课成长地图</button> : null}</section>
       {showJourney ? <JourneyPrint stories={stories} /> : null}
       <section className="journey-launch word-bank-launch"><div><h2>把 48 个词和 12 个句型变成会说的英语</h2><p>六张 A4 累计复习：主动回忆、换词造句、语法错题，再收藏 12 个自己发现的生词。</p></div><button type="button" aria-expanded={showWordBank} onClick={() => { setShowWordBank((current) => !current); setShowJourney(false); setShowCreator(false); }}>{showWordBank ? "收起 48 词 + 12 句型复习本" : "打开 48 词 + 12 句型复习本"}</button>{showWordBank ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 48 词 + 12 句型复习本</button> : null}</section>
       {showWordBank ? <WordBankPrint stories={stories} /> : null}
