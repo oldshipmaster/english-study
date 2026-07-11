@@ -7,6 +7,7 @@ import Home from "../page";
 import { RoleAssignmentView } from "./RoleAssignment";
 import { ChallengePanel } from "./ChallengePanel";
 import { ScriptPlayer } from "./ScriptPlayer";
+import { PrintScript } from "./PrintScript";
 
 afterEach(cleanup);
 
@@ -166,6 +167,43 @@ describe("StoryStage family story flow", () => {
     render(<ScriptPlayer story={moonlightStory} assignments={twoPlayerAssignments} mode="performance" showHints onComplete={() => undefined} onExit={() => undefined} />);
 
     expect(screen.queryByRole("region", { name: "重点词汇" })).toBeNull();
+  });
+
+  it("prints the complete family script with every line in stable scene and line blocks", () => {
+    render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+
+    const printableScript = screen.getByRole("region", { name: "完整家庭剧本" });
+    expect(printableScript.querySelectorAll(".print-scene")).toHaveLength(3);
+    expect(printableScript.querySelectorAll(".print-line")).toHaveLength(moonlightStory.lines.length);
+    moonlightStory.lines.forEach(({ english }) => expect(printableScript.textContent).toContain(english));
+    expect(screen.getByRole("button", { name: "打印完整家庭剧本" })).toBeTruthy();
+  });
+
+  it("keeps cue lines and emphasizes only the daughter's roles in her printable script", async () => {
+    const user = userEvent.setup();
+    render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+
+    await user.click(screen.getByRole("button", { name: "选择女儿的剧本" }));
+    const printableScript = screen.getByRole("region", { name: "女儿的角色剧本" });
+    const daughterRoleIds = twoPlayerAssignments.find(({ personId }) => personId === "daughter")!.roleIds;
+    const expectedFocusLines = moonlightStory.lines.filter(({ roleId }) => daughterRoleIds.includes(roleId)).length;
+    expect(printableScript.querySelectorAll(".print-line.is-focus-line")).toHaveLength(expectedFocusLines);
+    expect(printableScript.querySelectorAll(".print-line:not(.is-focus-line)")).toHaveLength(moonlightStory.lines.length - expectedFocusLines);
+    expect(printableScript.textContent).toContain(moonlightStory.lines[0].english);
+    expect(printableScript.textContent).toContain(moonlightStory.lines[1].english);
+    expect(screen.getByRole("button", { name: "打印女儿的角色剧本" })).toBeTruthy();
+  });
+
+  it("uses the browser print action for both complete and role-specific scripts", async () => {
+    const user = userEvent.setup();
+    const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
+    render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
+
+    await user.click(screen.getByRole("button", { name: "打印完整家庭剧本" }));
+    await user.click(screen.getByRole("button", { name: "选择女儿的剧本" }));
+    await user.click(screen.getByRole("button", { name: "打印女儿的角色剧本" }));
+    expect(print).toHaveBeenCalledTimes(2);
+    print.mockRestore();
   });
 
   it("completes on the final line and exposes focusable named controls", async () => {

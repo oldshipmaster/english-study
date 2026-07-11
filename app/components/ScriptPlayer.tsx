@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import type { RoleAssignment, Story } from "../types";
+import { PrintScript } from "./PrintScript";
 
 type ScriptPlayerProps = {
   story: Story;
@@ -24,6 +25,7 @@ export function ScriptPlayer({ story, assignments, mode: initialMode, showHints:
   const [lineIndex, setLineIndex] = useState(0);
   const [mode, setMode] = useState(initialMode);
   const [showHints, setShowHints] = useState(initialShowHints);
+  const [showPrintPanel, setShowPrintPanel] = useState(false);
   const line = story.lines[lineIndex];
   const role = story.roles.find(({ id }) => id === line.roleId)!;
   const assignment = assignments.find(({ roleIds }) => roleIds.includes(line.roleId));
@@ -83,6 +85,12 @@ export function ScriptPlayer({ story, assignments, mode: initialMode, showHints:
           {lineIndex === lastLineIndex ? "完成故事" : "下一句"}
         </button>
       </nav>
+      <section className="print-launch">
+        <button type="button" onClick={() => setShowPrintPanel((current) => !current)} aria-expanded={showPrintPanel}>
+          {showPrintPanel ? "收起打印剧本" : "准备打印剧本"}
+        </button>
+      </section>
+      {showPrintPanel ? <PrintScript story={story} assignments={assignments} /> : null}
     </main>
   );
 }
