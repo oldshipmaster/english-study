@@ -365,6 +365,10 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");
     expect(pack.textContent).toContain("三遍开口阶梯");
+    expect(pack.textContent).toContain("台词表达标记");
+    expect(pack.textContent).toContain("圈出重读词");
+    expect(pack.textContent).toContain("用 / 划分意群");
+    expect(pack.textContent).toContain("问句末尾画 ↑");
     expect(pack.textContent).toContain("第 1 遍 · 看完整台词");
     expect(pack.textContent).toContain("第 2 遍 · 只看关键词");
     expect(pack.textContent).toContain("第 3 遍 · 不看台词");
