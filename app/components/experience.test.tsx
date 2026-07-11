@@ -46,11 +46,32 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("heading", { name: "The Class Talent Show" })).toBeTruthy();
   });
 
+  it("opens and prints a six-story paper learning journey", async () => {
+    const user = userEvent.setup();
+    const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
+    render(<Home />);
+    await user.click(screen.getByRole("button", { name: "打开 6 课成长地图" }));
+    const journey = screen.getByRole("region", { name: "6 课英语成长地图" });
+    expect(journey.querySelectorAll(".journey-story")).toHaveLength(6);
+    expect(journey.textContent).toContain("第 0 天");
+    expect(journey.textContent).toContain("第 2 天");
+    expect(journey.textContent).toContain("第 7 天");
+    await user.click(screen.getByRole("button", { name: "打印 6 课成长地图" }));
+    expect(print).toHaveBeenCalledOnce();
+    print.mockRestore();
+  });
+
   it("renders a direct print preview URL for A4 quality checks", () => {
     window.history.replaceState({}, "", "/?print=moonlight-picnic&players=2");
     render(<Home />);
     expect(screen.getByRole("article", { name: "彩色故事学习包" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "打印彩色故事学习包" })).toBeTruthy();
+  });
+
+  it("renders a direct journey preview URL for A4 quality checks", () => {
+    window.history.replaceState({}, "", "/?journey=1");
+    render(<Home />);
+    expect(screen.getByRole("region", { name: "6 课英语成长地图" })).toBeTruthy();
   });
 
   it("gives every printable learning word an independent pronunciation cue", () => {

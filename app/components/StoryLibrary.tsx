@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import type { Story, StoryCategory } from "../types";
+import { JourneyPrint } from "./JourneyPrint";
 
 type StoryLibraryProps = {
   stories: Story[];
@@ -24,10 +25,11 @@ const categoryNames: Record<StoryCategory, string> = {
 
 export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
   const [category, setCategory] = useState<"all" | StoryCategory>("all");
+  const [showJourney, setShowJourney] = useState(false);
   const visibleStories = category === "all" ? stories : stories.filter((story) => story.category === category);
 
   return (
-    <main className="library-shell">
+    <main className={`library-shell${showJourney ? " journey-print-mode" : ""}`}>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="StoryStage 首页"><span aria-hidden="true">✦</span> StoryStage</a>
         <span className="header-note">家庭英语小剧场</span>
@@ -79,6 +81,8 @@ export function StoryLibrary({ stories, onSelect }: StoryLibraryProps) {
           ))}
         </div>
       </section>
+      <section className="journey-launch"><div><h2>把六个故事连成一条学习路</h2><p>打印一张 A4 成长地图，记录第 0、2、7 天的复习。</p></div><button type="button" aria-expanded={showJourney} onClick={() => setShowJourney((current) => !current)}>{showJourney ? "收起 6 课成长地图" : "打开 6 课成长地图"}</button>{showJourney ? <button className="primary-control" type="button" onClick={() => window.print()}>打印 6 课成长地图</button> : null}</section>
+      {showJourney ? <JourneyPrint stories={stories} /> : null}
     </main>
   );
 }

@@ -35,6 +35,17 @@ p { line-height: 1.6; }
 .hero-art span:first-child, .hero-art span:last-child { position: absolute; font-size: .4em; }
 .hero-art span:first-child { left: 12%; top: 14%; }.hero-art span:last-child { bottom: 12%; right: 15%; }
 .catalog { padding-top: 72px; }
+.journey-launch { display: flex; align-items: center; gap: 16px; margin-top: 36px; padding: 22px 26px; border: 1.5px solid var(--line); background: var(--honey); }
+.journey-launch > div { margin-right: auto; }.journey-launch h2 { font-size: 1.45rem; }.journey-launch p { margin: 5px 0 0; }
+.journey-launch button { border: 1.5px solid var(--line); background: var(--paper); padding: 10px 16px; font-weight: 800; }
+.journey-print { margin-top: 22px; padding: 28px; border: 1.5px solid var(--line); background: #fff; }
+.journey-print > header { text-align: center; }.journey-print > header h1 { font-size: 2.5rem; }.journey-print > header p:last-child { margin: 8px 0 18px; }
+.journey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.journey-story { border: 2px solid #6e9d8b; background: #f4faf6; padding: 10px 12px; break-inside: avoid; }
+.journey-story-heading { display: flex; gap: 10px; align-items: center; }.journey-story-heading > span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #17324d; color: white; font-weight: 900; }
+.journey-story h2 { font-size: 1.05rem; }.journey-story-heading p, .journey-story > p { margin: 3px 0; font-size: .76rem; }
+.journey-goals { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; margin: 6px 0; font-size: .75rem; }.journey-goals strong { grid-row: span 2; }.journey-dates { display: flex; gap: 12px; font-size: .72rem; font-weight: 700; }
+.journey-print > footer { margin-top: 12px; border: 2px solid #e39554; background: #fff6e9; padding: 10px; text-align: center; }
 .catalog-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
 .catalog-heading h2, .assignment-intro h1 { font-size: clamp(2.2rem, 5vw, 4.2rem); }
 .filters, .segmented { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -105,6 +116,9 @@ p { line-height: 1.6; }
   .print-line.is-focus-line .print-english { font-weight: 900; text-decoration: underline; text-decoration-thickness: 1.5px; }
   .print-speaker span { font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif; }
   .print-footer { position: relative; }
+  .journey-print-mode { max-width: none; margin: 0; padding: 0; }
+  .journey-print-mode > :not(.journey-print) { display: none !important; }
+  .journey-print { box-sizing: border-box; height: 273mm; margin: 0; padding: 0; border: 0; overflow: hidden; }
 }
 
 .learning-pack-print { display: none; }
