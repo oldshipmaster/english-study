@@ -116,6 +116,17 @@ describe("StoryStage family story flow", () => {
     }));
   });
 
+  it("gives every story three personal conversation prompts with answer starters", () => {
+    stories.forEach(({ learningPack }) => {
+      expect(learningPack.conversationPrompts).toHaveLength(3);
+      learningPack.conversationPrompts.forEach((prompt) => {
+        expect(prompt.question).not.toBe("");
+        expect(prompt.chinese).not.toBe("");
+        expect(prompt.starter).not.toBe("");
+      });
+    });
+  });
+
   it("opens role assignment for The Moonlight Picnic", async () => {
     const user = userEvent.setup();
     render(<Home />);
@@ -328,13 +339,13 @@ describe("StoryStage family story flow", () => {
   it("shows reliable color A4 printer settings before printing", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     expect(screen.getByText("A4 · 彩色 · 100% 缩放 · 开启背景图形")).toBeTruthy();
-    expect(screen.getByText(/完整学习包共 15 页/)).toBeTruthy();
+    expect(screen.getByText(/完整学习包共 16 页/)).toBeTruthy();
   });
 
-  it("offers a fifteen-page color learning pack without dropping script lines or cards", () => {
+  it("offers a sixteen-page color learning pack without dropping script lines or cards", () => {
     render(<PrintScript story={moonlightStory} assignments={twoPlayerAssignments} />);
     const pack = screen.getByRole("article", { name: "彩色故事学习包" });
-    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(15);
+    expect(pack.querySelectorAll(".learning-pack-page")).toHaveLength(16);
     expect(pack.querySelectorAll(".pack-script-line")).toHaveLength(moonlightStory.lines.length);
     expect(pack.querySelectorAll(".pack-direction")).toHaveLength(4);
     expect(pack.querySelectorAll(".memory-card")).toHaveLength(10);
@@ -368,6 +379,9 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("语法小侦探");
     expect(pack.textContent).toContain("语法侦探答案");
     expect(pack.querySelectorAll(".grammar-detective-case")).toHaveLength(2);
+    expect(pack.textContent).toContain("家庭英语聊天卡");
+    expect(pack.textContent).toContain("先回答自己真实的想法");
+    expect(pack.querySelectorAll(".conversation-card")).toHaveLength(3);
     expect(pack.textContent).toContain("可折叠记忆卡");
     expect(pack.textContent).toContain("家长抽查页");
     expect(pack.textContent).toContain("我的复习护照");

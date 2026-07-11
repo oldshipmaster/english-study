@@ -1,4 +1,4 @@
-import type { LearningPack, RetellPlan, SentencePattern, Story } from "../types";
+import type { ConversationPrompt, LearningPack, RetellPlan, SentencePattern, Story } from "../types";
 
 const pronunciationCues: Record<string, string> = {
   picnic: "PIC-nik", basket: "BAS-kit", moonlight: "MOON-lite", lantern: "LAN-tern", blanket: "BLANG-kit", evening: "EEV-ning", share: "SHAIR", delicious: "dih-LISH-us",
@@ -261,6 +261,39 @@ const curatedRetells: Record<string, RetellPlan> = {
   "cloud-postman": { settingHint: "cloud post office", problemHint: "storm · unclear address", actionHints: ["follow the feather", "find the blue windmill"], endingHint: "deliver the letter safely" },
 };
 
+const conversationPrompts: Record<string, ConversationPrompt[]> = {
+  "moonlight-picnic": [
+    { question: "Where would you like to have a picnic?", chinese: "你想在哪里野餐？", starter: "I would like to..." },
+    { question: "What will you bring to a family picnic?", chinese: "家庭野餐你会带什么？", starter: "I will bring..." },
+    { question: "How can your family make the garden bright?", chinese: "你们怎样让花园亮起来？", starter: "We can..." },
+  ],
+  "missing-lunchbox": [
+    { question: "Where did you go this morning?", chinese: "你今天早上去了哪里？", starter: "I went to..." },
+    { question: "What do you do when something is missing?", chinese: "东西不见时你会怎么做？", starter: "First, I..." },
+    { question: "How do you ask a friend for help?", chinese: "你会怎样向朋友求助？", starter: "Can you help me...?" },
+  ],
+  "secret-tree-house": [
+    { question: "What is in your secret place?", chinese: "你的秘密基地里有什么？", starter: "There is..." },
+    { question: "What can you do in a tree house?", chinese: "你能在树屋里做什么？", starter: "I can..." },
+    { question: "When do you feel brave?", chinese: "什么时候你觉得自己很勇敢？", starter: "I feel brave when..." },
+  ],
+  "busy-morning": [
+    { question: "What will you do tomorrow morning?", chinese: "明天早上你会做什么？", starter: "I will..." },
+    { question: "What should you do first?", chinese: "你应该先做什么？", starter: "First, I will..." },
+    { question: "How can your family share the jobs?", chinese: "家人怎样分担任务？", starter: "We can share..." },
+  ],
+  "class-talent-show": [
+    { question: "What talent would you like to perform?", chinese: "你想表演什么才艺？", starter: "I would like to..." },
+    { question: "What makes you feel nervous?", chinese: "什么事情会让你紧张？", starter: "I am nervous about..." },
+    { question: "What can you use instead if a prop is missing?", chinese: "道具不见时可以改用什么？", starter: "Use... instead." },
+  ],
+  "cloud-postman": [
+    { question: "What must you finish before bedtime?", chinese: "睡前你必须完成什么？", starter: "I must..." },
+    { question: "What is too heavy for you to carry?", chinese: "什么东西对你来说太重？", starter: "...is too heavy for me." },
+    { question: "What promise can you make to your family?", chinese: "你能向家人做什么承诺？", starter: "I promise I will..." },
+  ],
+};
+
 const stageDirections: Record<string, Record<number, string>> = {
   "moonlight-picnic": { 0: "兴奋地举起野餐篮", 5: "看看四周，表现出担心", 11: "假装剪出一颗纸星星", 17: "和家人击掌" },
   "missing-lunchbox": { 2: "翻找书包，着急地说", 7: "一边回想一边提问", 13: "指着盒子上的名字", 17: "微笑着点头" },
@@ -295,6 +328,7 @@ function createLearningPack(story: Omit<Story, "learningPack">, index: number): 
       { prompt: "选择两个重点词，编一句新的台词。", hint: words.slice(0, 2).map(({ word }) => word).join(" + ") },
     ],
     retell: curatedRetells[story.id],
+    conversationPrompts: conversationPrompts[story.id],
     parentPrompts: ["先说中文，请孩子说英文。", "只给首字母，再让孩子补完整词。", "请孩子换一个人物或动作造新句。"],
   };
 }

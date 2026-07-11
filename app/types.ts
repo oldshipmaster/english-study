@@ -7,7 +7,8 @@ export type LearningWord = { word: string; meaning: string; pronunciation: strin
 export type SentencePattern = { title: string; purpose: string; example: string; template: string; substitutions: string[]; grammarTip: string; tasks: string[]; commonMistake: string; correction: string };
 export type SpeakingChallenge = { prompt: string; hint: string };
 export type RetellPlan = { settingHint: string; problemHint: string; actionHints: [string, string]; endingHint: string };
-export type LearningPack = { words: LearningWord[]; reviewWords: LearningWord[]; patterns: SentencePattern[]; speakingChallenges: SpeakingChallenge[]; retell: RetellPlan; parentPrompts: string[] };
+export type ConversationPrompt = { question: string; chinese: string; starter: string };
+export type LearningPack = { words: LearningWord[]; reviewWords: LearningWord[]; patterns: SentencePattern[]; speakingChallenges: SpeakingChallenge[]; retell: RetellPlan; conversationPrompts: ConversationPrompt[]; parentPrompts: string[] };
 export type Story = {
   id: string; title: string; chineseTitle: string; category: StoryCategory;
   minutes: number; level: "Elementary"; vocabulary: Record<string, string>;
