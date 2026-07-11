@@ -139,6 +139,9 @@ describe("StoryStage family story flow", () => {
     expect(creator.textContent).toContain("至少 1 个来自我的生词救援站");
     expect(creator.querySelectorAll(".creator-line")).toHaveLength(18);
     expect(creator.querySelectorAll(".creator-line-number")[17].textContent).toBe("#18");
+    expect(creator.querySelectorAll(".creator-grammar-check")).toHaveLength(18);
+    expect(creator.textContent).toContain("谁 / 人称");
+    expect(creator.textContent).toContain("动词形式");
     expect(creator.textContent).toContain("第 7 天重演");
     expect(creator.textContent).toContain("原创词句还能独立说出");
     expect(creator.textContent).toContain("一个愿望");
@@ -153,6 +156,13 @@ describe("StoryStage family story flow", () => {
     window.history.replaceState({}, "", "/?creator=1");
     render(<Home />);
     expect(screen.getByRole("region", { name: "家庭原创剧本工坊" })).toBeTruthy();
+  });
+
+  it("falls back to the complete learning pack when a direct two-player URL requests an unavailable person", () => {
+    window.history.replaceState({}, "", "/?print=moonlight-picnic&players=2&person=parent2");
+    render(<Home />);
+    expect(screen.getByRole("article", { name: "彩色故事学习包" })).toBeTruthy();
+    expect(document.querySelectorAll(".print-line.is-focus-line")).toHaveLength(0);
   });
 
   it("gives every printable learning word an independent pronunciation cue", () => {
