@@ -138,6 +138,33 @@ describe("StoryStage family story flow", () => {
     });
   });
 
+  it("grounds every core word and memory-card example in an actual story line", () => {
+    stories.forEach((story) => {
+      const taggedWords = Array.from(new Set(story.lines.flatMap(({ vocabulary = [] }) => vocabulary))).sort();
+      expect(taggedWords).toEqual(Object.keys(story.vocabulary).sort());
+      story.learningPack.words.forEach(({ word, example }) => {
+        expect(story.lines.some((line) => line.english === example && line.vocabulary?.includes(word))).toBe(true);
+      });
+    });
+  });
+
+  it("keeps every script role, vocabulary tag, and challenge answer internally valid", () => {
+    stories.forEach((story) => {
+      const roleIds = new Set(story.roles.map(({ id }) => id));
+      const vocabulary = new Set(Object.keys(story.vocabulary));
+      story.lines.forEach((line) => {
+        expect(roleIds.has(line.roleId)).toBe(true);
+        line.vocabulary?.forEach((word) => expect(vocabulary.has(word)).toBe(true));
+      });
+      story.challenges.forEach(({ options, answerIndex }) => {
+        expect(options).toHaveLength(3);
+        expect(new Set(options).size).toBe(3);
+        expect(answerIndex).toBeGreaterThanOrEqual(0);
+        expect(answerIndex).toBeLessThan(options.length);
+      });
+    });
+  });
+
   it("uses natural elementary English instead of avoidable split compounds or stiff passives", () => {
     const script = stories.flatMap(({ lines }) => lines.map(({ english }) => english)).join(" ");
     const challengeOptions = stories.flatMap(({ challenges }) => challenges.flatMap(({ options }) => options)).join(" ");
