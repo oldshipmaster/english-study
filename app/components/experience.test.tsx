@@ -40,6 +40,10 @@ describe("StoryStage family story flow", () => {
     expect(screen.getByRole("heading", { name: "The Class Talent Show" })).toBeTruthy();
   });
 
+  it("gives every printable learning word an independent pronunciation cue", () => {
+    stories.forEach((story) => story.learningPack.words.forEach((item) => expect(item.pronunciation.trim()).not.toBe("")));
+  });
+
   it("opens role assignment for The Moonlight Picnic", async () => {
     const user = userEvent.setup();
     render(<Home />);
@@ -262,6 +266,7 @@ describe("StoryStage family story flow", () => {
     expect(pack.querySelectorAll(".mastery-row")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .card-front")).toHaveLength(8);
     expect(pack.querySelectorAll(".word-memory-card .card-back")).toHaveLength(8);
+    expect(pack.querySelectorAll(".word-memory-card .word-pronunciation")).toHaveLength(8);
     expect(pack.textContent).toContain("先回答，再沿中线翻卡");
     expect(pack.textContent).toContain("我不会盒");
     expect(pack.textContent).toContain("练习中盒");

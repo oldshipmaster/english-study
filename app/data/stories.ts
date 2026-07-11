@@ -1,5 +1,14 @@
 import type { LearningPack, SentencePattern, Story } from "../types";
 
+const pronunciationCues: Record<string, string> = {
+  picnic: "PIC-nik", basket: "BAS-kit", moonlight: "MOON-lite", lantern: "LAN-tern", blanket: "BLANG-kit", evening: "EEV-ning", share: "SHAIR", delicious: "dih-LISH-us",
+  lunchbox: "LUNCH-boks", missing: "MIS-ing", classroom: "KLASS-room", check: "CHEK", library: "LYE-brer-ee", borrow: "BOR-oh", label: "LAY-bəl", found: "FOWND",
+  secret: "SEE-krit", tree: "TREE", ladder: "LAD-er", map: "MAP", key: "KEE", window: "WIN-doh", brave: "BRAYV", together: "tuh-GETH-er",
+  morning: "MOR-ning", breakfast: "BREK-fəst", hurry: "HUR-ee", backpack: "BACK-pack", toast: "TOHST", ready: "RED-ee",
+  talent: "TAL-ent", stage: "STAYJ", practice: "PRAK-tis", nervous: "NER-vəs", costume: "KOS-toom", applause: "uh-PLAWZ", perform: "per-FORM",
+  cloud: "KLOWD", postman: "POHST-mən", letter: "LET-er", address: "AD-dress", storm: "STORM", feather: "FETH-er", deliver: "dih-LIV-er", promise: "PROM-is",
+};
+
 const storyCatalog: Omit<Story, "learningPack">[] = [
   {
     id: "moonlight-picnic", title: "The Moonlight Picnic", chineseTitle: "月光野餐", category: "family", minutes: 10, level: "Elementary",
@@ -237,7 +246,7 @@ const curatedPatterns: Record<string, SentencePattern[]> = {
 function createLearningPack(story: Omit<Story, "learningPack">, index: number): LearningPack {
   const vocabulary = Object.entries(story.vocabulary);
   const previous = index > 0 ? Object.entries(storyCatalog[index - 1].vocabulary).slice(0, 3) : vocabulary.slice(5, 8);
-  const words = [...vocabulary.slice(0, 5).map(([word, meaning]) => ({ word, meaning, review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` })), ...previous.map(([word, meaning]) => ({ word, meaning, review: true, example: `Can you use ${word} in a new sentence?` }))];
+  const words = [...vocabulary.slice(0, 5).map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: false, example: story.lines.find((line) => line.vocabulary?.includes(word))?.english ?? `I can use ${word}.` })), ...previous.map(([word, meaning]) => ({ word, meaning, pronunciation: pronunciationCues[word], review: true, example: `Can you use ${word} in a new sentence?` }))];
   const patterns = curatedPatterns[story.id];
   return {
     words: words.slice(0, 8),

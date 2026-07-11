@@ -106,6 +106,7 @@ p { line-height: 1.6; }
 .memory-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .memory-card { min-height: 210px; border: 2px dashed #ef765f; padding: 10px; display: grid; grid-template-rows: 1fr auto 1fr; gap: 6px; }
 .memory-card strong { font-size: 1.25rem; }
+.word-pronunciation { color: #315f83; font-weight: 700; font-size: 0.82rem; }
 .card-front, .card-back { display: flex; flex-direction: column; justify-content: center; gap: 6px; min-height: 80px; }
 .card-back { transform: rotate(180deg); background: #fff8e8; padding: 6px; }
 .card-fold-line { border-top: 1px dashed #7890a6; border-bottom: 1px dashed #7890a6; text-align: center; font-size: 9pt; color: #66798b; }
