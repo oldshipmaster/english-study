@@ -70,11 +70,11 @@ npm run audit:print
 用于 A4 打印质量检查的直接预览地址：
 
 ```text
-http://localhost:4174/english-study/?print=moonlight-picnic&players=2
-http://localhost:4174/english-study/?print=moonlight-picnic&players=2&person=daughter
-http://localhost:4174/english-study/?journey=1
-http://localhost:4174/english-study/?wordbank=1
-http://localhost:4174/english-study/?creator=1
+https://oldshipmaster.github.io/english-study/?print=moonlight-picnic&players=2
+https://oldshipmaster.github.io/english-study/?print=moonlight-picnic&players=2&person=daughter
+https://oldshipmaster.github.io/english-study/?journey=1
+https://oldshipmaster.github.io/english-study/?wordbank=1
+https://oldshipmaster.github.io/english-study/?creator=1
 ```
 
 打印验证要求为 A4、100% 缩放、开启背景图形；每次修改纸质布局后，应实际生成 PDF 并逐页检查裁切、页脚和可读性。`npm run audit:print` 使用 Chrome、`pdfinfo` 和 `pdftotext` 检查全部六个故事的 2 人与 3 人学习包、30 份合法人数/家庭成员组合的完整 18 句角色剧本、累计词句本、成长地图和原创剧本工坊；可通过 `CHROME_BIN`、`PDFINFO_BIN`、`PDFTOTEXT_BIN` 指定本机工具路径。
