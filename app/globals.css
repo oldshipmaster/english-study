@@ -118,6 +118,10 @@ p { line-height: 1.6; }
 .fluency-guide h3, .fluency-guide p { margin: 3px 0; }
 .fluency-rounds { display: grid; grid-template-columns: 1fr 1.35fr 1fr; gap: 6px; margin-top: 7px; }
 .fluency-round { border: 1px solid #d8ad45; background: #fff; padding: 5px; font-size: 0.78rem; }
+.evidence-key { border: 2px solid #6685b3; background: #eef4ff; padding: 8px; }
+.parent-evidence { width: 100%; border-collapse: collapse; margin: 10px 0; }
+.parent-evidence th, .parent-evidence td { border: 1px solid #789; padding: 7px; text-align: center; }
+.parent-evidence thead th { background: #e8eef8; }
 .role-color-2 { border-color: #63b89a; background: #effaf6; }
 .role-color-3 { border-color: #ef765f; background: #fff3f0; }
 .parent-only { display: inline-block; padding: 5px 10px; border: 2px solid #ef765f; color: #a22f24; font-weight: 800; }
