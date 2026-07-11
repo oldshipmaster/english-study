@@ -71,10 +71,10 @@ export function WordBankPrint({ stories }: WordBankPrintProps) {
       </article>
       <article className="word-bank-page personal-word-page">
         <header className="word-bank-header"><div><p className="eyebrow">StoryStage · Words I chose</p><h1>我的生词收藏册</h1></div><div className="word-bank-name">姓名：________　开始日期：________</div></header>
-        <div className="word-bank-method"><strong>先猜，再查，再用：</strong>遇到想学的词先根据故事猜意思，再用可靠词典核对；写一个自己的记忆钩子，并在当天、第 2 天、第 7 天遮住答案说出来。</div>
+        <div className="word-bank-method"><strong>先猜，再查，再用：</strong>遇到想学的词先根据故事猜意思，记下我在哪里遇到它，再用可靠词典核对；听可靠词典音频，标出拆读 / 重音，最后写自己的句子。</div>
         <div className="personal-word-legend"><strong>收词标准：</strong>□ 我真的遇到过　□ 我想在生活里说　□ 我能写自己的句子　　I = 独立　H = 提示　A = 看答案</div>
         <section className="personal-word-log" aria-label="12 个自选生词">
-          {Array.from({ length: 12 }, (_, index) => <div className="personal-word-row" key={index}><b>{index + 1}</b><div><p><strong>Word</strong> __________　意思 ________　我在哪里遇到它 ____________________</p><p>我的记忆钩子 __________________　我的句子 ______________________________</p></div><span>0天 I/H/A<br />2天 I/H/A<br />7天 I/H/A</span></div>)}
+          {Array.from({ length: 12 }, (_, index) => <div className="personal-word-row" key={index}><b>{index + 1}</b><div><p><strong>Word</strong> ________　拆读 / 重音 ________　意思 ______　来源 ______________</p><p>我的记忆钩子 __________________　我的句子 ______________________________</p></div><span>0天 I/H/A<br />2天 I/H/A<br />7天 I/H/A</span></div>)}
         </section>
         <div className="personal-word-finish"><strong>本页毕业挑战：</strong>任选 3 个词，不看答案讲一个 3 句小故事。　□ 完成　家长听到的词：________ / ________ / ________</div>
         <footer>StoryStage 六课词句累计复习本 · 6 / 6</footer>
