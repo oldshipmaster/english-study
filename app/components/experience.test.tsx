@@ -133,6 +133,10 @@ describe("StoryStage family story flow", () => {
     });
   });
 
+  it("gives every story three simple household prop ideas", () => {
+    stories.forEach(({ learningPack }) => expect(learningPack.props).toHaveLength(3));
+  });
+
   it("opens role assignment for The Moonlight Picnic", async () => {
     const user = userEvent.setup();
     render(<Home />);
@@ -370,6 +374,8 @@ describe("StoryStage family story flow", () => {
     expect(pack.textContent).toContain("短休息");
     expect(pack.textContent).not.toContain("25–30 分钟");
     expect(pack.textContent).toContain("本课学习目标");
+    expect(pack.textContent).toContain("道具建议");
+    expect(pack.querySelectorAll(".prop-chip")).toHaveLength(3);
     expect(pack.querySelectorAll(".mission-goal")).toHaveLength(2);
     expect(pack.textContent).toContain("第 0 天 · 首演");
     expect(pack.textContent).toContain("第 2 天 · 唤醒");

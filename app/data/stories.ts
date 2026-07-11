@@ -303,6 +303,15 @@ const conversationPrompts: Record<string, ConversationPrompt[]> = {
   ],
 };
 
+const storyProps: Record<string, string[]> = {
+  "moonlight-picnic": ["basket 小篮子", "blanket 小毯子", "纸做 lantern"],
+  "missing-lunchbox": ["lunchbox 午餐盒", "自制 name label", "spoon 小勺子"],
+  "secret-tree-house": ["纸做 silver key", "手绘 treasure map", "小手电当 lantern"],
+  "busy-morning": ["backpack 书包", "water bottle 水瓶", "纸板 toast"],
+  "class-talent-show": ["paper flower", "magic hat", "围巾当 curtain"],
+  "cloud-postman": ["纸写 letter", "feather 羽毛", "小盒子当 parcel"],
+};
+
 const stageDirections: Record<string, Record<number, string>> = {
   "moonlight-picnic": { 0: "兴奋地举起野餐篮", 5: "看看四周，表现出担心", 11: "假装剪出一颗纸星星", 17: "和家人击掌" },
   "missing-lunchbox": { 2: "翻找书包，着急地说", 7: "一边回想一边提问", 13: "指着盒子上的名字", 17: "微笑着点头" },
@@ -338,6 +347,7 @@ function createLearningPack(story: Omit<Story, "learningPack">, index: number): 
     ],
     retell: curatedRetells[story.id],
     conversationPrompts: conversationPrompts[story.id],
+    props: storyProps[story.id],
     parentPrompts: ["先说中文，请孩子说英文。", "只给首字母，再让孩子补完整词。", "请孩子换一个人物或动作造新句。"],
   };
 }
