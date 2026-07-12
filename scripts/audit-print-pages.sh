@@ -72,7 +72,7 @@ for story_id in $story_ids; do
   attempt=0
   while ! test -s "$pdf"; do
     attempt=$((attempt + 1))
-    if test "$attempt" -ge 100; then
+    if test "$attempt" -ge 300; then
       kill "$chrome_pid" >/dev/null 2>&1 || true
       echo "error: PDF generation timed out for $story_id with $players players" >&2
       exit 1
@@ -134,7 +134,7 @@ for role_case in $role_cases; do
   attempt=0
   while ! test -s "$pdf"; do
     attempt=$((attempt + 1))
-    if test "$attempt" -ge 100; then
+    if test "$attempt" -ge 300; then
       kill "$chrome_pid" >/dev/null 2>&1 || true
       echo "error: $script_label script generation timed out for $story_id" >&2
       exit 1
@@ -188,7 +188,7 @@ chrome_pid=$!
 attempt=0
 while ! test -s "$word_bank_pdf"; do
   attempt=$((attempt + 1))
-  if test "$attempt" -ge 100; then
+  if test "$attempt" -ge 300; then
     kill "$chrome_pid" >/dev/null 2>&1 || true
     echo "error: cumulative word-bank PDF generation timed out" >&2
     exit 1
@@ -226,7 +226,7 @@ chrome_pid=$!
 attempt=0
 while ! test -s "$journey_pdf"; do
   attempt=$((attempt + 1))
-  if test "$attempt" -ge 100; then
+  if test "$attempt" -ge 300; then
     kill "$chrome_pid" >/dev/null 2>&1 || true
     echo "error: learning-journey PDF generation timed out" >&2
     exit 1
@@ -264,7 +264,7 @@ chrome_pid=$!
 attempt=0
 while ! test -s "$creator_pdf"; do
   attempt=$((attempt + 1))
-  if test "$attempt" -ge 100; then
+  if test "$attempt" -ge 300; then
     kill "$chrome_pid" >/dev/null 2>&1 || true
     echo "error: story-creator PDF generation timed out" >&2
     exit 1
